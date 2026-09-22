@@ -27,3 +27,6 @@ Approved documentation/scaffold v0.2, 22 September 2026. B1/M1/A1/W1/E1 are acce
 
 ## Approved foundation additions
 [Accepted ADRs](adrs/README.md) · [Implementation handover](project/16-IMPLEMENTATION-HANDOVER.md) · [Permission matrix](project/18-PERMISSION-MATRIX.md) · [Configuration/secrets](project/19-ENVIRONMENT-AND-SECRETS.md) · [Release checklist](project/20-RELEASE-CHECKLIST.md) · [Repository settings](project/21-REPOSITORY-SETTINGS.md)
+
+## Self-hosted notifications
+[Novu specifications](Novu/00-INDEX.md) · [Canonical Novu README](../Novu/README.md) · [Accepted ADR-0003](adrs/0003-SELF-HOSTED-NOVU.md). This additive v0.3 plan includes built-in email themes and offline content; original financial application tasks remain planned.

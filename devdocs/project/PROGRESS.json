@@ -48,7 +48,19 @@
         "Planned": 21,
         "Unverified": 0
       }
+    },
+    "Novu": {
+      "total": 27,
+      "counts": {
+        "Blocked": 0,
+        "Deferred": 1,
+        "Implemented": 6,
+        "In progress": 0,
+        "Partial": 1,
+        "Planned": 19,
+        "Unverified": 0
+      }
     }
   },
-  "total_task_rows": 114
+  "total_task_rows": 141
 }

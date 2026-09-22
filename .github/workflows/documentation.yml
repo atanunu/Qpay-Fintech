@@ -28,4 +28,23 @@ jobs:
         run: python3 scripts/docs/governance.py --base "$DOCS_BASE_SHA"
       - name: Run documentation regression tests
         run: python3 -m unittest discover -s scripts/docs -p 'test_*.py' -v
-# This job does not build applications, activate providers or deploy infrastructure.
+  notification-content:
+    name: notification-content-integrity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout reviewed revision
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - name: Select content-test Node runtime
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4 verified 2026-09-22
+        with:
+          node-version: '22'
+      - name: Validate content summary and renderability
+        run: npm --prefix Novu run check
+      - name: Execute offline content and workflow-contract tests
+        run: npm --prefix Novu test
+      - name: Build portable content bundle
+        run: npm --prefix Novu run build
+# Read-only checks. No providers, Novu sync or infrastructure deployment.

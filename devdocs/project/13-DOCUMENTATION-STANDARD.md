@@ -28,3 +28,8 @@ Code, tests, migrations/config, API/UX documentation, task state, root summaries
 
 ## Baseline renderer
 The supplied diagrams are deterministic SVGs generated from `docs/diagrams/diagrams.json`; CI verifies source/output equality and structural validity. Mermaid blocks are rejected until an actual parsing/rendering toolchain is added with tests. This avoids claiming that detecting a code fence validates a diagram.
+
+## Fifth-service enforcement
+Apply this entire README, evidence and task-ID standard to `Novu/`. Use NOT- IDs, separate content previews from live runtime captures, and report implementation, Framework sync, provider delivery and production acceptance independently.
+
+See the [Novu specification index](../Novu/00-INDEX.md) and [service task register](../../Novu/README.md).

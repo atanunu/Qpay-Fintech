@@ -17,3 +17,8 @@ As of 2026-09-22. These are documentation tasks, not additional product features
 | DOC-012 | Provider/security/financial/release acceptance | Pending | Separate evidence and human approval; no live activation |
 
 "Done for design baseline" means the relevant planning document or scaffold exists and was checked. It does not mean its proposed runtime controls, integrations or tests have been implemented. Source completion of CI is separate from a verified GitHub run and from enforced branch rules.
+
+## Self-hosted notification addition
+Added accepted ADR-0003, `devdocs/Novu/` index plus eight specifications, 164 email scenarios, six local themes and a canonical 27-task Novu register. Original 114 application statuses are unchanged. Local content is implemented; actual orchestration hosting, delivery, provider and release gates remain open.
+
+See the [Novu specification index](../Novu/00-INDEX.md) and [service task register](../../Novu/README.md).

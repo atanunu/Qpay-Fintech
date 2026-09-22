@@ -20,3 +20,6 @@ make docs-test
 These checks do not prove source/test evidence is semantically sufficient, legal compliance, financial correctness, provider acceptance, production deployment, native compatibility or working customer journeys. The local link check validates destinations, not remote URLs or all Markdown anchor forms. Capture checking validates metadata and file integrity, not that pixels accurately represent a running app. No runtime screenshot exists at this baseline. Required branch protection, independent review and actual application CI are separate setup/work items. No OpenAPI schema or generated client exists yet to lint.
 
 The workflow has read-only permissions and does not auto-publish generated files, deploy, make provider calls or run financial tests. Record exact local and GitHub outcomes separately in the validation report/handover.
+
+## Novu coverage
+The canonical-register and governance checks now include `Novu/` as a fifth service. ESM (`.mjs`) and catalogue (`.psv`) changes require service/root README updates. The notification-content CI job independently checks the content summary, executes Node tests and renders the catalogue. Neither CI job performs a live sync or provider send. Actual browser content previews have separate provenance and are not counted as runtime screenshots.

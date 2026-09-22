@@ -1,0 +1,10 @@
+# Importable Framework workflow factory
+[workflows.mjs](workflows.mjs) is our built-in workflow-definition factory. It does not embed or fork Novu. A TypeScript or JavaScript bridge can import it, then inject the official pinned `workflow` function from @novu/framework. The factory registers only explicitly allowlisted IDs from the complete local catalogue. Default allowlist is empty.
+
+Required live bindings: production brand; approved scope/allowlist; an authenticated Go-backed `authorise` function; idempotent `recordSuppression`; and a version/provider-qualified `providerOptions` function mapping rendered text and unsubscribe headers using the selected provider's supported API. No live adapters or HTTP host are included yet. Returning an always-true policy or the test suite's qualificationOnly provider is forbidden in deployment.
+
+The returned definitions must be registered with a qualified Framework bridge endpoint using the real SDK signature verification. Use production mode, private ingress, request limits, timeouts and exact API/bridge environment identities. Validate discovery and signed execution against the actual self-hosted version before sync. The caller, not the content renderer, owns live credentials and endpoint hosting.
+
+The catalogue's payload schema and equality checks are not proof of a business event. The authorise binding must verify persisted state, recipient/contact version, current consent/suppression, product activation and template release. The pre-send skip step records policy denial/expiry; provider submission after that decision is still a race boundary to test. Do not claim atomic coordination with a third-party mailbox or exactly-once delivery.
+
+Novu email resolvers return the supported subject/body shape. Plain text and unsubscribe headers are separately available from the renderer and must be mapped by the provider override. Do not invent unsupported email-step properties. See [contracts](../../devdocs/Novu/04-CONTRACTS-AND-DELIVERY.md) and [import runbook](../../devdocs/Novu/05-DEPLOYMENT-AND-IMPORT.md).

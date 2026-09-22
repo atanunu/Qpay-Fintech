@@ -9,7 +9,7 @@ import sys
 from urllib.parse import unquote
 
 ROOT = Path(__file__).resolve().parents[2]
-SERVICES = {'APIbackend': 'API', 'MobileApp': 'MOB', 'AdminDashboard': 'ADM', 'WebApp': 'WEB'}
+SERVICES = {'APIbackend': 'API', 'MobileApp': 'MOB', 'AdminDashboard': 'ADM', 'WebApp': 'WEB', 'Novu': 'NOT'}
 STATUSES = {'Planned', 'In progress', 'Partial', 'Implemented', 'Blocked', 'Unverified', 'Deferred'}
 HEADINGS = ('Purpose and boundaries', 'Architecture and visuals', 'Setup, configuration and commands',
             'Source and API map', 'Feature and task register', 'Done, pending and blocked',

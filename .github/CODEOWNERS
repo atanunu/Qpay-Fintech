@@ -4,3 +4,7 @@
 /contracts/ @atanunu
 /APIbackend/ @atanunu
 /devdocs/adrs/ @atanunu
+
+/Novu/ @atanunu
+/devdocs/Novu/ @atanunu
+/contracts/notifications/ @atanunu

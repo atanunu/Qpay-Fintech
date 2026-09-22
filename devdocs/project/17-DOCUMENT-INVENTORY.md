@@ -24,3 +24,8 @@ Each approved domain must be decomposed in the QPay style:
 
 ## Not yet delivered or accepted
 Executable OpenAPI/event schemas and generated clients; physical database schemas/migrations; application manifests/runtime code; detailed provider qualification at a pinned QPay revision; native SDK proof; product tests and runtime screenshots; deployed runbooks and independent recovery evidence; regulatory/partner approval; production release. The repository-rule plan does not activate branch protection or create 114 issues/Projects cards. Exact tasks remain visible in service registers and release gates.
+
+## Novu specification inventory
+The Novu index and eight focused specifications are drafted with built-in catalogue, theme/render source, tests and a partial Framework factory. Runnable hosting manifests, exact image/SDK pins, physical Go outbox/delivery schemas and real deployment evidence remain pending implementation/qualification.
+
+See the [Novu specification index](../Novu/00-INDEX.md) and [service task register](../../Novu/README.md).

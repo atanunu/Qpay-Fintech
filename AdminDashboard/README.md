@@ -72,3 +72,8 @@ See [roadmap](../devdocs/project/12-ROADMAP.md). This README is the canonical de
 
 ## Changelog
 2026-09-22: service boundary, approved stack, acceptance tasks and mandatory documentation obligations recorded. Approved stack recorded and documentation/scaffold prepared for GitHub; no product implementation claimed.
+
+### Self-hosted notification integration
+Expose authorised redacted delivery investigations, provider health, suppression and audited resend proposals through Go. Staff email links never approve financial actions; private Novu administration is separate from this dashboard.
+
+The permanent service directory is [Novu](../Novu/README.md), not `Notifications/`. Read [notification contracts](../devdocs/Novu/04-CONTRACTS-AND-DELIVERY.md). Built-in email content is not evidence that this application integration is complete.

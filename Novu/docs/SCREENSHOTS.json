@@ -1,0 +1,7 @@
+{
+  "schema_version": 1,
+  "service": "Novu",
+  "status": "not_captured",
+  "reason": "No installed Novu environment or client inbox exists in this delivery. Content previews are not live service screenshots.",
+  "captures": []
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "kind": "synthetic-browser-content-preview",
+  "image": "email-themes.webp",
+  "captured_at": "2026-09-22T16:21:11.082500+00:00",
+  "viewport": {
+    "width": 890,
+    "height": 1430,
+    "scale": 1
+  },
+  "browser": "Chromium 144.0.7559.96 built on Debian GNU/Linux 13 (trixie)",
+  "fixtures": [
+    "qpf-email-identity-welcome-v1",
+    "qpf-email-identity-password-changed-v1",
+    "qpf-email-funding-received-v1",
+    "qpf-email-identity-closure-requested-v1",
+    "qpf-email-staff-approval-needed-v1",
+    "qpf-email-growth-campaign-v1"
+  ],
+  "source_hashes": {
+    "Novu/src/content.mjs": "9b4723da56ab54869c245ea1def419c2f60bf33358a4a611e326af0d01ab17ab",
+    "Novu/catalogue/emails.psv": "26a9d65bac5cb7db0382377355ec31ab674051aa2e3c64b4159ed5aae04424de"
+  },
+  "sha256": "9b2a3fe09ab1d065880ae268c1c32d7cfdc6e77845c9a17be013db27e7a131b3",
+  "notes": "Six built-in templates rendered in Chromium; no real customer data, provider delivery, live Novu dashboard or email-client compatibility is evidenced.",
+  "postprocessing": {
+    "purpose": "Repository thumbnail; full-resolution synthetic browser capture retained in the downloadable delivery archive",
+    "method": "Lanczos resize to 534x858; WebP quality 20 method 6",
+    "image_width": 534,
+    "image_height": 858
+  }
+}

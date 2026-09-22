@@ -13,7 +13,7 @@ import xml.etree.ElementTree as ET
 from render_diagrams import outputs
 
 ROOT=Path(__file__).resolve().parents[2]
-SERVICES=('APIbackend','MobileApp','AdminDashboard','WebApp')
+SERVICES=('APIbackend','MobileApp','AdminDashboard','WebApp','Novu')
 HEADINGS=('Product and operating scope','Applications and approved stacks','Architecture and integration',
           'Images and visual evidence','Cross-service progress','Documentation and open decisions',
           'Roadmap and task tracking','Setup and configuration','Tests, CI and release readiness',
@@ -72,7 +72,7 @@ def coupled_changes(paths: list[str]) -> list[str]:
     for service in SERVICES:
         changed=[p for p in paths if p.startswith(service+'/')]
         source=[p for p in changed if not '/docs/' in p and
-                (p.endswith(('.go','.ts','.tsx','.js','.jsx','.css','.sql')) or
+                (p.endswith(('.go','.ts','.tsx','.js','.jsx','.mjs','.psv','.css','.sql')) or
                  Path(p).name in ('go.mod','go.sum','package.json','package-lock.json','pnpm-lock.yaml'))]
         if source and f'{service}/README.md' not in paths:
             errors.append(f'{service}: source change requires canonical README update')
@@ -126,7 +126,7 @@ def main() -> int:
     if errors:
         print('\n'.join(errors),file=sys.stderr);return 1
     print(json.dumps({'result':'passed','root_and_service_governance':'checked','target_diagrams':5,
-                      'runtime_screenshot_manifests':4,'source_doc_coupling':bool(args.base),
+                      'runtime_screenshot_manifests':len(SERVICES),'source_doc_coupling':bool(args.base),
                       'application_tests_run':0,'branch_protection_verified':False},indent=2))
     return 0
 if __name__=='__main__':raise SystemExit(main())

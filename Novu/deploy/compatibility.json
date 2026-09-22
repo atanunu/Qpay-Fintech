@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "hosting": "self-hosted",
+  "edition_baseline": "community",
+  "status": "unqualified",
+  "novu_release": null,
+  "novu_source_commit": null,
+  "framework_version": null,
+  "cli_version": null,
+  "images": {
+    "api": null,
+    "worker": null,
+    "dashboard": null,
+    "ws": null,
+    "mongodb": null,
+    "redis": null,
+    "bridge": null
+  },
+  "provider": null,
+  "provider_integration_identifier": null,
+  "application_identifier": null,
+  "approved_scopes": [
+    "core"
+  ],
+  "workflow_allowlist": [],
+  "live_acceptance": {
+    "signed_bridge": false,
+    "policy_adapter": false,
+    "provider_mapping": false,
+    "text_and_unsubscribe": false,
+    "delivery_callbacks": false,
+    "clean_sync": false,
+    "recovery": false
+  },
+  "notes": "No installed version or live target verified. Empty values prevent this manifest being mistaken for a qualified deployment."
+}

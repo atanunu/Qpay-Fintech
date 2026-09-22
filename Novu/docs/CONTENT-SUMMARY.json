@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "catalogue_sha256": "26a9d65bac5cb7db0382377355ec31ab674051aa2e3c64b4159ed5aae04424de",
+  "total": 164,
+  "scopes": {
+    "core": 134,
+    "growth": 20,
+    "regulated": 10
+  },
+  "themes": [
+    "core",
+    "security",
+    "receipt",
+    "support",
+    "operations",
+    "campaign"
+  ],
+  "code_challenges": 3,
+  "status": "content-built; live-setup-unverified",
+  "live_workflows_enabled": 0
+}

@@ -17,3 +17,8 @@ The initial 114 service-level task rows are a planning decomposition, not 114 un
 
 ## Cross-service delivery rule
 A milestone is not complete because the API exists while mobile/admin/web remain mock screens. Each vertical slice must include relevant client flows, operator exception handling, accounting, monitoring, support, tests, documentation and visual evidence. Prioritise correctness over feature counts.
+
+## Notifications in every milestone
+Novu content is built early; each relevant feature must then deliver its real Go event producer, recipient/state guards, signature/provider qualification, UI link and failure/recovery evidence. Building templates does not complete transfers, bills or customer support.
+
+See the [Novu specification index](../Novu/00-INDEX.md) and [service task register](../../Novu/README.md).

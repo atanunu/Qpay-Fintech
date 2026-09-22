@@ -51,3 +51,8 @@ E1 approved: consume the existing QPay API as an upstream execution service. E2:
 | DEC-12 | SLOs and launch thresholds | Set measured throughput/latency, pending-age alerts, RPO/RTO and support commitments before release |
 
 Record each approval in an ADR. Unresolved choices permit planning and isolated proofs, not silent production assumptions.
+
+## Accepted notification decision
+Self-hosted Novu under `Novu/` is accepted. The proposed `Notifications/` name is superseded. Exact server release, image/SDK pins, production hostnames, legal sender and provider account are qualification inputs, not silently selected defaults.
+
+See the [Novu specification index](../Novu/00-INDEX.md) and [service task register](../../Novu/README.md).

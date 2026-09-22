@@ -27,3 +27,8 @@ If a Laravel/Next/Svelte server layer is selected, treat it as a session/present
 Async operations return accepted/pending state rather than fictional final success. Record the selected execution owner, idempotency intent, provider reference, request fingerprint and immutable observations. Re-query ambiguous submissions; do not fail over to a fresh payout. Payment state, settlement state, bill fulfilment and notification delivery are distinct.
 
 Web/mobile share published schemas, error codes and safe validation helpers. Admin and web may share an accessible browser component package. Native and browser UI need their own screens and platform tests.
+
+## Additive notification boundary
+Go commits business facts and notification intent together. Self-hosted Novu orchestrates email through our signed bridge and provider; provider callbacks feed Go delivery records, never financial state. Use separately controlled customer/staff audiences and an independent incident path. The original four-application diagram is not a deployment map of the new service.
+
+See the [Novu specification index](../Novu/00-INDEX.md) and [service task register](../../Novu/README.md).

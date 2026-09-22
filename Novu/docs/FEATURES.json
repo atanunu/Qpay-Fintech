@@ -1,0 +1,276 @@
+{
+  "service": "Novu",
+  "canonical_source": "../README.md",
+  "rows": [
+    {
+      "id": "NOT-001",
+      "capability": "Self-hosted architecture and operating specifications",
+      "milestone": "M0",
+      "priority": "P0",
+      "status": "Implemented",
+      "specification": "[Spec](../devdocs/Novu/01-SELF-HOSTED-ARCHITECTURE.md)",
+      "acceptance": "Ownership, edition gaps, private hosting and operations documented",
+      "evidence": "devdocs/Novu/01–08; accepted ADR-0003"
+    },
+    {
+      "id": "NOT-002",
+      "capability": "End-to-end email catalogue and deterministic identifiers",
+      "milestone": "M0",
+      "priority": "P0",
+      "status": "Implemented",
+      "specification": "[Spec](../devdocs/Novu/02-EMAIL-CATALOGUE.md)",
+      "acceptance": "164 unique copy-bearing scenarios and synthetic fixtures validate",
+      "evidence": "catalogue/emails.psv; content tests; docs/CONTENT-SUMMARY.json"
+    },
+    {
+      "id": "NOT-003",
+      "capability": "Six built-in email themes and safe renderer",
+      "milestone": "M0",
+      "priority": "P0",
+      "status": "Implemented",
+      "specification": "[Spec](../devdocs/Novu/03-THEMES-AND-CONTENT.md)",
+      "acceptance": "Escaped HTML and plain text render with approved theme and bounded values",
+      "evidence": "src/content.mjs; six-theme browser preview; renderer tests"
+    },
+    {
+      "id": "NOT-004",
+      "capability": "Per-workflow payload schemas and portable content bundle",
+      "milestone": "M0",
+      "priority": "P0",
+      "status": "Implemented",
+      "specification": "[Spec](../devdocs/Novu/04-CONTRACTS-AND-DELIVERY.md)",
+      "acceptance": "Export schemas, fixtures, HTML and text without credentials or network",
+      "evidence": "scripts/build.mjs; build and --check executed"
+    },
+    {
+      "id": "NOT-005",
+      "capability": "Offline content and workflow-contract regression suite",
+      "milestone": "M0",
+      "priority": "P0",
+      "status": "Implemented",
+      "specification": "[Spec](../devdocs/Novu/07-TESTING-AND-ROADMAP.md)",
+      "acceptance": "Positive and adversarial catalogue, render and factory cases pass",
+      "evidence": "tests/content.test.mjs; 207 Node tests passed"
+    },
+    {
+      "id": "NOT-006",
+      "capability": "Version-controlled Framework workflow factory",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Spec](../devdocs/Novu/04-CONTRACTS-AND-DELIVERY.md)",
+      "acceptance": "Factory must execute with the selected real SDK, bridge and provider mapping",
+      "evidence": "bridge/workflows.mjs; contract harness passes; real SDK acceptance pending"
+    },
+    {
+      "id": "NOT-007",
+      "capability": "Release, edition, SDK and container compatibility lock",
+      "milestone": "M0",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/05-DEPLOYMENT-AND-IMPORT.md)",
+      "acceptance": "Exact releases, image digests, licences and compatibility tests recorded",
+      "evidence": "deploy/compatibility.json is unqualified"
+    },
+    {
+      "id": "NOT-008",
+      "capability": "Private self-hosted infrastructure and TLS",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/01-SELF-HOSTED-ARCHITECTURE.md)",
+      "acceptance": "Qualified manifests provision isolated test and production dependencies",
+      "evidence": "Hostnames, manifests, resources and deployment evidence pending"
+    },
+    {
+      "id": "NOT-009",
+      "capability": "Signed production bridge and policy/provider adapters",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/04-CONTRACTS-AND-DELIVERY.md)",
+      "acceptance": "Real SDK host rejects forged requests and binds trusted policy/provider adapters",
+      "evidence": "HTTP host, signatures and real provider overrides pending"
+    },
+    {
+      "id": "NOT-010",
+      "capability": "Clean-environment workflow sync and safe migration",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/05-DEPLOYMENT-AND-IMPORT.md)",
+      "acceptance": "Reviewed allowlist syncs reproducibly; collisions and rollback tested",
+      "evidence": "No live workflows synced; allowlist empty"
+    },
+    {
+      "id": "NOT-011",
+      "capability": "Go transactional outbox and duplicate-safe dispatch",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/04-CONTRACTS-AND-DELIVERY.md)",
+      "acceptance": "Atomic intent, retries, unknown submissions, leases and final-state checks tested",
+      "evidence": "Depends on API-012 and API-029; Go integration pending"
+    },
+    {
+      "id": "NOT-012",
+      "capability": "Authoritative subscriber, contact and preference policy",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/02-EMAIL-CATALOGUE.md)",
+      "acceptance": "Recipient ownership, old/new contacts, tenancy and preferences enforced",
+      "evidence": "Trusted subscriber provisioning and guard adapters pending"
+    },
+    {
+      "id": "NOT-013",
+      "capability": "Secure verification-code delivery qualification",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/06-SECURITY-AND-EMAIL-OPERATIONS.md)",
+      "acceptance": "Go expiry/attempt limits, redaction and queue-expiry rules proven",
+      "evidence": "Three code templates built; no live verification transport approved"
+    },
+    {
+      "id": "NOT-014",
+      "capability": "Sender identity, DNS and provider acceptance",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/06-SECURITY-AND-EMAIL-OPERATIONS.md)",
+      "acceptance": "Verified sender, SPF/DKIM/DMARC/TLS and provider contract qualify",
+      "evidence": "Provider selection and legal/sending identity pending"
+    },
+    {
+      "id": "NOT-015",
+      "capability": "Plain-text MIME and unsubscribe-header provider mapping",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/03-THEMES-AND-CONTENT.md)",
+      "acceptance": "Actual received MIME and one-click headers meet selected provider contract",
+      "evidence": "Text/header output built; provider overrides and endpoints pending"
+    },
+    {
+      "id": "NOT-016",
+      "capability": "Delivery callbacks, correlation and suppression",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/04-CONTRACTS-AND-DELIVERY.md)",
+      "acceptance": "Signed callbacks handle duplicates, bounces, complaints and unmatched events",
+      "evidence": "Independent Go delivery telemetry and suppression store pending"
+    },
+    {
+      "id": "NOT-017",
+      "capability": "Customer funding, transfers and bills end-to-end delivery",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/02-EMAIL-CATALOGUE.md)",
+      "acceptance": "Real producers and UI state match authoritative final/pending states",
+      "evidence": "Built-in copy is not a connected payment feature"
+    },
+    {
+      "id": "NOT-018",
+      "capability": "Customer web, mobile and staff inbox integration",
+      "milestone": "M3",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/01-SELF-HOSTED-ARCHITECTURE.md)",
+      "acceptance": "Scoped inbox clients use self-hosted URLs and secure subscriber sessions",
+      "evidence": "Email scope delivered here; inbox UI workflows and SDK acceptance pending"
+    },
+    {
+      "id": "NOT-019",
+      "capability": "Support replies, disputes and inbound email ingestion",
+      "milestone": "M3",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/06-SECURITY-AND-EMAIL-OPERATIONS.md)",
+      "acceptance": "Conversation correlation, scanning, permission checks and loop prevention pass",
+      "evidence": "Inbound receiver and support APIs pending"
+    },
+    {
+      "id": "NOT-020",
+      "capability": "Staff approvals and finance/risk operation workflows",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/02-EMAIL-CATALOGUE.md)",
+      "acceptance": "Staff audiences and independent approvals have real producer/policy tests",
+      "evidence": "Operation copy built; staff and financial integrations pending"
+    },
+    {
+      "id": "NOT-021",
+      "capability": "Independent monitoring, investigation and replay controls",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/06-SECURITY-AND-EMAIL-OPERATIONS.md)",
+      "acceptance": "Out-of-band alerts, redacted timeline and audited safe replay exercised",
+      "evidence": "No alert destination, monitoring or operator console deployed"
+    },
+    {
+      "id": "NOT-022",
+      "capability": "Backup, restore, rotation and upgrade qualification",
+      "milestone": "M4",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/05-DEPLOYMENT-AND-IMPORT.md)",
+      "acceptance": "Independent restore recovers keys, workflow versions and unresolved sends",
+      "evidence": "RPO/RTO, storage policies and recovery drill pending"
+    },
+    {
+      "id": "NOT-023",
+      "capability": "Email-client accessibility and visual acceptance",
+      "milestone": "M4",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/03-THEMES-AND-CONTENT.md)",
+      "acceptance": "Gmail, Outlook, Apple Mail and mobile/dark-mode matrix reviewed",
+      "evidence": "Browser content previews only; received-email matrix pending"
+    },
+    {
+      "id": "NOT-024",
+      "capability": "Notification production release acceptance",
+      "milestone": "M4",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/07-TESTING-AND-ROADMAP.md)",
+      "acceptance": "All target-specific security, provider, delivery and recovery gates close",
+      "evidence": "Live deployment and production acceptance have not occurred"
+    },
+    {
+      "id": "NOT-025",
+      "capability": "Approved growth notification rollout",
+      "milestone": "M5",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Spec](../devdocs/Novu/02-EMAIL-CATALOGUE.md)",
+      "acceptance": "Product approval, consent, pricing and every growth guard qualify",
+      "evidence": "20 growth scenarios built; excluded from default approved scope"
+    },
+    {
+      "id": "NOT-026",
+      "capability": "Separately regulated product notification rollout",
+      "milestone": "M6",
+      "priority": "P2",
+      "status": "Deferred",
+      "specification": "[Spec](../devdocs/Novu/02-EMAIL-CATALOGUE.md)",
+      "acceptance": "Product-specific legal and provider approval precedes integration",
+      "evidence": "10 regulated scenarios built for planning; no product approval assumed"
+    },
+    {
+      "id": "NOT-027",
+      "capability": "README, task-register and notification CI integration",
+      "milestone": "M0",
+      "priority": "P0",
+      "status": "Implemented",
+      "specification": "[Spec](../devdocs/Novu/07-TESTING-AND-ROADMAP.md)",
+      "acceptance": "Fifth service register, root summary, local tests and read-only CI tracked",
+      "evidence": "scripts/docs; .github/workflows/documentation.yml; validation report"
+    }
+  ]
+}
