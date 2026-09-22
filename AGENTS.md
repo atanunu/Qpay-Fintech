@@ -1,0 +1,10 @@
+# Qpay-Fintech agent instructions
+Read root README, devdocs/00-INDEX.md, the decision register, shared architecture/ledger rules and the affected service README before work. This repository plan is separate from atanunu/QPay. Do not modify QPay or copy its legacy execution assumptions without explicit scope.
+
+The user approved B1 + M1 + A1 + W1 + E1 on 22 September 2026: Go/chi/PostgreSQL, React Native/Expo development builds, bespoke React/Vite admin and web, and server-to-server QPay integration. Read the accepted ADRs before changing this direction. Nigeria/NGN/adult individual customers is the initial product-planning baseline. Legal entity, custody permissions, provider contracts and live activation are still release gates. No live execution is authorised. Each future application belongs in its named directory. Preserve canonical service IDs and do not promote Planned to Implemented merely because a file or screenshot was added.
+
+Code, tests, migrations/configuration, contracts, documentation, task state and changed real UI captures are one coherent delivery. Root README and service README must meet the mandatory documentation standard at all times. Use safe synthetic fixtures. No credentials, real customer details or production auth bypasses in docs.
+
+Inspect working-tree status, fetch current main and reconcile concurrent work before editing. Never force-push, discard local work or overwrite newer source with this ZIP. Verify remote commits and associated CI before claiming pushed or passed. No provider activation, production deployment, financial test or account/secret change follows from a documentation task.
+
+Run `make docs-check` and `make docs-test`, then the affected application's build/tests once implemented. The documentation workflow runs on pushes and pull requests; branch-protection activation is separately tracked. Never label documentation-only CI as application tests. Report what ran and what did not. Local validators cannot approve legal, provider or financial readiness.

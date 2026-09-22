@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "service": "WebApp",
+  "status": "captured",
+  "captures": [
+    {
+      "path": "screenshots/replace-with-actual-capture.png",
+      "screen": "/replace-with-actual-route",
+      "source_commit": "REPLACE_WITH_ACTUAL_FULL_COMMIT_SHA",
+      "captured_at": "REPLACE_WITH_ACTUAL_UTC_TIMESTAMP",
+      "environment": "documentation",
+      "fixture_id": "REPLACE_WITH_SYNTHETIC_FIXTURE_VERSION",
+      "state": "REPLACE_WITH_CAPTURED_STATE",
+      "viewport": "REPLACE_WITH_VIEWPORT_OR_DEVICE",
+      "sha256": "REPLACE_WITH_ACTUAL_FILE_SHA256"
+    }
+  ]
+}

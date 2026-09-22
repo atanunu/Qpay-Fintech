@@ -1,0 +1,256 @@
+{
+  "service": "MobileApp",
+  "canonical_source": "../README.md",
+  "rows": [
+    {
+      "id": "MOB-001",
+      "capability": "Native SDK compatibility proof",
+      "milestone": "M0",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Selected KYC and payment SDKs work in signed Android and iOS development builds",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-002",
+      "capability": "Independent authentication layouts",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Authentication screens have no authenticated dashboard navigation",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-003",
+      "capability": "Registration and contact verification",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Handle resend expiry recovery and enumeration-safe errors",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-004",
+      "capability": "Secure sessions and device storage",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Token rotation revocation and secure-storage edge cases pass",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-005",
+      "capability": "MFA and transaction-bound approval",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Changing payee or amount invalidates prior authorisation",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-006",
+      "capability": "Recovery and device management",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Recover access without turning recovery into an account-takeover shortcut",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-007",
+      "capability": "KYC capture and review status",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Supported native flow handles denied permissions failures and manual review",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-008",
+      "capability": "Wallet home and balances",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Show available held and stale states from authoritative APIs",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-009",
+      "capability": "Funding instructions and status",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Display correct scoped account details and recover delayed funding updates",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-010",
+      "capability": "Recipient and account-name enquiry",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Display verified name and prevent stale recipient approval",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-011",
+      "capability": "Fee quote and transfer authorisation",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Show total cost and bind approval to current financial details",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-012",
+      "capability": "Transfer lifecycle and restart recovery",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "App kill and network loss recover the existing intent without repeat payout",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-013",
+      "capability": "Bill discovery and customer validation",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Handle category-specific identifiers and provider-unavailable states",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-014",
+      "capability": "Bill purchase and pending state",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Never show fulfilled value until authoritative fulfilment exists",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-015",
+      "capability": "Tokens receipts and controlled sharing",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Recover electricity token and generate correct scoped receipt content",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-016",
+      "capability": "Transaction history and detail",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Search and pagination preserve account scope and accurate statuses",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-017",
+      "capability": "Statement export and download",
+      "milestone": "M3",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Handle asynchronous generation and expiring download links",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-018",
+      "capability": "Beneficiaries and favourite billers",
+      "milestone": "M2",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Persist server-side and enforce customer ownership",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-019",
+      "capability": "Notifications and safe deep links",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Deep links require auth and cannot execute payments directly",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-020",
+      "capability": "Support complaints and disputes",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Create linked cases and show resolution without exposing other users",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-021",
+      "capability": "Privacy account and preferences",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Explain closure retention and notification choices accurately",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-022",
+      "capability": "Connectivity accessibility and UX states",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Test assistive navigation weak networks loading errors and stale data",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-023",
+      "capability": "Native tests and screenshot capture",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Produce real-device test and synthetic image provenance",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-024",
+      "capability": "Signing distribution and compatibility",
+      "milestone": "M4",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Validate release build upgrade paths store requirements and key ownership",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "MOB-025",
+      "capability": "Approved growth journeys",
+      "milestone": "M5",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/MobileApp/00-INDEX.md)",
+      "acceptance": "Split selected epics into complete native API and support acceptance tasks",
+      "evidence": "Not implemented; tests not run; issue not created"
+    }
+  ]
+}

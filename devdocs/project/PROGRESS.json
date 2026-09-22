@@ -1,0 +1,54 @@
+{
+  "basis": "service task rows, not unique product features",
+  "services": {
+    "APIbackend": {
+      "total": 42,
+      "counts": {
+        "Blocked": 0,
+        "Deferred": 0,
+        "Implemented": 0,
+        "In progress": 0,
+        "Partial": 0,
+        "Planned": 42,
+        "Unverified": 0
+      }
+    },
+    "MobileApp": {
+      "total": 25,
+      "counts": {
+        "Blocked": 0,
+        "Deferred": 0,
+        "Implemented": 0,
+        "In progress": 0,
+        "Partial": 0,
+        "Planned": 25,
+        "Unverified": 0
+      }
+    },
+    "AdminDashboard": {
+      "total": 26,
+      "counts": {
+        "Blocked": 0,
+        "Deferred": 0,
+        "Implemented": 0,
+        "In progress": 0,
+        "Partial": 0,
+        "Planned": 26,
+        "Unverified": 0
+      }
+    },
+    "WebApp": {
+      "total": 21,
+      "counts": {
+        "Blocked": 0,
+        "Deferred": 0,
+        "Implemented": 0,
+        "In progress": 0,
+        "Partial": 0,
+        "Planned": 21,
+        "Unverified": 0
+      }
+    }
+  },
+  "total_task_rows": 114
+}

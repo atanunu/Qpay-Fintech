@@ -1,0 +1,24 @@
+# Secrets and local state
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.keystore
+*.jks
+# Dependencies and builds
+node_modules/
+.expo/
+.next/
+dist/
+build/
+coverage/
+vendor/
+__pycache__/
+*.py[cod]
+.DS_Store
+# Local capture/test artefacts (publish allowlisted reviewed images only)
+.docs-capture/
+.test-output/
+.local/

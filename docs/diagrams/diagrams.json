@@ -1,0 +1,147 @@
+{
+  "system": {
+    "title": "Qpay-Fintech | Application and financial-authority map",
+    "nodes": [
+      {
+        "title": "MobileApp / WebApp / AdminDashboard",
+        "detail": "Independent customer and staff applications; each connects to its scoped API boundary."
+      },
+      {
+        "title": "Customer API and staff API boundaries",
+        "detail": "Separate sessions, audiences and permissions; no client is a wallet or provider-secret authority."
+      },
+      {
+        "title": "APIbackend | Go / chi domain engine",
+        "detail": "One customer-wallet subledger; atomic holds, balanced journals, policies and audit."
+      },
+      {
+        "title": "PostgreSQL and durable workers",
+        "detail": "Commit financial intent and outbox together; recover jobs without another financial effect."
+      },
+      {
+        "title": "QPay API | server-to-server execution",
+        "detail": "Persist the selected upstream reference; query ambiguous requests instead of resubmitting."
+      },
+      {
+        "title": "Financial partners and reconciliation",
+        "detail": "Contracted custody / rails; compare product, upstream and settlement evidence."
+      }
+    ]
+  },
+  "apibackend": {
+    "title": "APIbackend | Durable money-operation workflow",
+    "nodes": [
+      {
+        "title": "Authenticate, authorise and validate",
+        "detail": "Separate audiences; customer ownership, KYC/risk limits and transaction-bound approval."
+      },
+      {
+        "title": "Create or recover the original intent",
+        "detail": "Scope the idempotency key and fingerprint; changed financial details cause a conflict."
+      },
+      {
+        "title": "Reserve funds and enqueue atomically",
+        "detail": "PostgreSQL transaction, ordered locks, uniqueness and durable outbox; never cache authority."
+      },
+      {
+        "title": "Submit through the selected QPay route",
+        "detail": "Persist the upstream reference. Timeout remains unresolved, not failure or refund proof."
+      },
+      {
+        "title": "Verify observations and reconcile",
+        "detail": "Authenticated deduplicated callbacks or original-reference queries; record late outcomes."
+      },
+      {
+        "title": "Post final journals and expose status",
+        "detail": "Immutable balanced entries; separate payment, settlement, fulfilment and delivery states."
+      }
+    ]
+  },
+  "mobileapp": {
+    "title": "MobileApp | Customer journey and safe recovery",
+    "nodes": [
+      {
+        "title": "Secure authentication shell",
+        "detail": "Native registration, verification, MFA/recovery and session controls; no dashboard chrome."
+      },
+      {
+        "title": "Eligibility, wallet and funding",
+        "detail": "Read authoritative account/tier state; show available versus held funds."
+      },
+      {
+        "title": "Transfer or bill selection",
+        "detail": "Recipient / biller validation and server-issued quote; no offline money execution."
+      },
+      {
+        "title": "Review and approve bound details",
+        "detail": "Show amount, fee, currency and recipient; changes require fresh authorization."
+      },
+      {
+        "title": "Recover accepted or pending intent",
+        "detail": "Application restart or weak connection retrieves the existing operation, not a new payment."
+      },
+      {
+        "title": "Receipts, fulfilment and support",
+        "detail": "Display server-confirmed outcome; tokens, notifications and cases have their own lifecycle."
+      }
+    ]
+  },
+  "admindashboard": {
+    "title": "AdminDashboard | Operational control workflow",
+    "nodes": [
+      {
+        "title": "Independent staff authentication",
+        "detail": "MFA, scoped roles and short-lived privileged authorization; never a customer session."
+      },
+      {
+        "title": "Investigate scoped evidence",
+        "detail": "KYC, customer cases, payment timeline, provider observations and reconciliation breaks."
+      },
+      {
+        "title": "Propose a controlled action",
+        "detail": "Document reason, supporting evidence, financial scope and policy version."
+      },
+      {
+        "title": "Independent review and approval",
+        "detail": "Different identities; no self-approval, silent balance edits or reused changed approval."
+      },
+      {
+        "title": "APIbackend executes authorised change",
+        "detail": "Compensating journals for corrections; permanent audit history and verified upstream action."
+      },
+      {
+        "title": "Review result and unresolved work",
+        "detail": "Track acceptance, settlement, case resolution and aged exceptions without fabricated metrics."
+      }
+    ]
+  },
+  "webapp": {
+    "title": "WebApp | Responsive customer payment workflow",
+    "nodes": [
+      {
+        "title": "Separate customer authentication shell",
+        "detail": "Register, verify, recover and manage sessions through the reviewed API security boundary."
+      },
+      {
+        "title": "Responsive wallet and activity",
+        "detail": "Authoritative balances, held funds, account eligibility and scoped history."
+      },
+      {
+        "title": "Prepare transfer or bill purchase",
+        "detail": "Validate recipient/customer reference and fetch current server quote and limits."
+      },
+      {
+        "title": "Confirm transaction details",
+        "detail": "Bind payer, recipient, amount, currency, fees, version and expiry to authorization."
+      },
+      {
+        "title": "Resume the original operation",
+        "detail": "Refresh and network recovery query pending intent; prevent accidental duplicate submission."
+      },
+      {
+        "title": "Serve evidence and aftercare",
+        "detail": "Final receipts, statements, bill value, notifications and transaction-linked support."
+      }
+    ]
+  }
+}

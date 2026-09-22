@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="750" viewBox="0 0 1040 750" role="img" aria-labelledby="title description">
+<title id="title">MobileApp | Customer journey and safe recovery</title>
+<desc id="description">Approved target design, not deployment or runtime screenshot evidence.</desc>
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#247888"/></marker></defs>
+<rect width="1040" height="750" rx="18" fill="#f3f6fa"/>
+<style>text{font-family:Arial,Helvetica,sans-serif} .label{font-size:21px;font-weight:bold;fill:#152740} .detail{font-size:16px;fill:#354b63}</style>
+<text x="40" y="43" class="label">MobileApp | Customer journey and safe recovery</text>
+<text x="40" y="72" class="detail">Approved target design | Applications not implemented | 22 September 2026</text>
+<rect x="40" y="100" width="960" height="80" rx="12" fill="white" stroke="#b8c9d9"/>
+<text x="62" y="129" class="label">01  Secure authentication shell</text>
+<text x="62" y="156" class="detail">Native registration, verification, MFA/recovery and session controls; no dashboard chrome.</text>
+<path d="M520,182 L520,201" stroke="#247888" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="40" y="204" width="960" height="80" rx="12" fill="white" stroke="#b8c9d9"/>
+<text x="62" y="233" class="label">02  Eligibility, wallet and funding</text>
+<text x="62" y="260" class="detail">Read authoritative account/tier state; show available versus held funds.</text>
+<path d="M520,286 L520,305" stroke="#247888" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="40" y="308" width="960" height="80" rx="12" fill="white" stroke="#b8c9d9"/>
+<text x="62" y="337" class="label">03  Transfer or bill selection</text>
+<text x="62" y="364" class="detail">Recipient / biller validation and server-issued quote; no offline money execution.</text>
+<path d="M520,390 L520,409" stroke="#247888" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="40" y="412" width="960" height="80" rx="12" fill="white" stroke="#b8c9d9"/>
+<text x="62" y="441" class="label">04  Review and approve bound details</text>
+<text x="62" y="468" class="detail">Show amount, fee, currency and recipient; changes require fresh authorization.</text>
+<path d="M520,494 L520,513" stroke="#247888" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="40" y="516" width="960" height="80" rx="12" fill="white" stroke="#b8c9d9"/>
+<text x="62" y="545" class="label">05  Recover accepted or pending intent</text>
+<text x="62" y="572" class="detail">Application restart or weak connection retrieves the existing operation, not a new payment.</text>
+<path d="M520,598 L520,617" stroke="#247888" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="40" y="620" width="960" height="80" rx="12" fill="white" stroke="#b8c9d9"/>
+<text x="62" y="649" class="label">06  Receipts, fulfilment and support</text>
+<text x="62" y="676" class="detail">Display server-confirmed outcome; tokens, notifications and cases have their own lifecycle.</text>
+</svg>

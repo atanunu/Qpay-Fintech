@@ -1,0 +1,426 @@
+{
+  "service": "APIbackend",
+  "canonical_source": "../README.md",
+  "rows": [
+    {
+      "id": "API-001",
+      "capability": "Customer registration and verified contacts",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Reject duplicate and enumeration abuse without leaking identity",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-002",
+      "capability": "Customer sessions and devices",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Rotate and revoke sessions with cross-device recovery tests",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-003",
+      "capability": "Separate staff identity and permissions",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Reject customer tokens and unauthorised operator actions",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-004",
+      "capability": "KYC cases and policy-based tiers",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Document decisions and enforce approved policy on every money action",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-005",
+      "capability": "Partner account provisioning",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Recover duplicate or ambiguous provisioning without creating unrelated accounts",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-006",
+      "capability": "PostgreSQL schema and migrations",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Clean setup and compatible migrations pass against real PostgreSQL",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-007",
+      "capability": "Balanced append-only ledger",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Every journal balances and corrections preserve original postings",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-008",
+      "capability": "Atomic available funds and holds",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Concurrent debit tests cannot overspend or double-release holds",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-009",
+      "capability": "Lossless money and currency encoding",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Round-trip large minor-unit amounts across all clients without precision loss",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-010",
+      "capability": "Versioned quotes fees and limits",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Reject changed or expired quotes and audit effective policy versions",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-011",
+      "capability": "Durable idempotent financial intents",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Same key replays safely and changed payload conflicts",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-012",
+      "capability": "Transactional outbox and workers",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Recover worker crashes without losing work or duplicating financial effect",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-013",
+      "capability": "Authenticated durable callback inbox",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Reject forgery and deduplicate scoped late or reordered events",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-014",
+      "capability": "Bank and virtual-account funding",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Verified credits reconcile and unmatched receipts enter investigation",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-015",
+      "capability": "Bank directory and account-name enquiry",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Use authoritative enquiry and control enumeration and stale results",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-016",
+      "capability": "Persistent scoped beneficiaries",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Cross-customer access fails and edited beneficiaries require valid reauthorisation",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-017",
+      "capability": "Internal wallet transfers",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Both sides post atomically with correct authorisation and limits",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-018",
+      "capability": "External bank transfers",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Binding quote and durable intent produce a queryable supported result",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-019",
+      "capability": "Ambiguous-operation recovery",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Timeout followed by late success never triggers a second payout",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-020",
+      "capability": "Canonical biller and product catalogue",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Version and map upstream products without duplicate or unavailable offerings",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-021",
+      "capability": "Bill validation and authoritative quote",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Require applicable customer validation and reject stale product pricing",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-022",
+      "capability": "Bill vend and token recovery",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Track financial outcome separately from token delivery and recover delayed fulfilment",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-023",
+      "capability": "Refunds returns and disputes",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Apply supported linked compensating operations without erasing history",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-024",
+      "capability": "Three-way reconciliation",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Match product ledger upstream and settlement evidence and expose aged breaks",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-025",
+      "capability": "Provider float and settlement",
+      "milestone": "M4",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Detect low float and reconcile settlement and fee obligations",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-026",
+      "capability": "Risk rules and account restrictions",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Enforce server-side restrictions with reason codes and audit",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-027",
+      "capability": "Audit and independent approval engine",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Reject self-approval and preserve immutable evidence for privileged changes",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-028",
+      "capability": "History statements and receipts",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Export scoped authoritative transactions without false success receipts",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-029",
+      "capability": "Notification delivery lifecycle",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Retry and track channel failures without altering financial outcome",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-030",
+      "capability": "Support and complaints API",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Link cases to scoped operations with escalation and resolution history",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-031",
+      "capability": "Private documents and retention",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Expire signed access and enforce approved retention and legal holds",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-032",
+      "capability": "OpenAPI schemas and generated clients",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Validate contracts and detect breaking client drift",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-033",
+      "capability": "Metrics logs and traces",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Correlate intent and provider events while redacting sensitive data",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-034",
+      "capability": "Distributed abuse controls",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Limits remain effective across instances and identity enquiry channels",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-035",
+      "capability": "Key rotation and off-host recovery",
+      "milestone": "M4",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Restore keys and data independently and reconcile pending operations",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-036",
+      "capability": "Load concurrency and release evidence",
+      "milestone": "M4",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Execute financial failure suites and meet approved operating objectives",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-037",
+      "capability": "Recurring mandates and schedules",
+      "milestone": "M5",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Decompose epic and prove explicit consent cancellation and duplicate-safe execution",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-038",
+      "capability": "Business KYB bulk payout and payroll",
+      "milestone": "M5",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Decompose epic with organisation boundaries approvals and per-item outcomes",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-039",
+      "capability": "Merchant QR links and collections",
+      "milestone": "M5",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Decompose epic with settlement refunds expiry and merchant ownership",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-040",
+      "capability": "Rewards referrals and budgeting",
+      "milestone": "M5",
+      "priority": "P2",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Decompose epic with reward liability fraud rules and customer disclosure",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-041",
+      "capability": "Partner APIs and outbound webhooks",
+      "milestone": "M5",
+      "priority": "P2",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Decompose epic with scoped credentials signed events and developer acceptance",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "API-042",
+      "capability": "Regulated expansion product families",
+      "milestone": "M6",
+      "priority": "P2",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
+      "acceptance": "Split each product into separately approved legal financial and technical work",
+      "evidence": "Not implemented; tests not run; issue not created"
+    }
+  ]
+}

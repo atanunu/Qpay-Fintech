@@ -1,0 +1,216 @@
+{
+  "service": "WebApp",
+  "canonical_source": "../README.md",
+  "rows": [
+    {
+      "id": "WEB-001",
+      "capability": "Independent web and authentication shells",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Login recovery and verification exclude authenticated navigation",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-002",
+      "capability": "Registration verification and login",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Validate safe errors expiry resend and authenticated entry",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-003",
+      "capability": "Session MFA and device controls",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Secure session CSRF origin and revocation policies pass",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-004",
+      "capability": "Customer KYC workflow",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Upload and verification flow handles failures and review without data leaks",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-005",
+      "capability": "Wallet and funding instructions",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Show authoritative scoped available held and funding states",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-006",
+      "capability": "Beneficiaries and name enquiry",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Customer ownership and current verified recipient details are enforced",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-007",
+      "capability": "Transfer quote and authorisation",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Display exact fees and reject changed expired or unapproved intents",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-008",
+      "capability": "Transfer pending and refresh recovery",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Browser refresh and duplicate click recover existing operation safely",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-009",
+      "capability": "Bill discovery and validation",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Render approved categories products and category-specific validation",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-010",
+      "capability": "Bill vend and token recovery",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Show pending and fulfilment honestly and recover delayed token",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-011",
+      "capability": "Receipts and controlled downloads",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Only authoritative completed evidence generates a success receipt",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-012",
+      "capability": "History search and transaction details",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Filters pagination and timelines remain scoped and accurate",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-013",
+      "capability": "Statement and export jobs",
+      "milestone": "M3",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Exports are complete scoped and delivered through expiring authorisation",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-014",
+      "capability": "In-app notification centre",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Read status and deep links remain secure and separate from payment execution",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-015",
+      "capability": "Support complaints and disputes",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Linked cases support escalation and audited resolution",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-016",
+      "capability": "Privacy security and account settings",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Settings reflect actual backend policy and retention constraints",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-017",
+      "capability": "Browser security and cache policy",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "CSP CSRF origin and private caching rules prevent cross-session exposure",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-018",
+      "capability": "Responsive and accessible UX",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Keyboard assistive and narrow-screen journeys cover errors and pending states",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-019",
+      "capability": "Contract component and browser tests",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Real integration paths use maintained generated contracts and deterministic tests",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-020",
+      "capability": "Screenshot capture and deployment",
+      "milestone": "M4",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Publish synthetic runtime evidence with source hash and clean deployment proof",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "WEB-021",
+      "capability": "Approved business and growth journeys",
+      "milestone": "M5",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "acceptance": "Split selected products into end-to-end web and operations tasks",
+      "evidence": "Not implemented; tests not run; issue not created"
+    }
+  ]
+}

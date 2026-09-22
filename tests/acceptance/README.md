@@ -1,0 +1,4 @@
+# Cross-service acceptance workspace
+Status: no application acceptance tests written or executed. The [test plan](../../devdocs/project/10-TESTING-AND-ACCEPTANCE.md) defines required suites. Documentation tests live in scripts/docs and must never be reported as financial tests.
+
+Acceptance scenarios must traverse customer mobile/web, APIbackend, operator review and reconciliation where relevant. Include wrong-audience/cross-customer access, insufficient funds under concurrency, changed/expired quote, duplicate idempotency keys, crash after submission, timeout then success, forged/reordered callbacks, app/browser restart, delayed token delivery, refund/return and restore of unresolved operations. Run real database tests independently of stubs and partner qualification independently of simulators.

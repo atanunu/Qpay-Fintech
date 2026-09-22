@@ -1,0 +1,31 @@
+name: Documentation integrity
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: documentation-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  documentation:
+    name: documentation-integrity
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout reviewed revision
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5 verified 2026-09-22
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Validate canonical registers and local links
+        run: python3 scripts/docs/check.py --check
+      - name: Validate governance, structure and visual provenance
+        env:
+          DOCS_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: python3 scripts/docs/governance.py --base "$DOCS_BASE_SHA"
+      - name: Run documentation regression tests
+        run: python3 -m unittest discover -s scripts/docs -p 'test_*.py' -v
+# This job does not build applications, activate providers or deploy infrastructure.

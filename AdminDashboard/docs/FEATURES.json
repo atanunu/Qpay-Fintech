@@ -1,0 +1,266 @@
+{
+  "service": "AdminDashboard",
+  "canonical_source": "../README.md",
+  "rows": [
+    {
+      "id": "ADM-001",
+      "capability": "Staff invitation authentication and MFA",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Invite-only access with independent staff session and recovery policy",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-002",
+      "capability": "Role and permission enforcement",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Server denies forbidden operations even through direct API requests",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-003",
+      "capability": "Real operational overview metrics",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Every displayed metric has a defined authoritative query and error state",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-004",
+      "capability": "Customer and KYC review",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Scoped document access supports reasoned decisions and immutable audit",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-005",
+      "capability": "Restrictions and session controls",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Approved restrictions take effect immediately in backend authorisation",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-006",
+      "capability": "Financial transaction timeline",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Show intent attempts holds journals observations and settlement separately",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-007",
+      "capability": "Unresolved payment investigation",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Re-query original operation without offering unsafe resubmit shortcuts",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-008",
+      "capability": "Maker-checker approvals",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Different eligible operator approves against current immutable proposal",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-009",
+      "capability": "Bill catalogue and product management",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Audit versioned mappings and disable unavailable products safely",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-010",
+      "capability": "Bill fulfilment and token recovery",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Distinguish failed delivery from a financially failed vend",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-011",
+      "capability": "Provider health and capability view",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Distinguish configured adapter runtime support and financial acceptance",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-012",
+      "capability": "Pricing limits and policy versions",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Effective-date changes preserve existing quote history and approval",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-013",
+      "capability": "Reconciliation imports and matching",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Validate file scope duplicates completeness and matching outcomes",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-014",
+      "capability": "Suspense and aged exception resolution",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Breaks retain owner evidence age and approved resolution",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-015",
+      "capability": "Treasury float and settlement overview",
+      "milestone": "M4",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Display verified obligations and funding alerts without mixing revenue with custody",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-016",
+      "capability": "Refund return and dispute operations",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Use supported approved compensating flows and evidence",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-017",
+      "capability": "Risk compliance and investigation cases",
+      "milestone": "M2",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Enforce case permissions reasons and escalation requirements",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-018",
+      "capability": "Support and complaint lifecycle",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Track assignment escalation customer updates and resolution evidence",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-019",
+      "capability": "Notification templates and delivery",
+      "milestone": "M3",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Review changes and inspect delivery without exposing sensitive payloads",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-020",
+      "capability": "Audit search and controlled export",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Privileged access itself is logged and exports are scoped",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-021",
+      "capability": "Incident and emergency controls",
+      "milestone": "M4",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Restrict stop or resume controls with clear blast radius and approval",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-022",
+      "capability": "Finance and management reports",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Reports reconcile to ledger and separate income fees float and liabilities",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-023",
+      "capability": "Accessible independent admin UI",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Auth shell is separate and staff workflows support keyboard navigation",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-024",
+      "capability": "Admin E2E and visual evidence",
+      "milestone": "M1",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Test real permission boundaries and capture synthetic runtime screenshots",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-025",
+      "capability": "Deployment and operator runbooks",
+      "milestone": "M4",
+      "priority": "P0",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Verify clean deployment rollback observability and incident procedures",
+      "evidence": "Not implemented; tests not run; issue not created"
+    },
+    {
+      "id": "ADM-026",
+      "capability": "Approved business and growth controls",
+      "milestone": "M5",
+      "priority": "P1",
+      "status": "Planned",
+      "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
+      "acceptance": "Decompose new products with staff finance risk and support ownership",
+      "evidence": "Not implemented; tests not run; issue not created"
+    }
+  ]
+}

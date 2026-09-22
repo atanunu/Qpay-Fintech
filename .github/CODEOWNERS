@@ -1,0 +1,6 @@
+# Review ownership; actual required reviews need repository rules.
+* @atanunu
+/.github/ @atanunu
+/contracts/ @atanunu
+/APIbackend/ @atanunu
+/devdocs/adrs/ @atanunu
