@@ -1,0 +1,53 @@
+name: Admin development workspace
+on:
+  push:
+    branches: [build/admin-dashboard-v1]
+    paths: [.github/workflows/admin-workspace.yml]
+permissions:
+  contents: read
+jobs:
+  workspace:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.27.1'
+          cache: false
+      - name: Capture pinned source and locked dependencies
+        run: |
+          set -eu
+          mkdir -p /tmp/admin-workspace
+          git archive --format=tar.gz HEAD > /tmp/admin-workspace/source.tar.gz
+          git rev-parse HEAD > /tmp/admin-workspace/source-commit.txt
+          cd WebApp
+          npm ci
+          tar -czf /tmp/admin-workspace/node_modules.tar.gz node_modules
+          cd ../APIbackend
+          go mod download
+          go mod verify
+          go mod vendor
+          tar -czf /tmp/admin-workspace/go-vendor.tar.gz vendor
+          tar -C "$(go env GOROOT)" -czf /tmp/admin-workspace/go-toolchain.tar.gz .
+          python3 - <<'PY'
+          import glob,tarfile
+          paths=['/usr/lib/postgresql/16','/usr/share/postgresql/16']
+          for pattern in ['libicu*.so*','libpq.so*','libldap*.so*','liblber*.so*']:
+              paths+=glob.glob('/usr/lib/x86_64-linux-gnu/'+pattern)
+          with tarfile.open('/tmp/admin-workspace/postgres-tools.tar.gz','w:gz') as tar:
+              for path in paths: tar.add(path,arcname=path.lstrip('/'))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: admin-workspace
+          retention-days: 2
+          compression-level: 0
+          path: /tmp/admin-workspace/
+# Source inspection and tests only. No deployment or external financial operation.
