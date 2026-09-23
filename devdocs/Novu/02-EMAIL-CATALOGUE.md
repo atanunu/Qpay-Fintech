@@ -1,5 +1,5 @@
 # End-to-end email catalogue and policy
-The canonical editable source is [emails.psv](../../Novu/catalogue/emails.psv): **164 built-in scenarios: 134 core, 20 growth and 10 separately regulated**. The full catalogue is shipped, not an empty placeholder list. Every row has audience, rollout scope, category, theme, a precise guard name, subject and body copy. The renderer exports one HTML preview, plain-text preview, JSON schema and synthetic payload per workflow.
+The canonical editable source is [emails.psv](../../Novu/catalogue/emails.psv): **175 built-in scenarios: 145 core, 20 growth and 10 separately regulated**. The full catalogue is shipped, not an empty placeholder list. Every row has audience, rollout scope, category, theme, a precise guard name, subject and body copy. The renderer exports one HTML preview, plain-text preview, JSON schema and synthetic payload per workflow.
 
 Workflow ID: `qpf-email-<key>-v1`. Event type: `qpf.notification.<key>.v1`. Do not rename IDs for a subject/theme-only edit. A breaking contract creates an explicit migration; do not repurpose an old ID. `guard` is a requirement for a persisted business predicate, not proof from a client-supplied state string. The Go publisher and live policy adapter must implement and test each predicate before that workflow is activated.
 

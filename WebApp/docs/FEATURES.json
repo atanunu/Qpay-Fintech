@@ -7,200 +7,200 @@
       "capability": "Independent web and authentication shells",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Login recovery and verification exclude authenticated navigation",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "src/components/layout.tsx; pages/auth.tsx; independent shells and route guarding; automated browser checks passed; manual/provider acceptance pending"
     },
     {
       "id": "WEB-002",
       "capability": "Registration verification and login",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Validate safe errors expiry resend and authenticated entry",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/auth.tsx; client.ts; registered API contracts and review journeys; real email transport pending"
     },
     {
       "id": "WEB-003",
       "capability": "Session MFA and device controls",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Secure session CSRF origin and revocation policies pass",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "state.tsx; cookie/CSRF transport; security/MFA/devices forms; deployment/session acceptance pending"
     },
     {
       "id": "WEB-004",
       "capability": "Customer KYC workflow",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Upload and verification flow handles failures and review without data leaks",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/funding_identity.tsx; private documents and resumable immutable submission; parity API tests; automatic identity provider remains GAP-03"
     },
     {
       "id": "WEB-005",
       "capability": "Wallet and funding instructions",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Show authoritative scoped available held and funding states",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/overview.tsx; authoritative wallet and persistent funding provisioning; local-only TEST adapter; real partner remains GAP-01/02"
     },
     {
       "id": "WEB-006",
       "capability": "Beneficiaries and name enquiry",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Customer ownership and current verified recipient details are enforced",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/payments.tsx and account.tsx; enquiry, explicit save, ownership-backed API; automated browser checks passed; manual/provider acceptance pending"
     },
     {
       "id": "WEB-007",
       "capability": "Transfer quote and authorisation",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Display exact fees and reject changed expired or unapproved intents",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/payments.tsx; exact quote review, expiry, PIN and optional MFA; unit guards pass; automated browser checks passed; manual acceptance pending"
     },
     {
       "id": "WEB-008",
       "capability": "Transfer pending and refresh recovery",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Browser refresh and duplicate click recover existing operation safely",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "api/recovery.ts; reference-only persistence and read-only original lookup; interrupted review scenario; GAP-09"
     },
     {
       "id": "WEB-009",
       "capability": "Bill discovery and validation",
       "milestone": "M3",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Render approved categories products and category-specific validation",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/payments.tsx; six display categories from available products, service validation; provider catalogue acceptance pending"
     },
     {
       "id": "WEB-010",
       "capability": "Bill vend and token recovery",
       "milestone": "M3",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Show pending and fulfilment honestly and recover delayed token",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/payments.tsx and activity.tsx; payment/value separation, original fulfilment retrieval; automated browser checks passed; manual acceptance pending"
     },
     {
       "id": "WEB-011",
       "capability": "Receipts and controlled downloads",
       "milestone": "M3",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Only authoritative completed evidence generates a success receipt",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/activity.tsx; success-only receipt API, JSON download and print; automated browser checks passed; manual acceptance pending"
     },
     {
       "id": "WEB-012",
       "capability": "History search and transaction details",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Filters pagination and timelines remain scoped and accurate",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/activity.tsx; loaded-record filters, cursor paging and scoped details; additional backend filters tracked GAP-10"
     },
     {
       "id": "WEB-013",
       "capability": "Statement and export jobs",
       "milestone": "M3",
       "priority": "P1",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Exports are complete scoped and delivered through expiring authorisation",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/records.tsx; bounded authoritative JSON/CSV statements; asynchronous jobs pending GAP-10"
     },
     {
       "id": "WEB-014",
       "capability": "In-app notification centre",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Read status and deep links remain secure and separate from payment execution",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/records.tsx; backend-owned non-secret inbox, read state and protected reference routes; live delivery separate GAP-11"
     },
     {
       "id": "WEB-015",
       "capability": "Support complaints and disputes",
       "milestone": "M3",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Linked cases support escalation and audited resolution",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/support.tsx; case creation/replies/dispute references; attachments, refund execution and escalation pending GAP-07/08"
     },
     {
       "id": "WEB-016",
       "capability": "Privacy security and account settings",
       "milestone": "M3",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Settings reflect actual backend policy and retention constraints",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "pages/account.tsx; name/preferences APIs; contact/privacy/closure drafts visibly unsubmitted GAP-04/05/06"
     },
     {
       "id": "WEB-017",
       "capability": "Browser security and cache policy",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "CSP CSRF origin and private caching rules prevent cross-session exposure",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "api/client.ts; cookies, CSRF, origin validation; deploy/nginx.conf; production ingress and cross-automated browser checks passed; manual acceptance pending"
     },
     {
       "id": "WEB-018",
       "capability": "Responsive and accessible UX",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Keyboard assistive and narrow-screen journeys cover errors and pending states",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "styles/app.css; responsive light/dark screens; local Chromium synthetic render has zero axe violations; HTTP browser suite pending"
     },
     {
       "id": "WEB-019",
       "capability": "Contract component and browser tests",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Real integration paths use maintained generated contracts and deterministic tests",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "tests/core.test.ts, review.test.ts, parity.test.ts: 71 local passes; expanded normal browser and API verification pending"
     },
     {
       "id": "WEB-020",
       "capability": "Screenshot capture and deployment",
       "milestone": "M4",
       "priority": "P0",
-      "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "status": "Partial",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Publish synthetic runtime evidence with source hash and clean deployment proof",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Playwright capture suite and deployment templates present; verified revision captures and actual deployment acceptance pending"
     },
     {
       "id": "WEB-021",
@@ -208,9 +208,139 @@
       "milestone": "M5",
       "priority": "P1",
       "status": "Planned",
-      "specification": "[Specification](../devdocs/WebApp/00-INDEX.md)",
+      "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Split selected products into end-to-end web and operations tasks",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "src/api/integration.ts GAP-13 decision register; unapproved expansion is not presented as executable services"
+    },
+    {
+      "id": "WEB-022",
+      "capability": "Account capabilities and effective limits",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "CapabilitiesCard and current policy state",
+      "evidence": "src/components/parity.tsx; e2e/parity.api.spec.ts"
+    },
+    {
+      "id": "WEB-023",
+      "capability": "Exact handles and one-off bank recipients",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Owned enquiry and fresh quote; no compulsory saving",
+      "evidence": "src/pages/payments.tsx; core and API browser suites"
+    },
+    {
+      "id": "WEB-024",
+      "capability": "Original payment resolution and safe repeat preparation",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Owner lookup; hold timeline; new quote for repeat",
+      "evidence": "src/api/recovery.ts; components/payment_parity.tsx; tests/core.test.ts"
+    },
+    {
+      "id": "WEB-025",
+      "capability": "Saved household bills and protected token archive",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Private saved accounts and original-value retrieval",
+      "evidence": "src/pages/planner.tsx; e2e/parity.review.spec.ts; parity.api.spec.ts"
+    },
+    {
+      "id": "WEB-026",
+      "capability": "Payment reminders and bounded internal schedules",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Explicit approval caps and per-occurrence traceability",
+      "evidence": "src/pages/planner.tsx; APIbackend/internal/service/parity_test.go"
+    },
+    {
+      "id": "WEB-027",
+      "capability": "Requests split shares and partial payments",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Exact sums; participant privacy; cancel rechecked at commit",
+      "evidence": "src/pages/requests.tsx; tests/parity.test.ts; e2e/parity.api.spec.ts"
+    },
+    {
+      "id": "WEB-028",
+      "capability": "Complete monthly insights annotations and budgets",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Posted-ledger aggregate; exclusions never change balances",
+      "evidence": "src/pages/insights.tsx; components/payment_parity.tsx; parity tests"
+    },
+    {
+      "id": "WEB-029",
+      "capability": "Passkeys personal freeze and security controls",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Actual WebAuthn and existing MFA; no payment auto-approval",
+      "evidence": "src/pages/security_parity.tsx; e2e/parity.api.spec.ts"
+    },
+    {
+      "id": "WEB-030",
+      "capability": "Private digital identity draft and submission",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Owned checked uploads and immutable submitted identity",
+      "evidence": "src/pages/funding_identity.tsx; e2e/parity.api.spec.ts"
+    },
+    {
+      "id": "WEB-031",
+      "capability": "Funding lifecycle and missing-credit support",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "No invented bank details; independently verified provider contract",
+      "evidence": "src/pages/funding_identity.tsx; backend parity tests; actual partner gated"
+    },
+    {
+      "id": "WEB-032",
+      "capability": "Private support evidence and escalation",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Owned attachments and audited case events; not financial refund",
+      "evidence": "src/pages/support.tsx; components/parity.tsx; API browser suite"
+    },
+    {
+      "id": "WEB-033",
+      "capability": "Dual-mailbox change scoped export and guarded closure",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Step-up proofs; no funds or open cases at closure",
+      "evidence": "src/pages/security_parity.tsx; backend parity tests; SMS and full export gated"
+    },
+    {
+      "id": "WEB-034",
+      "capability": "Responsive search masking and compact presentation",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Desktop/mobile navigation and labels; no private offline cache",
+      "evidence": "src/components/layout.tsx; styles/app.css; e2e/review.spec.ts"
     }
   ]
 }

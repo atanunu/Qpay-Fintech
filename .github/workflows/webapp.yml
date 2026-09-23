@@ -1,0 +1,136 @@
+name: Web application verification
+on:
+  push:
+    branches: [main, build/webapp-v1]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: webapp-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  review:
+    name: web-review-and-accessibility
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: WebApp
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: WebApp/package-lock.json
+      - name: Install exact reviewed dependency lock
+        run: npm ci
+      - name: Type check and unit/contract tests
+        run: npm run typecheck && npm test
+      - name: Build API-connected release without the synthetic adapter
+        run: |
+          npm run build
+          if grep -R 'Review-only-2026' dist/assets; then exit 1; fi
+      - name: Build isolated offline review file
+        run: npm run build:offline
+      - name: Install browser test runtime
+        run: npx --no-install playwright install --with-deps chromium
+      - name: Review journeys, accessibility, screenshots and offline file
+        run: npm run test:e2e
+      - name: Record dependency audit
+        if: always()
+        run: npm audit --json > dependency-audit.json || true
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: webapp-review-evidence
+          retention-days: 7
+          path: |
+            WebApp/playwright-report/
+            WebApp/test-results/
+            WebApp/evidence/
+            WebApp/dependency-audit.json
+            WebApp/dist/qpay-offline-review.html
+  api-integration:
+    name: web-real-go-postgres-integration
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:18.6
+        env:
+          POSTGRES_USER: qpf_test
+          POSTGRES_PASSWORD: synthetic_ci_only
+          POSTGRES_DB: qpf_web_test
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd "pg_isready -U qpf_test -d qpf_web_test"
+          --health-interval 5s --health-timeout 5s --health-retries 12
+    env:
+      DATABASE_URL: postgres://qpf_test:synthetic_ci_only@localhost:5432/qpf_web_test?sslmode=disable
+      QPF_ENV: local
+      EXECUTION_MODE: local
+      NOTIFICATION_MODE: local
+      PASSKEY_RP_ID: localhost
+      PRIVATE_UPLOAD_MODE: local
+      PRIVATE_UPLOAD_ROOT: /tmp/qpf-browser-private
+      FUNDING_MODE: local
+      WEB_ORIGINS: http://localhost:5173
+      HTTP_ADDR: 127.0.0.1:8080
+      QPF_TEST_MODE: api
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: WebApp/package-lock.json
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.27.1'
+          cache: false
+      - name: Generate isolated synthetic encryption keys
+        run: |
+          python3 - <<'PY'
+          import os,secrets,base64
+          key=lambda:base64.b64encode(secrets.token_bytes(32)).decode()
+          with open(os.environ['GITHUB_ENV'],'a') as f:
+              f.write('AUTH_PEPPER='+key()+'\nDATA_KEY_ID=test\nDATA_KEYS=test:'+key()+'\nNOTIFICATION_POLICY_KEY='+key()+'\n')
+          PY
+      - name: Build and migrate the real Go service
+        working-directory: APIbackend
+        run: |
+          go mod verify
+          go build -o /tmp/qpf-api ./cmd/api
+          go build -o /tmp/qpf-worker ./cmd/worker
+          go build -o /tmp/qpfctl ./cmd/qpfctl
+          go run ./cmd/migrate
+          /tmp/qpf-api > /tmp/qpf-api.log 2>&1 &
+          /tmp/qpf-worker > /tmp/qpf-worker.log 2>&1 &
+      - name: Seed synthetic owners through local-only CLI
+        run: python3 WebApp/e2e/api-fixture.py
+      - name: Install locked frontend and browser
+        working-directory: WebApp
+        run: npm ci && npx --no-install playwright install --with-deps chromium
+      - name: Cookie, CSRF, transfer, bill, statement and support browser journeys
+        working-directory: WebApp
+        run: npm run test:e2e:api
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: webapp-api-integration-evidence
+          retention-days: 3
+          path: |
+            WebApp/playwright-report/
+            WebApp/test-results/
+            /tmp/qpf-api.log
+            /tmp/qpf-worker.log
+      - name: Remove ephemeral fixture material
+        if: always()
+        run: rm -rf WebApp/.test-fixtures
+# Read-only validation against disposable synthetic funds; no real transaction/provider/deployment.

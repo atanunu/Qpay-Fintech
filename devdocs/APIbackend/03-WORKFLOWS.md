@@ -1,0 +1,12 @@
+# Backend workflows and invariants
+Registration creates an unverified customer and empty wallet in one transaction. Verification challenge requests return the same public response for existing and unknown addresses. Challenges expire, have bounded attempts and are consumed once; code material is never returned by a public API. Login issues audience-scoped sessions; MFA and refresh reuse checks cannot be bypassed by choosing a browser/mobile transport.
+
+A customer submits KYC metadata/evidence references. An eligible compliance operator proposes a decision; a different operator approves it. The proposal snapshots target version and expires, preventing stale or self-approved changes. Manual verified evidence is not a claim that a third-party KYC SDK is integrated.
+
+A quote freezes payer, recipient or validated bill identity, principal, fee, total, currency and expiry. PIN/MFA approval creates a one-use quote/session-bound authorisation. Creating a payment first checks existing idempotency state, then atomically enforces account eligibility, daily/per-payment policy and available funds. Internal transfers post both accounts in one commit. External transfers/bills create a hold and durable work; the API returns accepted, not success.
+
+A worker claims a lease. A new external operation records submission before the request. A previously submitted operation is queried, never blindly resubmitted. Definitive observations must match original amount/currency/reference. Failure releases the hold; success releases and posts its debit atomically. Duplicate observations have no second effect. Unresolved work retains the hold and a visible pending state. Required next scope: returned funds and refunds must use linked compensating operations. Their execution adapters are not implemented in this release.
+
+Funding requires a known authorised customer mapping and authenticated scoped evidence; duplicate references replay without a second credit, changed amounts conflict. Reconciliation compares local references/amounts/outcomes with imported evidence and retains exceptions instead of directly changing balances. A provider/bank statement reconciliation is a distinct qualification from a self-consistent local ledger.
+
+Notifications are committed with domain changes. Novu delivery is asynchronous and never modifies the money outcome. Client-visible inbox content excludes verification codes, raw provider data and confidential case detail. Support cases are owner scoped; replies and decisions are audited.

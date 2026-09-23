@@ -111,6 +111,7 @@ def main() -> int:
             errors.append(f'Stale/missing generated output: {path.relative_to(ROOT)}')
     destinations = 0
     for md in ROOT.rglob('*.md'):
+        if any(part in {'.git', 'node_modules', 'vendor', 'dist', 'test-results', 'playwright-report', '.test-fixtures'} for part in md.parts): continue
         text = md.read_text(encoding='utf-8')
         for raw in re.findall(r'\]\(([^)]+)\)', text):
             url = raw.strip().split(' "', 1)[0]

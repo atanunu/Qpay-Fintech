@@ -1,7 +1,577 @@
 {
   "schema_version": 1,
   "service": "WebApp",
-  "status": "not_captured",
-  "reason": "Application is not implemented. Target diagrams are design evidence only.",
-  "captures": []
+  "status": "captured",
+  "captures": [
+    {
+      "path": "screenshots/login-desktop.png",
+      "screen": "login-desktop",
+      "route": "/login",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:02.333Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "64dcf3f69118df001278a1e4092dc0ad598b2f0290aaba0f13dfa48395302124"
+    },
+    {
+      "path": "screenshots/overview-desktop.png",
+      "screen": "overview-desktop",
+      "route": "/",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:03.874Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "88bcdcac5301e448e3fcea4b275c6691dfb1a4c322c2fbd718857b771961fe1a"
+    },
+    {
+      "path": "screenshots/transfers.png",
+      "screen": "transfers",
+      "route": "/transfers",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:05.148Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "d88b309927d2a22184f59fc8b9c982869ccf4c6daf7a7486f62aee5fa403033f"
+    },
+    {
+      "path": "screenshots/transfer-details.png",
+      "screen": "transfer-details",
+      "route": "/transfers/new",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:06.253Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "38a62b0e045d3e6167c677ef492ae1c92ec6eef757a21b09fb2207ec5937d1d9"
+    },
+    {
+      "path": "screenshots/bills.png",
+      "screen": "bills",
+      "route": "/bills",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:07.453Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "3e8ba487f87b7f9349e226eb92f986bbf0198785dc1ba1ba875c3c245ad0ec22"
+    },
+    {
+      "path": "screenshots/wallet.png",
+      "screen": "wallet",
+      "route": "/wallet",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:08.570Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "5609b4de93f911e2e3a77744115b253e25e51096c8b699bdacf1deac3479e7e4"
+    },
+    {
+      "path": "screenshots/activity.png",
+      "screen": "activity",
+      "route": "/activity",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:09.610Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "6aad2746e4a4c7f27539861aa44cd09c625a786ab8f4b50e1847e62f44d917b8"
+    },
+    {
+      "path": "screenshots/beneficiaries.png",
+      "screen": "beneficiaries",
+      "route": "/beneficiaries",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:10.740Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "edf13990951f4fdd9c369f70548133b46cdeaad13395219a75d911a6a512b7c4"
+    },
+    {
+      "path": "screenshots/statements.png",
+      "screen": "statements",
+      "route": "/statements",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:11.795Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "11f3c6be75a569a8bab81b116b1de072fded158dca22359176f8cd0de48a0a4e"
+    },
+    {
+      "path": "screenshots/notifications.png",
+      "screen": "notifications",
+      "route": "/notifications",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:12.879Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "020e88d3a4fc9fc8eb1ac3c97ed4863ca7faf7b92c600bdbf7dc38176beef7bc"
+    },
+    {
+      "path": "screenshots/profile.png",
+      "screen": "profile",
+      "route": "/settings/profile",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:13.923Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "641b24a15558c5f40619be042fbe90f854efbe02bbbd106bf2f0e7ebfab3a1c1"
+    },
+    {
+      "path": "screenshots/security.png",
+      "screen": "security",
+      "route": "/settings/security",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:14.998Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "93aa011316b5f7a896d1c3937c518ba1afdb5af3a45cc43d10ccd2db32694a62"
+    },
+    {
+      "path": "screenshots/devices.png",
+      "screen": "devices",
+      "route": "/settings/devices",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:16.046Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "8a5fe3693e340f3f105a417d25b76ab7765e5919aed9a4f6a539e9199497d46b"
+    },
+    {
+      "path": "screenshots/preferences.png",
+      "screen": "preferences",
+      "route": "/settings/preferences",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:17.111Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "fd9e8112320df2681ba42c1ee8d47e0dd93486b768c5e5cee8217c6402f65cee"
+    },
+    {
+      "path": "screenshots/privacy.png",
+      "screen": "privacy",
+      "route": "/settings/privacy",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:18.252Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "50d60839d438c00239e00588833f203067df4df9fe3a3fcf7a393a677e5c81ff"
+    },
+    {
+      "path": "screenshots/verification.png",
+      "screen": "verification",
+      "route": "/verification",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:19.353Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "89e34173d35504801abb77f36b73d442e651389ba4f7eaaaab7e3559148e5769"
+    },
+    {
+      "path": "screenshots/support.png",
+      "screen": "support",
+      "route": "/support",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:20.502Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "94c06d1cc07e342abfbc85f2880d6b9cf194c128b8baea5e952ece37ca84721f"
+    },
+    {
+      "path": "screenshots/support-new.png",
+      "screen": "support-new",
+      "route": "/support/new",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:21.579Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "34e631bcfcf9408fbfde7b90c3940fa360f1330299aa7386c69b2ec58af06481"
+    },
+    {
+      "path": "screenshots/review-workspace.png",
+      "screen": "review-workspace",
+      "route": "/review",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:22.976Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "b66eb82cba1f16f19f2176760523a67fc74f8cdd0bf65901893342786a66e256"
+    },
+    {
+      "path": "screenshots/saved-bills.png",
+      "screen": "saved-bills",
+      "route": "/bills/saved",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:24.526Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "b02e4433fd59037188d9daec8966300ba00cbed9b92347e48cc9826f94bc01e1"
+    },
+    {
+      "path": "screenshots/tokens.png",
+      "screen": "tokens",
+      "route": "/bills/tokens",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:25.542Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "0270400d84f8b92c76d1b0294a4a84234a3068298bef3ed52ae9947277294674"
+    },
+    {
+      "path": "screenshots/calendar.png",
+      "screen": "calendar",
+      "route": "/calendar",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:26.564Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "c164dd66f434dc505319299a41da11507872cea645bede03732af95ba3b05ce0"
+    },
+    {
+      "path": "screenshots/schedule.png",
+      "screen": "schedule",
+      "route": "/calendar/schedule",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:27.632Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "e3bfa5fbd558b44e5a94d4c70bd229b8aa1b0dd9e114a6ac16a81423b711fbe4"
+    },
+    {
+      "path": "screenshots/requests.png",
+      "screen": "requests",
+      "route": "/requests",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:28.721Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "5d978de8f051860610a3183f0d69b22b88a9abc50c398468927fc327dc937403"
+    },
+    {
+      "path": "screenshots/insights.png",
+      "screen": "insights",
+      "route": "/insights",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:29.728Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "4f8c07a05e85e5dc761ba6d4dc879a28591093c31aaef66ecc0c0dd8ceb18231"
+    },
+    {
+      "path": "screenshots/funding.png",
+      "screen": "funding",
+      "route": "/funding",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:30.830Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "948fe40ab18173095917dda5e5db6066f9e11a78f4e7d0e998201ac1209989dc"
+    },
+    {
+      "path": "screenshots/security-centre.png",
+      "screen": "security-centre",
+      "route": "/security-centre",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:31.990Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "0979991b94c663cce588e895fa34f04988f2c3627c639e41f9657c19f0f254f1"
+    },
+    {
+      "path": "screenshots/contact.png",
+      "screen": "contact",
+      "route": "/settings/contact",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:33.132Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "8f07b4fdc1c67dd60b066efa5e86522af16f40ff6da9b736bf303d349523d018"
+    },
+    {
+      "path": "screenshots/search.png",
+      "screen": "search",
+      "route": "/search",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:34.188Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "14110f30f52d3439ce440f1622f87c263e9d9181146c7e242e58d11d0ce8a80b"
+    },
+    {
+      "path": "screenshots/transfer-quote.png",
+      "screen": "transfer-quote",
+      "route": "/transfers/new?type=internal",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:35.856Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "e6ca7c0fa9fd11268f494ae1764c6d3e2e3e7224bae654e83905f4775d6af274"
+    },
+    {
+      "path": "screenshots/transfer-authorisation.png",
+      "screen": "transfer-authorisation",
+      "route": "/transfers/new?type=internal",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:36.824Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "430ab01ed551c9355f3c2e8eb9abb7c2117bf24caf6bced7298586a767b3ad06"
+    },
+    {
+      "path": "screenshots/transfer-result.png",
+      "screen": "transfer-result",
+      "route": "/activity/pay_review_4855a84cc37a43f79c0cb2fc97d0ff86",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:38.162Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "022e080504ac2cabab507ba0d8b0c01e36b3a29b60202cc4ad706b71d04127e6"
+    },
+    {
+      "path": "screenshots/receipt.png",
+      "screen": "receipt",
+      "route": "/activity/pay_review_4855a84cc37a43f79c0cb2fc97d0ff86",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:39.146Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "0b43948f23799bfa7c1c0c497b3722110354d5794b89758cd81b6e17d7b41aab"
+    },
+    {
+      "path": "screenshots/overview-dark.png",
+      "screen": "overview-dark",
+      "route": "/",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:40.685Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "d0fd04db4d4cc2dc922580e30c93fa019a6c53a19d35edbd155ec3d4f903c583"
+    },
+    {
+      "path": "screenshots/overview-mobile.png",
+      "screen": "overview-mobile",
+      "route": "/",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:41.753Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "ed342c607eef0dbf0cfc23708a13d911986f59f0e35ec8122bb36dad2802c867"
+    },
+    {
+      "path": "screenshots/navigation-mobile.png",
+      "screen": "navigation-mobile",
+      "route": "/",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:42.718Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "f3cfda1164ab491932d2f8f37832e22afd236b467d70c819ff6a98f3f08dab4e"
+    },
+    {
+      "path": "screenshots/bills-mobile.png",
+      "screen": "bills-mobile",
+      "route": "/bills",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:43.751Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "dfe6d8d0e8ad56249c92b740b0904db6fcb2f07da25deced5c400fd2f584b356"
+    },
+    {
+      "path": "screenshots/login-mobile.png",
+      "screen": "login-mobile",
+      "route": "/login",
+      "source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+      "captured_at": "2026-09-23T08:44:45.154Z",
+      "environment": "test",
+      "fixture_id": "qpf-review-v1",
+      "state": "synthetic-review",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "592dd4bf68675381da3cc9eaaff99bc32808b767a2925987aa95aea7433590e4"
+    }
+  ]
 }

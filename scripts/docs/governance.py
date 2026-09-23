@@ -99,6 +99,7 @@ def validate(root: Path) -> list[str]:
         if readme.is_file() and '**Approved stack:**' not in readme.read_text():
             errors.append(f'{service}: selected stack not explicit')
     for md in root.rglob('*.md'):
+        if any(part in {'.git', 'node_modules', 'vendor', 'dist', 'test-results', 'playwright-report', '.test-fixtures'} for part in md.parts): continue
         if '.git' in md.parts:continue
         if re.search(r'^```mermaid\s*$',md.read_text(),re.M):
             errors.append(f'{md.relative_to(root)}: Mermaid renderer not configured; use validated diagrams')

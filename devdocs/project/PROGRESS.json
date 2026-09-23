@@ -2,14 +2,14 @@
   "basis": "service task rows, not unique product features",
   "services": {
     "APIbackend": {
-      "total": 42,
+      "total": 58,
       "counts": {
         "Blocked": 0,
         "Deferred": 0,
         "Implemented": 0,
         "In progress": 0,
-        "Partial": 0,
-        "Planned": 42,
+        "Partial": 48,
+        "Planned": 10,
         "Unverified": 0
       }
     },
@@ -38,14 +38,14 @@
       }
     },
     "WebApp": {
-      "total": 21,
+      "total": 34,
       "counts": {
         "Blocked": 0,
         "Deferred": 0,
         "Implemented": 0,
         "In progress": 0,
-        "Partial": 0,
-        "Planned": 21,
+        "Partial": 33,
+        "Planned": 1,
         "Unverified": 0
       }
     },
@@ -62,5 +62,5 @@
       }
     }
   },
-  "total_task_rows": 141
+  "total_task_rows": 170
 }

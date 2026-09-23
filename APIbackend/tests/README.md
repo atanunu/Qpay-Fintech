@@ -1,4 +1,3 @@
-# Reserved implementation workspace
-Status: scaffold only. Backend unit, real PostgreSQL integration/concurrency, consumer-contract and failure/recovery suites. No application test or provider qualification exists yet.
+# Backend tests
 
-Read the service README and accepted ADRs before implementation. Add pinned manifests, real setup commands, tests and evidence with the first functional change; a directory is not a completed feature.
+Tests live beside their packages under internal/. Run go test -race with TEST_DATABASE_URL and QPF_REQUIRE_POSTGRES=true. See [validation](../docs/VALIDATION.md). Synthetic provider fixtures are not live financial acceptance. Local helper tests: node --test clients/client.test.mjs.

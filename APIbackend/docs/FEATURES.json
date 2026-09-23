@@ -7,40 +7,40 @@
       "capability": "Customer registration and verified contacts",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Reject duplicate and enumeration abuse without leaking identity",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "internal/service/auth.go; registration/challenge tests; real email transport acceptance pending"
     },
     {
       "id": "API-002",
       "capability": "Customer sessions and devices",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Rotate and revoke sessions with cross-device recovery tests",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "auth.go and browser.go; cookie/bearer and refresh-reuse tests; final rerun outstanding"
     },
     {
       "id": "API-003",
       "capability": "Separate staff identity and permissions",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Reject customer tokens and unauthorised operator actions",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "operations.go and HTTP staff boundary; invite lifecycle and final acceptance pending"
     },
     {
       "id": "API-004",
       "capability": "KYC cases and policy-based tiers",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Document decisions and enforce approved policy on every money action",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "KYC case/manual independent approval implemented; evidence ownership and KYC provider pending"
     },
     {
       "id": "API-005",
@@ -50,77 +50,77 @@
       "status": "Planned",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Recover duplicate or ambiguous provisioning without creating unrelated accounts",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Partner account provisioning and customer funding instructions not implemented"
     },
     {
       "id": "API-006",
       "capability": "PostgreSQL schema and migrations",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Clean setup and compatible migrations pass against real PostgreSQL",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "schema.sql and migrate.go; PostgreSQL migration tests executed in candidate suite"
     },
     {
       "id": "API-007",
       "capability": "Balanced append-only ledger",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Every journal balances and corrections preserve original postings",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "schema.sql journal/posting triggers and payments.go; immutable/balanced ledger tests"
     },
     {
       "id": "API-008",
       "capability": "Atomic available funds and holds",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Concurrent debit tests cannot overspend or double-release holds",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "hold trigger and locked payment transaction; concurrent overspend and capture tests"
     },
     {
       "id": "API-009",
       "capability": "Lossless money and currency encoding",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Round-trip large minor-unit amounts across all clients without precision loss",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "model.go Money string encoding; boundary/float/negative tests"
     },
     {
       "id": "API-010",
       "capability": "Versioned quotes fees and limits",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Reject changed or expired quotes and audit effective policy versions",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "immutable quotes and versioned policy; full tier/provider repricing qualification pending"
     },
     {
       "id": "API-011",
       "capability": "Durable idempotent financial intents",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Same key replays safely and changed payload conflicts",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "owner/key fingerprint and quote binding; concurrent replay tests"
     },
     {
       "id": "API-012",
       "capability": "Transactional outbox and workers",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Recover worker crashes without losing work or duplicating financial effect",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "PostgreSQL leased payment jobs and notification intents; operational recovery still requires acceptance"
     },
     {
       "id": "API-013",
@@ -130,117 +130,117 @@
       "status": "Planned",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Reject forgery and deduplicate scoped late or reordered events",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Verified upstream callback inbox and funding producer not implemented"
     },
     {
       "id": "API-014",
       "capability": "Bank and virtual-account funding",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Verified credits reconcile and unmatched receipts enter investigation",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Idempotent CreditFunding primitive tested; bank provisioning/callback integration not implemented"
     },
     {
       "id": "API-015",
       "capability": "Bank directory and account-name enquiry",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Use authoritative enquiry and control enumeration and stale results",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "upstream/qpay.go and local simulator; real upstream capability acceptance pending"
     },
     {
       "id": "API-016",
       "capability": "Persistent scoped beneficiaries",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Cross-customer access fails and edited beneficiaries require valid reauthorisation",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "owned enquiries and beneficiaries; current account enquiry at quote creation"
     },
     {
       "id": "API-017",
       "capability": "Internal wallet transfers",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Both sides post atomically with correct authorisation and limits",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "atomic two-wallet posting; internal transfer and concurrent overspend tests"
     },
     {
       "id": "API-018",
       "capability": "External bank transfers",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Binding quote and durable intent produce a queryable supported result",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "external holds and original-reference worker; QPay sandbox/live acceptance pending"
     },
     {
       "id": "API-019",
       "capability": "Ambiguous-operation recovery",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Timeout followed by late success never triggers a second payout",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "timeout/crash query-only recovery; operational reconciliation of undiscoverable originals pending"
     },
     {
       "id": "API-020",
       "capability": "Canonical biller and product catalogue",
       "milestone": "M3",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Version and map upstream products without duplicate or unavailable offerings",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "bounded QPay catalogue adapter; full provider catalogue pagination/coverage pending"
     },
     {
       "id": "API-021",
       "capability": "Bill validation and authoritative quote",
       "milestone": "M3",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Require applicable customer validation and reject stale product pricing",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "amount-bound bill validation and quotes; provider-specific acceptance pending"
     },
     {
       "id": "API-022",
       "capability": "Bill vend and token recovery",
       "milestone": "M3",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Track financial outcome separately from token delivery and recover delayed fulfilment",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "financial/fulfilment state separation and encrypted token recovery; provider acceptance pending"
     },
     {
       "id": "API-023",
       "capability": "Refunds returns and disputes",
       "milestone": "M3",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Apply supported linked compensating operations without erasing history",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "dispute case records exist; actual returns/refunds and compensating execution not implemented"
     },
     {
       "id": "API-024",
       "capability": "Three-way reconciliation",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Match product ledger upstream and settlement evidence and expose aged breaks",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "imported-record comparison exists; complete three-way reconciliation remains outstanding"
     },
     {
       "id": "API-025",
@@ -250,57 +250,57 @@
       "status": "Planned",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Detect low float and reconcile settlement and fee obligations",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Automated treasury/float/settlement management not implemented"
     },
     {
       "id": "API-026",
       "capability": "Risk rules and account restrictions",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Enforce server-side restrictions with reason codes and audit",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "manual restrictions and financial eligibility checks; automated risk controls pending"
     },
     {
       "id": "API-027",
       "capability": "Audit and independent approval engine",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Reject self-approval and preserve immutable evidence for privileged changes",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "limited versioned maker-checker actions; broader approval coverage pending"
     },
     {
       "id": "API-028",
       "capability": "History statements and receipts",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Export scoped authoritative transactions without false success receipts",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "scoped ledger/payment history, JSON/CSV statements and success receipts; expanded export lifecycle pending"
     },
     {
       "id": "API-029",
       "capability": "Notification delivery lifecycle",
       "milestone": "M2",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Retry and track channel failures without altering financial outcome",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "durable intents, Novu trigger adapter and policy endpoint; delivery callbacks/unsubscribe/live setup pending"
     },
     {
       "id": "API-030",
       "capability": "Support and complaints API",
       "milestone": "M3",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Link cases to scoped operations with escalation and resolution history",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "owned cases, encrypted replies and staff support operations; private attachments/escalation implemented under API-055; SLA/inbound assignment pending"
     },
     {
       "id": "API-031",
@@ -310,57 +310,57 @@
       "status": "Planned",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Expire signed access and enforce approved retention and legal holds",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Private document ownership, upload scanning, signed access and retention not implemented"
     },
     {
       "id": "API-032",
       "capability": "OpenAPI schemas and generated clients",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Validate contracts and detect breaking client drift",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "route-generated OpenAPI, transport helper and TypeScript definitions; contract generation/parameter uniqueness verified; full schema/client-drift qualification pending"
     },
     {
       "id": "API-033",
       "capability": "Metrics logs and traces",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Correlate intent and provider events while redacting sensitive data",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "structured redacted logs, health endpoints and request IDs; full metrics/tracing pending"
     },
     {
       "id": "API-034",
       "capability": "Distributed abuse controls",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Limits remain effective across instances and identity enquiry channels",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "PostgreSQL-backed request/login/challenge/PIN limits; distributed load and proxy policy acceptance pending"
     },
     {
       "id": "API-035",
       "capability": "Key rotation and off-host recovery",
       "milestone": "M4",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Restore keys and data independently and reconcile pending operations",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "AES-GCM keyring supports historical keys; independent rotation/restore drill not performed"
     },
     {
       "id": "API-036",
       "capability": "Load concurrency and release evidence",
       "milestone": "M4",
       "priority": "P0",
-      "status": "Planned",
+      "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Execute financial failure suites and meet approved operating objectives",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "real PostgreSQL/race suite added; final rerun, load and container acceptance outstanding"
     },
     {
       "id": "API-037",
@@ -370,7 +370,7 @@
       "status": "Planned",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Decompose epic and prove explicit consent cancellation and duplicate-safe execution",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Recurring mandates and scheduling not implemented"
     },
     {
       "id": "API-038",
@@ -380,7 +380,7 @@
       "status": "Planned",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Decompose epic with organisation boundaries approvals and per-item outcomes",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Business KYB/payroll/bulk payouts not implemented"
     },
     {
       "id": "API-039",
@@ -390,7 +390,7 @@
       "status": "Planned",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Decompose epic with settlement refunds expiry and merchant ownership",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Merchant collections/QR/payment links not implemented"
     },
     {
       "id": "API-040",
@@ -400,7 +400,7 @@
       "status": "Planned",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Decompose epic with reward liability fraud rules and customer disclosure",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Rewards/referrals/budgeting not implemented"
     },
     {
       "id": "API-041",
@@ -410,7 +410,7 @@
       "status": "Planned",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Decompose epic with scoped credentials signed events and developer acceptance",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Partner APIs and outbound financial webhooks not implemented"
     },
     {
       "id": "API-042",
@@ -420,7 +420,167 @@
       "status": "Planned",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Split each product into separately approved legal financial and technical work",
-      "evidence": "Not implemented; tests not run; issue not created"
+      "evidence": "Separately approved regulated products not implemented"
+    },
+    {
+      "id": "API-043",
+      "capability": "Customer capabilities personal controls and exact handles",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/customer_parity.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-044",
+      "capability": "One-off bank quotes and direct original lookup",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/payments.go; customer_parity.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-045",
+      "capability": "Private household bills and timestamped biller watches",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/bill_management.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-046",
+      "capability": "Time-zone aware reminder occurrences",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/bill_management.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-047",
+      "capability": "Bounded internal mandates and one-effect scheduler",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/mandates.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-048",
+      "capability": "Requests partial shares and atomic ledger linkage",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/money_requests.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-049",
+      "capability": "Posted-month insights annotations and budgets",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/insights.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-050",
+      "capability": "Checked encrypted private document storage",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/private_uploads.go; internal/privateobjects/; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-051",
+      "capability": "Resumable identity and immutable review snapshots",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/identity_privacy.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-052",
+      "capability": "WebAuthn credential and ceremony verification",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/passkeys.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-053",
+      "capability": "Dual-mailbox verified email changes",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/identity_privacy.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-054",
+      "capability": "Zero-balance closure and scoped profile export",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/identity_privacy.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-055",
+      "capability": "Support evidence escalation and event history",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/support.go; identity_privacy.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-056",
+      "capability": "Persistent funding provisioning and independent credit verification interface",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/funding_accounts.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-057",
+      "capability": "Additive version-two migrations and contract exports",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/migrate.go; parity_v2.sql; internal/httpapi/parity_routes.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-058",
+      "capability": "Real API browser and private-object regression qualification",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/parity_test.go; WebApp/e2e/parity.api.spec.ts; parity domain tests and client integration suite"
     }
   ]
 }

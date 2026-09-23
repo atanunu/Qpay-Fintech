@@ -76,3 +76,6 @@ See [roadmap](../devdocs/project/12-ROADMAP.md). This README is the canonical de
 Integrate the selected self-hosted inbox SDK, push registration and secure notification deep links when qualified. Email content is owned by Novu; no sensitive payload or Novu secret belongs in the mobile bundle.
 
 The permanent service directory is [Novu](../Novu/README.md), not `Notifications/`. Read [notification contracts](../devdocs/Novu/04-CONTRACTS-AND-DELIVERY.md). Built-in email content is not evidence that this application integration is complete.
+
+### Customer parity integration — 2026-09-23
+APIbackend migration two adds owned documents, identity review, personal controls, request/schedule records, funding-adapter lifecycle and insights. Consult [parity API](../APIbackend/docs/PARITY-API.md). This service’s UI/source tasks are still Planned; the WebApp implementation does not automatically complete native mobile or staff-dashboard work.

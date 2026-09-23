@@ -1,4 +1,4 @@
-# Reserved implementation workspace
-Status: scaffold only. React customer UI source. Separate authentication shell, responsive navigation, money journeys, support/security flows and generated API client. No local financial authority or offline money execution.
+# Web source ownership
+`api/` owns typed transport, validation, lossless money, original-operation recovery and integration-gap metadata. `review/` is an explicitly selected synthetic UI harness, never an API-error fallback. `state.tsx` owns session/resource lifecycle without persisting credentials. `components/` contains shared accessible controls and independent portal/auth shells. `pages/` implements complete customer journeys and labelled API-pending drafts. `styles/` owns responsive light/dark presentation; no external tracking/fonts are required.
 
-Read the service README and accepted ADRs before implementation. Add pinned manifests, real setup commands, tests and evidence with the first functional change; a directory is not a completed feature.
+The browser never calls QPay or Novu using master credentials. Review the [API mapping](../docs/API-MAPPING.md) before changing request contracts. Keep financial side effects behind explicit approval and never auto-replay writes.

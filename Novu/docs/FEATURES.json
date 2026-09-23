@@ -19,7 +19,7 @@
       "priority": "P0",
       "status": "Implemented",
       "specification": "[Spec](../devdocs/Novu/02-EMAIL-CATALOGUE.md)",
-      "acceptance": "164 unique copy-bearing scenarios and synthetic fixtures validate",
+      "acceptance": "175 unique copy-bearing scenarios and synthetic fixtures validate",
       "evidence": "catalogue/emails.psv; content tests; docs/CONTENT-SUMMARY.json"
     },
     {

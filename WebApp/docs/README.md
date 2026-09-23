@@ -1,4 +1,7 @@
-# WebApp documentation and evidence
-The [service README](../README.md) is the canonical task register. FEATURES.json is generated; do not edit it independently. SCREENSHOTS.json records only actual synthetic-data runtime captures. It is intentionally empty while the application is unimplemented. The shared diagram is target architecture, not a screenshot.
+# Web application documentation
 
-Required capture fields: path relative to this manifest, screen/route, source_commit (full SHA), captured_at (UTC), environment, fixture_id, state, viewport/device and sha256. No secrets or real customer evidence. Read [the visual standard](../../devdocs/project/09-UX-AND-SCREEN-PLAN.md) before capture.
+[Canonical service register](../README.md) · [API mapping](API-MAPPING.md) · [In-person testing](IN-PERSON-TESTING.md) · [Security and operations](SECURITY-AND-OPERATIONS.md) · [Validation](VALIDATION.md).
+
+The screenshot manifest records genuine synthetic-data captures of the running React application, never a design mockup presented as a live backend. Capture exact source revision, time, route/state, viewport, environment and hash. Keep MFA QR/recovery-code modals, passwords, personal documents and real financial records out of published captures.
+
+FEATURES.json is generated from the service README. GAP IDs map API shortcomings without promoting UI drafts to executed account or financial actions. Review mode, API-connected local acceptance and live provider acceptance are separate dimensions.

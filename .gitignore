@@ -22,3 +22,13 @@ __pycache__/
 .docs-capture/
 .test-output/
 .local/
+
+# Explicit non-secret review configuration and generated browser artefacts
+!WebApp/.env.review
+**/local-secrets/
+**/test-results/
+**/playwright-report/
+APIbackend/evidence/
+
+**/.test-fixtures/
+WebApp/dependency-audit.json

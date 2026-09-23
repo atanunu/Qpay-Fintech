@@ -1,6 +1,6 @@
 # Qpay-Fintech
 
-**Documentation and notification-content baseline v0.3 — 22 September 2026.** Four fintech product applications plus the approved self-hosted `Novu/` notification service. The original 114 application tasks remain Planned. Novu now includes locally rendered email content and tests, but no live notification deployment, provider acceptance, payment execution or production-ready product is claimed. Task completion and live acceptance remain separate.
+**Customer parity review candidate v0.6 — 23 September 2026.** WebApp and APIbackend now implement everyday-money improvements with an additive database migration: private identity/support documents, passkeys, personal limits, exact recipients, household bills, calendar reminders, bounded internal schedules, requests/split shares, monthly insights, dual-mailbox changes and guarded closure. Real transaction providers and specialised products remain gated. Final CI and manual in-person acceptance are distinct from implemented source.
 
 ## Product and operating scope
 Initial product-planning scope: Nigeria, NGN and adult individual customers targeting a partner-backed operating model. This is a planning baseline, not regulatory approval; legal entity, partner agreements and operating permissions still require verification. Bills and transfers must include the ledger, recovery, reconciliation, risk, support and operational controls that make them usable end to end. Growth and separately regulated products require explicit approval.
@@ -25,7 +25,7 @@ APIbackend/       Go API, worker, scheduler, internal domains, migrations and te
 MobileApp/        React Native source, tests and independent documentation
 AdminDashboard/   Bespoke staff web source, tests and independent documentation
 WebApp/           Customer web source, tests and independent documentation
-Novu/             Self-hosted notification specs, 164 email scenarios, six themes and tests
+Novu/             Self-hosted notification specs, 175 email scenarios, six themes and tests
 contracts/        OpenAPI, events and synthetic contract-fixture workspaces
 devdocs/          Shared plans, service indexes, ADRs and delivery templates
 docs/diagrams/    Canonical target-design source and rendered SVG images
@@ -34,12 +34,12 @@ tests/acceptance/ Cross-service acceptance workspace
 scripts/docs/     Executable documentation checks and regression tests
 .github/          Read-only CI, ownership and contribution templates
 ```
-The four product apps remain scaffold workspaces. `Novu/` has runnable offline content tooling, not a deployed orchestration service.
+WebApp contains runnable customer UI, two explicit transports, tests and in-person review tools. APIbackend contains the persistent core and local test runtime, with its remaining work tracked. MobileApp and AdminDashboard remain planned scaffolds. Novu contains offline content and a partial live integration.
 
 ## Images and visual evidence
 
 ![Approved target architecture; not implemented](docs/diagrams/system.svg)
-No real product screenshots exist because these applications are not implemented. Architecture diagrams are target-state source, not deployment evidence. Follow the [screen and provenance plan](devdocs/project/09-UX-AND-SCREEN-PLAN.md): capture actual running screens with synthetic data, source commit, route, device/viewport, timestamp and hash. Never present a design mockup or provider logo as integration proof.
+WebApp screenshots must come from the running synthetic review or isolated local API, never be labelled live-provider evidence. The normal-HTTP suite now provides 38 runtime captures with passing accessibility and overflow checks. Architecture diagrams are target-state source, not deployment evidence. Follow the [screen and provenance plan](devdocs/project/09-UX-AND-SCREEN-PLAN.md): capture actual running screens with synthetic data, source commit, route, device/viewport, timestamp and hash. Never present a design mockup or provider logo as integration proof.
 
 [Built-in email-theme previews](Novu/README.md) show actual local template rendering with synthetic data, not live Novu or delivered-email screenshots. The notification architecture is an additive target boundary; the original system diagram remains a target view of the four product apps.
 
@@ -49,16 +49,16 @@ The following derived summary counts service task rows. These are not unique end
 <!-- PROGRESS:START -->
 | Service | Total tasks | Planned | In progress | Partial | Implemented | Blocked | Unverified | Deferred |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [APIbackend](APIbackend/README.md) | 42 | 42 | 0 | 0 | 0 | 0 | 0 | 0 |
+| [APIbackend](APIbackend/README.md) | 58 | 10 | 0 | 48 | 0 | 0 | 0 | 0 |
 | [MobileApp](MobileApp/README.md) | 25 | 25 | 0 | 0 | 0 | 0 | 0 | 0 |
 | [AdminDashboard](AdminDashboard/README.md) | 26 | 26 | 0 | 0 | 0 | 0 | 0 | 0 |
-| [WebApp](WebApp/README.md) | 21 | 21 | 0 | 0 | 0 | 0 | 0 | 0 |
+| [WebApp](WebApp/README.md) | 34 | 1 | 0 | 33 | 0 | 0 | 0 | 0 |
 | [Novu](Novu/README.md) | 27 | 19 | 0 | 1 | 6 | 0 | 0 | 1 |
 <!-- PROGRESS:END -->
 
 See [documentation task progress](devdocs/project/DOCUMENTATION-PROGRESS.md) for completed foundation work and remaining specification gates.
 
-Documentation baseline: shared plans, accepted ADRs, service README registers, repository structure, governance, templates and executable consistency checks. Financial application features implemented: none. Novu content: 164 scenarios, six themes and 207 passing local content/contract tests. Real Framework integration, provider acceptance and deployment: unverified/not performed. See [validation report](devdocs/project/VALIDATION-REPORT.md) for the exact scope of documentation-only checks.
+Implementation baseline: persistent Go core; responsive React customer journeys and clearly marked API-pending drafts; explicit synthetic scenarios; 71 passing local WebApp unit/contract tests. Normal HTTP browser and real API/PostgreSQL verification are separate CI gates. Novu retains 175 content scenarios and six themes, with live bridge/provider acceptance still pending. See [validation report](devdocs/project/VALIDATION-REPORT.md) for the exact scope of documentation-only checks.
 
 ## Documentation and open decisions
 Start with [devdocs/00-INDEX.md](devdocs/00-INDEX.md). The [full document inventory](devdocs/project/17-DOCUMENT-INVENTORY.md) distinguishes drafted planning documents from detailed specifications still to write. Open launch decisions include operating authority/custody, provider contracts, hostnames, production infrastructure, theme counts and release objectives. Stack and E1 integration are accepted in [ADR-0001](devdocs/adrs/0001-APPROVED-ARCHITECTURE.md).
@@ -67,7 +67,7 @@ Start with [devdocs/00-INDEX.md](devdocs/00-INDEX.md). The [full document invent
 [M0–M6 roadmap](devdocs/project/12-ROADMAP.md): decisions, foundations, an end-to-end transfer slice, bill operations, release acceptance, approved growth and separately gated products. The canonical detailed registers are the five service READMEs. Novu adds 27 tracked tasks; content-ready does not mean live-delivery-ready. Derived JSON files must remain in sync. A documentation workflow and issue/PR templates are included. Product issue allocation, Projects boards and branch-protection activation remain tracked setup tasks.
 
 ## Setup and configuration
-No financial application runtime or live Novu setup exists yet. Documentation tooling:
+The API and WebApp provide local review runtimes; Novu is not deployed. Start with [WebApp setup and test procedure](WebApp/README.md) and [backend operations](APIbackend/docs/OPERATIONS.md). Documentation tooling:
 
 ```sh
 python3 scripts/docs/check.py --write
@@ -89,13 +89,25 @@ Read the [self-hosted deployment/import plan](devdocs/Novu/05-DEPLOYMENT-AND-IMP
 The first documentation command updates generated summaries; the second checks their consistency. Read [tooling limitations](scripts/docs/README.md). Add actual application prerequisites, secure environment examples, migrations, fixtures and build commands with the first application implementation.
 
 ## Tests, CI and release readiness
-Use the [acceptance plan](devdocs/project/10-TESTING-AND-ACCEPTANCE.md). Documentation generation is not a test of the financial engine. The documentation workflow is committed for push/PR checking. A separate read-only notification-content CI job renders and tests the built-in templates. Financial application CI, real Novu/provider acceptance and required-check repository rules remain separate gates. Every implementation report must state exact commit, commands, environment, passes, failures and skips. Provider/live financial and independent recovery acceptance are separate gates.
+Use the [acceptance plan](devdocs/project/10-TESTING-AND-ACCEPTANCE.md). Documentation generation is not a test of the financial engine. The documentation workflow is committed for push/PR checking. A separate read-only notification-content CI job renders and tests the built-in templates. The Go/PostgreSQL and WebApp unit/browser workflows are supplied. Their exact commit results, real Novu/provider acceptance and required-check repository rules remain separate gates. Every implementation report must state exact commit, commands, environment, passes, failures and skips. Provider/live financial and independent recovery acceptance are separate gates.
 
 ## Security and contributions
 [Security policy](SECURITY.md) · [Contributing](CONTRIBUTING.md) · [Agent rules](AGENTS.md). Never publish secrets or real customer/KYC/payment data. Staff and customer sessions are independent. Read [security/compliance](devdocs/project/07-SECURITY-AND-COMPLIANCE.md) and [operations](devdocs/project/11-OPERATIONS-AND-DEPLOYMENT.md) before live activation.
 
 ## Limitations and launch blockers
-Launch blockers: legal/custody approval, provider agreements, detailed executable contracts/schema, application implementation, independent security review, financial reconciliation qualification, off-host recovery, signed app distribution and operating support. No completed QPay features are inherited by copying their names.
+Launch blockers: legal/custody approval, provider agreements, remaining contract/product coverage, MobileApp/AdminDashboard and remaining API implementation, independent security review, financial reconciliation qualification, off-host recovery, signed app distribution and operating support. No completed QPay features are inherited by copying their names. The 14 WebApp GAP items drive in-person review before upstream activation.
 
 ## Changelog
-[Project changelog](CHANGELOG.md). 2026-09-22: self-hosted Novu accepted, email content/themes and traceable notification plan added;  recommended stack and E1 approved; documentation, ADRs, repository structure and validation workflow established. See the changelog and handover for the exact scope.
+[Project changelog](CHANGELOG.md). 2026-09-23: WebApp and the backend review core brought together with explicit test modes, endpoint gaps and browser acceptance; 2026-09-22: self-hosted Novu accepted, email content/themes and traceable notification plan added;  recommended stack and E1 approved; documentation, ADRs, repository structure and validation workflow established. See the changelog and handover for the exact scope.
+
+## In-person customer review
+[WebApp](WebApp/README.md) · [Test procedure](WebApp/docs/IN-PERSON-TESTING.md) · [API mapping](WebApp/docs/API-MAPPING.md) · [Web verification](WebApp/docs/VALIDATION.md). Synthetic UI and actual Go/PostgreSQL tests are distinct; both remain separate from actual provider acceptance.
+
+## Everyday-customer parity delivery
+[Parity scope and gaps](devdocs/WebApp/02-COMPETITOR-PARITY.md) · [API contracts](APIbackend/docs/PARITY-API.md) · [Browser evidence](WebApp/docs/VALIDATION.md). The original task identifiers remain intact. New source is tracked as component implementation, not blanket certification.
+
+## Verified development delivery
+
+![Qpay customer overview — actual synthetic runtime](WebApp/docs/screenshots/overview-desktop.png)
+
+[Delivery verification and CI results](devdocs/project/GITHUB-DELIVERY.md) · [38-screen runtime gallery](WebApp/docs/SCREENSHOTS.md) · [Machine-readable evidence](devdocs/project/DELIVERY-VERIFICATION.json). Source, normal-browser/Go integration, builds and documentation are verified; manual UAT, real provider qualification and production activation remain separate.
