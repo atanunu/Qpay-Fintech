@@ -1,0 +1,41 @@
+name: Publish form readiness corrections
+on:
+  push:
+    branches: [recovery/parity-delivery]
+    paths: [.github/workflows/delivery-form-readiness.yml]
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: github.repository == 'atanunu/Qpay-Fintech' && github.ref == 'refs/heads/recovery/parity-delivery'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Correct input readiness without weakening payment or browser assertions
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+          expected='939bccb5e8ca2c3ffd36561c08d1ed66f9bf14cf'
+          subprocess.run(['git','fetch','origin','build/webapp-v1'],check=True)
+          assert subprocess.check_output(['git','rev-parse','origin/build/webapp-v1'],text=True).strip()==expected
+          subprocess.run(['git','checkout','-B','build/webapp-v1','origin/build/webapp-v1'],check=True)
+          p=Path('WebApp/src/pages/payments.tsx');s=p.read_text();old="disabled={!canExecute || Boolean(unresolved) || kind === 'bank'";assert s.count(old)==1;p.write_text(s.replace(old,"disabled={!canExecute || Boolean(unresolved) || bill && (products.loading || !selectedProduct) || kind === 'bank'"))
+          p=Path('WebApp/e2e/review.spec.ts');s=p.read_text();old="await expect(page).toHaveURL(/forgot-password/);await page.getByLabel('Email address')";assert s.count(old)==1;p.write_text(s.replace(old,"await expect(page).toHaveURL(/forgot-password/);await expect(page.getByRole('heading',{name:/get you back in/})).toBeVisible();await page.getByLabel('Email address')"))
+          note='\nForm readiness: bill validation remains disabled until the requested product is loaded. The recovery browser case waits for the actual recovery screen before typing, not only its URL. GitHub run 35837962795 passed all 11 actual Go/PostgreSQL browser journeys and all 38 screenshot/accessibility captures; two review form races were corrected here and remain subject to a full rerun. No assertions or retries were removed.\n'
+          for name in ['README.md','WebApp/README.md','devdocs/project/GITHUB-DELIVERY.md']:
+              p=Path(name);p.write_text(p.read_text()+note)
+          subprocess.run(['python3','scripts/docs/check.py','--write'],check=True)
+          subprocess.run(['python3','scripts/docs/check.py','--check'],check=True)
+          subprocess.run(['git','add','-A'],check=True)
+          assert not subprocess.check_output(['git','diff','--cached','--name-only','--','.github','.build'],text=True).strip()
+          subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+          subprocess.run(['git','commit','-m','fix(web): gate bill validation on loaded product and synchronize recovery screen test'],check=True)
+          subprocess.run(['git','push','origin','HEAD:refs/heads/build/webapp-v1'],check=True)
+          PY
+# Development source only; no provider or deployment changes.
