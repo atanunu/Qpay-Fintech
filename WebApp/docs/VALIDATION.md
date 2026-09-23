@@ -1,10 +1,7 @@
-# WebApp v0.6 verification record
+# WebApp v0.6 verification
 
-## Local evidence
-TypeScript and 71 frontend unit/review contract tests passed. The additive Go parity domain suite passed against isolated PostgreSQL 16. Full Go race/private-object and content reruns are recorded separately before publication. The content catalogue contains 175 entries.
+TypeScript, 79 unit/contract tests, API/review/offline builds, 20 synthetic-browser tests, 11 actual Go/PostgreSQL-browser tests and 38 runtime captures with accessibility/overflow checks passed. Browser failures uncovered during delivery were fixed without removing assertions or enabling retries.
 
-## Browser and CI evidence
-Expanded normal-HTTP review and real Go/PostgreSQL browser suites are supplied, including a real cryptographic WebAuthn ceremony using a virtual authenticator. Final run/commit results are pending and must not be inferred from local compilation or component rendering. Existing baseline browser failures are retained as history, not silently called passed.
+[Exact source revisions, run links and counts](../../devdocs/project/GITHUB-DELIVERY.md) · [Screenshots](SCREENSHOTS.md) · [Provenance](SCREENSHOTS.json). The virtual-authenticator test uses real cryptographic WebAuthn verification against the Go backend.
 
-## Remaining acceptance
-In-person UAT remains not-tested. Real QPay funding, Novu delivery, private S3/ClamAV deployment, all-record privacy export, full financial/refund/treasury work and operational security/recovery remain separate. No live provider or real money was used. Exact screenshots require source/hash provenance.
+In-person UAT is not-tested. Real QPay/Novu delivery, production private S3/scanner deployment, remaining financial/privacy operations and independent security/recovery are not accepted by these tests. No real provider calls or real-money operations were performed.

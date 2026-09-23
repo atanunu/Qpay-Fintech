@@ -39,7 +39,7 @@ WebApp contains runnable customer UI, two explicit transports, tests and in-pers
 ## Images and visual evidence
 
 ![Approved target architecture; not implemented](docs/diagrams/system.svg)
-WebApp screenshots must come from the running synthetic review or isolated local API, never be labelled live-provider evidence. Its first local component-render captures and normal HTTP capture suite are being verified. Architecture diagrams are target-state source, not deployment evidence. Follow the [screen and provenance plan](devdocs/project/09-UX-AND-SCREEN-PLAN.md): capture actual running screens with synthetic data, source commit, route, device/viewport, timestamp and hash. Never present a design mockup or provider logo as integration proof.
+WebApp screenshots must come from the running synthetic review or isolated local API, never be labelled live-provider evidence. The normal-HTTP suite now provides 38 runtime captures with passing accessibility and overflow checks. Architecture diagrams are target-state source, not deployment evidence. Follow the [screen and provenance plan](devdocs/project/09-UX-AND-SCREEN-PLAN.md): capture actual running screens with synthetic data, source commit, route, device/viewport, timestamp and hash. Never present a design mockup or provider logo as integration proof.
 
 [Built-in email-theme previews](Novu/README.md) show actual local template rendering with synthetic data, not live Novu or delivered-email screenshots. The notification architecture is an additive target boundary; the original system diagram remains a target view of the four product apps.
 
@@ -95,7 +95,7 @@ Use the [acceptance plan](devdocs/project/10-TESTING-AND-ACCEPTANCE.md). Documen
 [Security policy](SECURITY.md) · [Contributing](CONTRIBUTING.md) · [Agent rules](AGENTS.md). Never publish secrets or real customer/KYC/payment data. Staff and customer sessions are independent. Read [security/compliance](devdocs/project/07-SECURITY-AND-COMPLIANCE.md) and [operations](devdocs/project/11-OPERATIONS-AND-DEPLOYMENT.md) before live activation.
 
 ## Limitations and launch blockers
-Launch blockers: legal/custody approval, provider agreements, detailed executable contracts/schema, application implementation, independent security review, financial reconciliation qualification, off-host recovery, signed app distribution and operating support. No completed QPay features are inherited by copying their names. The 14 WebApp GAP items drive in-person review before upstream activation.
+Launch blockers: legal/custody approval, provider agreements, remaining contract/product coverage, MobileApp/AdminDashboard and remaining API implementation, independent security review, financial reconciliation qualification, off-host recovery, signed app distribution and operating support. No completed QPay features are inherited by copying their names. The 14 WebApp GAP items drive in-person review before upstream activation.
 
 ## Changelog
 [Project changelog](CHANGELOG.md). 2026-09-23: WebApp and the backend review core brought together with explicit test modes, endpoint gaps and browser acceptance; 2026-09-22: self-hosted Novu accepted, email content/themes and traceable notification plan added;  recommended stack and E1 approved; documentation, ADRs, repository structure and validation workflow established. See the changelog and handover for the exact scope.
@@ -106,8 +106,8 @@ Launch blockers: legal/custody approval, provider agreements, detailed executabl
 ## Everyday-customer parity delivery
 [Parity scope and gaps](devdocs/WebApp/02-COMPETITOR-PARITY.md) · [API contracts](APIbackend/docs/PARITY-API.md) · [Browser evidence](WebApp/docs/VALIDATION.md). The original task identifiers remain intact. New source is tracked as component implementation, not blanket certification.
 
-Delivery recovery: hash-verified application records restored, documentation tail rebuilt and OpenAPI duplication corrected. [Delivery evidence and remaining acceptance](devdocs/project/GITHUB-DELIVERY.md).
+## Verified development delivery
 
-Browser delivery correction: native fetch receiver fixed in both clients; customer capability display now uses the API payments field and fails closed on unknown values; bank quote submission waits for its selected beneficiary; recovery tests wait for route changes. Added regression tests. Local frontend tests: 79 passed; shared client tests: 7 passed. GitHub rerun and manual UAT remain distinct acceptance gates.
+![Qpay customer overview — actual synthetic runtime](WebApp/docs/screenshots/overview-desktop.png)
 
-Form readiness: bill validation remains disabled until the requested product is loaded. The recovery browser case waits for the actual recovery screen before typing, not only its URL. GitHub run 35837962795 passed all 11 actual Go/PostgreSQL browser journeys and all 38 screenshot/accessibility captures; two review form races were corrected here and remain subject to a full rerun. No assertions or retries were removed.
+[Delivery verification and CI results](devdocs/project/GITHUB-DELIVERY.md) · [38-screen runtime gallery](WebApp/docs/SCREENSHOTS.md) · [Machine-readable evidence](devdocs/project/DELIVERY-VERIFICATION.json). Source, normal-browser/Go integration, builds and documentation are verified; manual UAT, real provider qualification and production activation remain separate.

@@ -13,3 +13,6 @@ Built responsive React customer authentication, transfers, bills, wallet/activit
 
 ## 0.6.0 — 2026-09-23
 Approved customer parity implementation in WebApp and APIbackend, additive migration two, eleven new notification events, private storage/passkeys, schedules/requests/insights and expanded isolated verification. Provider and in-person acceptance remain separate.
+
+## 2026-09-23 — GitHub development delivery
+Recovered pending source, corrected browser transport/capability/form-readiness bugs and OpenAPI parameters, verified normal browser and Go/PostgreSQL suites, and published 38 runtime screenshots with provenance. Manual and production/provider gates remain outstanding.

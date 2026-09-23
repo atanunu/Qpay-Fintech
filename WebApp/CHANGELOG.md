@@ -5,3 +5,6 @@ Approved everyday-customer parity implementation; owner-scoped Go APIs; additive
 
 ## 0.5.0
 Initial React API-connected customer review and isolated synthetic/offline journeys.
+
+## 2026-09-23 — GitHub development delivery
+Recovered pending source, corrected browser transport/capability/form-readiness bugs and OpenAPI parameters, verified normal browser and Go/PostgreSQL suites, and published 38 runtime screenshots with provenance. Manual and production/provider gates remain outstanding.

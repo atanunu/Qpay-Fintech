@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "source_head": "254f586b65223ed4db3d4e2df9c209e6e5ee3f58",
+  "screenshot_source_commit": "4cd7960e41dda6d5ba6f6d05fcfb2fbf0294f04a",
+  "checks": {
+    "web": {
+      "run_id": 35838616223,
+      "url": "https://github.com/atanunu/Qpay-Fintech/actions/runs/35838616223",
+      "head_sha": "254f586b65223ed4db3d4e2df9c209e6e5ee3f58",
+      "conclusion": "success"
+    },
+    "backend": {
+      "run_id": 35838616217,
+      "url": "https://github.com/atanunu/Qpay-Fintech/actions/runs/35838616217",
+      "head_sha": "254f586b65223ed4db3d4e2df9c209e6e5ee3f58",
+      "conclusion": "success"
+    },
+    "documentation": {
+      "run_id": 35838616287,
+      "url": "https://github.com/atanunu/Qpay-Fintech/actions/runs/35838616287",
+      "head_sha": "254f586b65223ed4db3d4e2df9c209e6e5ee3f58",
+      "conclusion": "success"
+    }
+  },
+  "frontend_unit_tests": 79,
+  "shared_client_tests": 7,
+  "novu_content_tests": 218,
+  "documentation_tests": 29,
+  "browser": {
+    "review": {
+      "startTime": "2026-09-23T08:43:05.950Z",
+      "duration": 100570.579,
+      "expected": 20,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "api": {
+      "startTime": "2026-09-23T08:43:41.045Z",
+      "duration": 32287.340000000004,
+      "expected": 11,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    }
+  },
+  "runtime_screenshots": 38,
+  "manual_uat": "not-tested",
+  "live_provider_acceptance": "not-performed",
+  "production_enabled": false
+}

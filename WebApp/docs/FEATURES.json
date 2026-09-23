@@ -10,7 +10,7 @@
       "status": "Partial",
       "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Login recovery and verification exclude authenticated navigation",
-      "evidence": "src/components/layout.tsx; pages/auth.tsx; independent shells and route guarding; browser verification pending"
+      "evidence": "src/components/layout.tsx; pages/auth.tsx; independent shells and route guarding; automated browser checks passed; manual/provider acceptance pending"
     },
     {
       "id": "WEB-002",
@@ -60,7 +60,7 @@
       "status": "Partial",
       "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Customer ownership and current verified recipient details are enforced",
-      "evidence": "pages/payments.tsx and account.tsx; enquiry, explicit save, ownership-backed API; browser verification pending"
+      "evidence": "pages/payments.tsx and account.tsx; enquiry, explicit save, ownership-backed API; automated browser checks passed; manual/provider acceptance pending"
     },
     {
       "id": "WEB-007",
@@ -70,7 +70,7 @@
       "status": "Partial",
       "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Display exact fees and reject changed expired or unapproved intents",
-      "evidence": "pages/payments.tsx; exact quote review, expiry, PIN and optional MFA; unit guards pass; browser acceptance pending"
+      "evidence": "pages/payments.tsx; exact quote review, expiry, PIN and optional MFA; unit guards pass; automated browser checks passed; manual acceptance pending"
     },
     {
       "id": "WEB-008",
@@ -100,7 +100,7 @@
       "status": "Partial",
       "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Show pending and fulfilment honestly and recover delayed token",
-      "evidence": "pages/payments.tsx and activity.tsx; payment/value separation, original fulfilment retrieval; browser acceptance pending"
+      "evidence": "pages/payments.tsx and activity.tsx; payment/value separation, original fulfilment retrieval; automated browser checks passed; manual acceptance pending"
     },
     {
       "id": "WEB-011",
@@ -110,7 +110,7 @@
       "status": "Partial",
       "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Only authoritative completed evidence generates a success receipt",
-      "evidence": "pages/activity.tsx; success-only receipt API, JSON download and print; final browser acceptance pending"
+      "evidence": "pages/activity.tsx; success-only receipt API, JSON download and print; automated browser checks passed; manual acceptance pending"
     },
     {
       "id": "WEB-012",
@@ -170,7 +170,7 @@
       "status": "Partial",
       "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "CSP CSRF origin and private caching rules prevent cross-session exposure",
-      "evidence": "api/client.ts; cookies, CSRF, origin validation; deploy/nginx.conf; production ingress and cross-browser acceptance pending"
+      "evidence": "api/client.ts; cookies, CSRF, origin validation; deploy/nginx.conf; production ingress and cross-automated browser checks passed; manual acceptance pending"
     },
     {
       "id": "WEB-018",

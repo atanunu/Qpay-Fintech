@@ -1,10 +1,5 @@
-# APIbackend v0.6 verification record
+# APIbackend v0.6 verification
 
-## Local evidence
-TypeScript and 71 frontend unit/review contract tests passed. The additive Go parity domain suite passed against isolated PostgreSQL 16. Full Go race/private-object and content reruns are recorded separately before publication. The content catalogue contains 175 entries.
+Go module integrity, vet, full race and real PostgreSQL tests, process builds, generated contracts, seven transport-helper tests and Docker Compose API/worker/scheduler smoke passed in GitHub CI. All 11 browser-to-Go/PostgreSQL journeys passed, including transfers, bills, requests/schedules, private identity/support documents and real cryptographic WebAuthn. CI uses Go 1.27.1 and PostgreSQL 18.6; the source-recovery local run used PostgreSQL 16.15.
 
-## Browser and CI evidence
-Expanded normal-HTTP review and real Go/PostgreSQL browser suites are supplied, including a real cryptographic WebAuthn ceremony using a virtual authenticator. Final run/commit results are pending and must not be inferred from local compilation or component rendering. Existing baseline browser failures are retained as history, not silently called passed.
-
-## Remaining acceptance
-In-person UAT remains not-tested. Real QPay funding, Novu delivery, private S3/ClamAV deployment, all-record privacy export, full financial/refund/treasury work and operational security/recovery remain separate. No live provider or real money was used. Exact screenshots require source/hash provenance.
+[Exact revisions, run links and remaining acceptance](../../devdocs/project/GITHUB-DELIVERY.md). No real provider call, production deployment, manual UAT, live Novu delivery, independent security assessment or recovery drill is implied. [Remaining engineering and release work](REMAINING-WORK.md).

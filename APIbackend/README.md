@@ -18,7 +18,7 @@ Local-only start, from the repository root:
 python3 APIbackend/scripts/local_config.py
 docker compose --env-file APIbackend/.env.local -f APIbackend/compose.local.yml up --build -d api worker scheduler
 ```
-The API binds loopback port 8080. The migration process must complete before application startup. Generated credentials are fresh, owner-only and never overwritten. Do not commit `.env.local` or secret mounts. See [client setup](docs/CLIENT-INTEGRATION.md) and [runtime operations](docs/OPERATIONS.md). Container acceptance remains unverified until the Compose smoke job passes.
+The API binds loopback port 8080. The migration process must complete before application startup. Generated credentials are fresh, owner-only and never overwritten. Do not commit `.env.local` or secret mounts. See [client setup](docs/CLIENT-INTEGRATION.md) and [runtime operations](docs/OPERATIONS.md). The isolated Compose smoke job passed in CI; production deployment and recovery qualification are still separate.
 
 Native Go build and tests require the pinned Go toolchain and dependencies in go.mod/go.sum. Real database tests need an isolated PostgreSQL URL:
 ```sh
@@ -83,9 +83,9 @@ Stable 42-task register preserved. A task is Partial where working code exists b
 | API-027 | Audit and independent approval engine | M1 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Reject self-approval and preserve immutable evidence for privileged changes | limited versioned maker-checker actions; broader approval coverage pending |
 | API-028 | History statements and receipts | M2 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Export scoped authoritative transactions without false success receipts | scoped ledger/payment history, JSON/CSV statements and success receipts; expanded export lifecycle pending |
 | API-029 | Notification delivery lifecycle | M2 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Retry and track channel failures without altering financial outcome | durable intents, Novu trigger adapter and policy endpoint; delivery callbacks/unsubscribe/live setup pending |
-| API-030 | Support and complaints API | M3 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Link cases to scoped operations with escalation and resolution history | owned cases, encrypted replies and staff support operations; SLA/inbound/attachments pending |
+| API-030 | Support and complaints API | M3 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Link cases to scoped operations with escalation and resolution history | owned cases, encrypted replies and staff support operations; private attachments/escalation implemented under API-055; SLA/inbound assignment pending |
 | API-031 | Private documents and retention | M1 | P0 | Planned | [Specification](../devdocs/APIbackend/00-INDEX.md) | Expire signed access and enforce approved retention and legal holds | Private document ownership, upload scanning, signed access and retention not implemented |
-| API-032 | OpenAPI schemas and generated clients | M1 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Validate contracts and detect breaking client drift | route-generated OpenAPI, transport helper and TypeScript definitions; final generated-contract verification pending |
+| API-032 | OpenAPI schemas and generated clients | M1 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Validate contracts and detect breaking client drift | route-generated OpenAPI, transport helper and TypeScript definitions; contract generation/parameter uniqueness verified; full schema/client-drift qualification pending |
 | API-033 | Metrics logs and traces | M1 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Correlate intent and provider events while redacting sensitive data | structured redacted logs, health endpoints and request IDs; full metrics/tracing pending |
 | API-034 | Distributed abuse controls | M1 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Limits remain effective across instances and identity enquiry channels | PostgreSQL-backed request/login/challenge/PIN limits; distributed load and proxy policy acceptance pending |
 | API-035 | Key rotation and off-host recovery | M4 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Restore keys and data independently and reconcile pending operations | AES-GCM keyring supports historical keys; independent rotation/restore drill not performed |
@@ -134,6 +134,6 @@ Read [remaining work](docs/REMAINING-WORK.md). Source, tests, contracts, README 
 ## Changelog
 2026-09-23 v0.6: additive customer-parity migration, security, schedules/requests, private documents, identity/account lifecycle, funding interface and domain tests. Existing V1 checksum preserved. [Changelog](CHANGELOG.md).
 
-Delivery recovery: hash-verified application records restored, documentation tail rebuilt and OpenAPI duplication corrected. [Delivery evidence and remaining acceptance](../devdocs/project/GITHUB-DELIVERY.md).
+## GitHub delivery evidence
 
-Browser delivery correction: native fetch receiver fixed in both clients; customer capability display now uses the API payments field and fails closed on unknown values; bank quote submission waits for its selected beneficiary; recovery tests wait for route changes. Added regression tests. Local frontend tests: 79 passed; shared client tests: 7 passed. GitHub rerun and manual UAT remain distinct acceptance gates.
+Full Go race/PostgreSQL checks, vet, builds, seven client-helper tests, Compose smoke and all 11 actual browser-to-Go journeys passed. [Exact revisions, runs and remaining acceptance](../devdocs/project/GITHUB-DELIVERY.md). No production or real-provider qualification is implied.

@@ -5,3 +5,6 @@ Additive checksum migration two. Customer capabilities/limits, one-off bank dest
 
 ## 0.4.0
 Persistent Go core, ledger/holds, authentication, payment worker, support and reports.
+
+## 2026-09-23 — GitHub development delivery
+Recovered pending source, corrected browser transport/capability/form-readiness bugs and OpenAPI parameters, verified normal browser and Go/PostgreSQL suites, and published 38 runtime screenshots with provenance. Manual and production/provider gates remain outstanding.
