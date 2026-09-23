@@ -1,0 +1,124 @@
+name: Publish verified delivery evidence
+on:
+  push:
+    branches: [recovery/parity-delivery]
+    paths: [.github/workflows/delivery-evidence.yml]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  publish:
+    if: github.repository == 'atanunu/Qpay-Fintech' && github.ref == 'refs/heads/recovery/parity-delivery'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Validate successful pinned runs and publish only images and summaries
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,io,json,os,re,subprocess,zipfile
+          from urllib.request import Request,urlopen,build_opener,HTTPRedirectHandler
+          from urllib.error import HTTPError
+          from urllib.parse import urlparse
+          repo='atanunu/Qpay-Fintech';base='https://api.github.com/repos/'+repo
+          expected='254f586b65223ed4db3d4e2df9c209e6e5ee3f58'
+          runs={'web':35838616223,'backend':35838616217,'documentation':35838616287}
+          headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'}
+          def api(path):
+              with urlopen(Request(base+path,headers=headers),timeout=30) as r:return json.load(r)
+          verified={}
+          for label,number in runs.items():
+              r=api('/actions/runs/'+str(number))
+              assert r['status']=='completed' and r['conclusion']=='success',label+' run not green'
+              assert r['head_sha']==expected and r['head_repository']['full_name']==repo
+              verified[label]={'run_id':number,'url':r['html_url'],'head_sha':r['head_sha'],'conclusion':r['conclusion']}
+          class NoRedirect(HTTPRedirectHandler):
+              def redirect_request(self,*args,**kwargs):return None
+          def artifact(number,digest):
+              meta=api('/actions/artifacts/'+str(number))
+              assert meta['workflow_run']['head_sha']==expected and not meta['expired']
+              assert meta['size_in_bytes']<30*1024*1024
+              try:
+                  response=build_opener(NoRedirect).open(Request(base+'/actions/artifacts/'+str(number)+'/zip',headers=headers),timeout=30)
+              except HTTPError as error:
+                  assert error.code==302
+                  url=error.headers['Location'];parsed=urlparse(url)
+                  assert parsed.scheme=='https' and not parsed.username and not parsed.password
+                  # Follow trusted GitHub storage redirect without the GitHub token.
+                  response=urlopen(url,timeout=60)
+              with response as r:blob=r.read(30*1024*1024+1)
+              assert len(blob)<=30*1024*1024 and hashlib.sha256(blob).hexdigest()==digest
+              archive=zipfile.ZipFile(io.BytesIO(blob));assert sum(x.file_size for x in archive.infolist())<70*1024*1024
+              return archive
+          review=artifact(10740606954,'10da3a0daa906bb4c3f95433bc9598e7537b98c49e2f922c63ed94ab6ae0f774')
+          api_tests=artifact(10740641770,'ff5922588fac87a487659b8f876c90f858bc0c6d197b156f613dce955fb5a607')
+          def read_json(archive,suffix):
+              names=[n for n in archive.namelist() if n==suffix or n.endswith('/'+suffix)];assert len(names)==1
+              return json.loads(archive.read(names[0]))
+          reports={'review':read_json(review,'test-results/review-report.json'),'api':read_json(api_tests,'test-results/api-report.json')}
+          for label,count in [('review',20),('api',11)]:
+              stats=reports[label]['stats'];assert stats['expected']==count and stats['unexpected']==0 and stats['skipped']==0 and stats['flaky']==0
+          provenance=read_json(review,'test-results/screenshots/provenance.json');assert len(provenance['captures'])==38
+          sources={x['source_commit'] for x in provenance['captures']};assert len(sources)==1
+          source=sources.pop();assert re.fullmatch('[0-9a-f]{40}',source)
+          subprocess.run(['git','fetch','--no-tags','origin','build/webapp-v1',source],check=True)
+          assert subprocess.check_output(['git','rev-parse','origin/build/webapp-v1'],text=True).strip()==expected
+          assert subprocess.check_output(['git','rev-parse',source+'^{tree}'])==subprocess.check_output(['git','rev-parse',expected+'^{tree}']),'Screenshot source tree differs'
+          subprocess.run(['git','checkout','-B','build/webapp-v1','origin/build/webapp-v1'],check=True)
+          root=Path.cwd();images=root/'WebApp/docs/screenshots';images.mkdir(parents=True,exist_ok=True)
+          captures=[];gallery=['# WebApp runtime screenshot gallery','', '38 actual Chromium captures of the synthetic review application. These are not design mockups, real customers, live-provider evidence, or manual UAT approval. No passwords, recovery codes, MFA QR modals or private identity documents are included.','', 'Validated source: `'+source+'` (same tree as `'+expected+'`). [Full provenance](SCREENSHOTS.json).','']
+          seen=set()
+          for item in provenance['captures']:
+              name=item['screen'];assert re.fullmatch('[a-z0-9-]+',name) and name not in seen;seen.add(name)
+              assert item['path']=='test-results/screenshots/'+name+'.png' and item['environment']=='test' and item['fixture_id']=='qpf-review-v1'
+              image=review.read(item['path']);assert len(image)<2*1024*1024 and image.startswith(b'\x89PNG\r\n\x1a\n') and hashlib.sha256(image).hexdigest()==item['sha256']
+              (images/(name+'.png')).write_bytes(image)
+              record=dict(item,path='screenshots/'+name+'.png');captures.append(record)
+              gallery+=['## '+name.replace('-',' ').title(),'', 'Route: `'+item['route']+'` · '+str(item['viewport']['width'])+' × '+str(item['viewport']['height'])+' · synthetic review.','', '!['+name.replace('-',' ')+' — running synthetic review]('+record['path']+')','']
+          (root/'WebApp/docs/SCREENSHOTS.json').write_text(json.dumps({'schema_version':1,'service':'WebApp','status':'captured','captures':captures},indent=2)+'\n')
+          (root/'WebApp/docs/SCREENSHOTS.md').write_text('\n'.join(gallery)+'\n')
+          summary={'schema_version':1,'source_head':expected,'screenshot_source_commit':source,'checks':verified,'frontend_unit_tests':79,'shared_client_tests':7,'novu_content_tests':218,'documentation_tests':29,'browser':{k:v['stats'] for k,v in reports.items()},'runtime_screenshots':38,'manual_uat':'not-tested','live_provider_acceptance':'not-performed','production_enabled':False}
+          (root/'devdocs/project/DELIVERY-VERIFICATION.json').write_text(json.dumps(summary,indent=2)+'\n')
+          report='# GitHub delivery verification — 23 September 2026\n\nThe recovered WebApp and supporting persistent Go APIbackend are published as a coherent development-source delivery. Complete before/after hash checks recovered 100 file records; the truncated documentation tail was rebuilt and canonical progress regenerated. This is not claimed to be a byte-identical copy of the former local workspace.\n\n## Verified revision and runs\n\nApplication head: `'+expected+'`. Screenshot source: `'+source+'`, with the identical Git tree.\n\n| Gate | Result | Evidence |\n|---|---|---|\n| Frontend TypeScript and unit/contract tests | Passed; 79 tests | Web workflow |\n| API-connected and standalone review builds | Passed; no implicit demo fallback | Web workflow |\n| Synthetic browser journeys | 20 passed; no failures, skips or retries | Web workflow |\n| Actual browser → Go → PostgreSQL journeys | 11 passed; no failures or skips | Web workflow |\n| Runtime screenshots/accessibility | 38 captures; axe and overflow assertions passed | Screenshot manifest |\n| Go module checks, vet, race/PostgreSQL tests and builds | Passed | Backend workflow |\n| Shared transport helper tests | Seven passed | Backend workflow |\n| Docker Compose API/worker/scheduler smoke | Passed, synthetic funds only | Backend workflow |\n| Novu content checks/build/tests | Passed; 218 tests and 175 catalogue scenarios | Documentation workflow |\n| Documentation integrity/governance/regressions | Passed; 29 regression tests | Documentation workflow |\n\n'
+          for label,item in verified.items():report+='- ['+label.title()+' workflow]('+item['url']+')\n'
+          report+='\n[Machine-readable verification](DELIVERY-VERIFICATION.json) · [Recovery hashes](DELIVERY-SOURCE-MANIFEST.json) · [WebApp screenshot gallery](../../WebApp/docs/SCREENSHOTS.md).\n\n## Corrections found through actual browser testing\n\nNative fetch binding was corrected in both clients. Customer capability rendering now uses payments rather than an absent transfers field. Quote buttons wait for loaded recipient/product records; the recovery test waits for the destination screen. OpenAPI parameter duplication was fixed with a regression preserving concrete schemas. No assertions were removed and browser retries remain disabled. Historical failing runs are not labelled passed.\n\n## Remaining acceptance\n\nSource delivery is not a production launch. In-person UAT remains not-tested. Actual QPay/provider qualification, live self-hosted Novu delivery, production private storage/scanner acceptance, refunds/returns/full reconciliation/treasury, SMS/automatic KYC and the documented remaining engineering/product gates remain outstanding. MobileApp and AdminDashboard remain planned scaffolds. No real-money transaction or production deployment was performed. Keep these limitations in the service task registers rather than promoting every feature to complete.\n'
+          (root/'devdocs/project/GITHUB-DELIVERY.md').write_text(report)
+          for name in ['README.md','WebApp/README.md','APIbackend/README.md']:
+              p=root/name;lines=p.read_text().splitlines();lines=[l for l in lines if not l.startswith(('Delivery recovery:','Browser delivery correction:','Form readiness:'))];text='\n'.join(lines).rstrip()+'\n'
+              if name=='WebApp/README.md':
+                  text=text.replace('Local unit checks pass; the expanded normal-browser suites require final CI verification.','TypeScript, 79 unit/contract tests, 20 synthetic browser tests, 11 actual Go/PostgreSQL browser tests and 38 accessibility/screenshot captures passed in CI; see the exact revision below.')
+                  text=text.replace('At this candidate stage final browser/GitHub evidence remains pending; API gaps are not concealed as completed features.','Automated browser/GitHub evidence is recorded in the delivery report; manual and provider acceptance remain separate. API gaps are not concealed as completed features.')
+                  text=text.replace('browser verification pending','automated browser checks passed; manual/provider acceptance pending').replace('final browser acceptance pending','automated browser checks passed; manual acceptance pending').replace('browser acceptance pending','automated browser checks passed; manual acceptance pending')
+                  text+='\n## Verified runtime screenshots\n\n![Customer overview — synthetic runtime](docs/screenshots/overview-desktop.png)\n\n![Transfer review — synthetic runtime](docs/screenshots/transfer-quote.png)\n\n[All 38 screens and routes](docs/SCREENSHOTS.md) · [Source/UTC/viewport/hash provenance](docs/SCREENSHOTS.json) · [Exact CI evidence](../devdocs/project/GITHUB-DELIVERY.md). Automated checks are not manual UAT or live-provider acceptance.\n'
+              elif name=='APIbackend/README.md':
+                  text=text.replace('Container acceptance remains unverified until the Compose smoke job passes.','The isolated Compose smoke job passed in CI; production deployment and recovery qualification are still separate.')
+                  text=text.replace('SLA/inbound/attachments pending','private attachments/escalation implemented under API-055; SLA/inbound assignment pending')
+                  text=text.replace('final generated-contract verification pending','contract generation/parameter uniqueness verified; full schema/client-drift qualification pending')
+                  text+='\n## GitHub delivery evidence\n\nFull Go race/PostgreSQL checks, vet, builds, seven client-helper tests, Compose smoke and all 11 actual browser-to-Go journeys passed. [Exact revisions, runs and remaining acceptance](../devdocs/project/GITHUB-DELIVERY.md). No production or real-provider qualification is implied.\n'
+              else:
+                  text=text.replace('Its first local component-render captures and normal HTTP capture suite are being verified.','The normal-HTTP suite now provides 38 runtime captures with passing accessibility and overflow checks.')
+                  text=text.replace('provider agreements, detailed executable contracts/schema, application implementation,','provider agreements, remaining contract/product coverage, MobileApp/AdminDashboard and remaining API implementation,')
+                  text+='\n## Verified development delivery\n\n![Qpay customer overview — actual synthetic runtime](WebApp/docs/screenshots/overview-desktop.png)\n\n[Delivery verification and CI results](devdocs/project/GITHUB-DELIVERY.md) · [38-screen runtime gallery](WebApp/docs/SCREENSHOTS.md) · [Machine-readable evidence](devdocs/project/DELIVERY-VERIFICATION.json). Source, normal-browser/Go integration, builds and documentation are verified; manual UAT, real provider qualification and production activation remain separate.\n'
+              p.write_text(text)
+          (root/'WebApp/docs/VALIDATION.md').write_text('# WebApp v0.6 verification\n\nTypeScript, 79 unit/contract tests, API/review/offline builds, 20 synthetic-browser tests, 11 actual Go/PostgreSQL-browser tests and 38 runtime captures with accessibility/overflow checks passed. Browser failures uncovered during delivery were fixed without removing assertions or enabling retries.\n\n[Exact source revisions, run links and counts](../../devdocs/project/GITHUB-DELIVERY.md) · [Screenshots](SCREENSHOTS.md) · [Provenance](SCREENSHOTS.json). The virtual-authenticator test uses real cryptographic WebAuthn verification against the Go backend.\n\nIn-person UAT is not-tested. Real QPay/Novu delivery, production private S3/scanner deployment, remaining financial/privacy operations and independent security/recovery are not accepted by these tests. No real provider calls or real-money operations were performed.\n')
+          (root/'APIbackend/docs/VALIDATION.md').write_text('# APIbackend v0.6 verification\n\nGo module integrity, vet, full race and real PostgreSQL tests, process builds, generated contracts, seven transport-helper tests and Docker Compose API/worker/scheduler smoke passed in GitHub CI. All 11 browser-to-Go/PostgreSQL journeys passed, including transfers, bills, requests/schedules, private identity/support documents and real cryptographic WebAuthn. CI uses Go 1.27.1 and PostgreSQL 18.6; the source-recovery local run used PostgreSQL 16.15.\n\n[Exact revisions, run links and remaining acceptance](../../devdocs/project/GITHUB-DELIVERY.md). No real provider call, production deployment, manual UAT, live Novu delivery, independent security assessment or recovery drill is implied. [Remaining engineering and release work](REMAINING-WORK.md).\n')
+          for name in ['CHANGELOG.md','WebApp/CHANGELOG.md','APIbackend/CHANGELOG.md']:
+              p=root/name
+              if p.exists():p.write_text(p.read_text()+'\n## 2026-09-23 — GitHub development delivery\nRecovered pending source, corrected browser transport/capability/form-readiness bugs and OpenAPI parameters, verified normal browser and Go/PostgreSQL suites, and published 38 runtime screenshots with provenance. Manual and production/provider gates remain outstanding.\n')
+          for cmd in [['python3','scripts/docs/check.py','--write'],['python3','scripts/docs/check.py','--check'],['python3','scripts/docs/governance.py'],['python3','-m','unittest','discover','-s','scripts/docs','-p','test_*.py']]:subprocess.run(cmd,check=True)
+          subprocess.run(['git','add','-A'],check=True)
+          changed=subprocess.check_output(['git','diff','--cached','--name-only'],text=True).splitlines()
+          assert not any(x.startswith(('.github/','.build/')) for x in changed)
+          assert all(x.endswith(('.md','.json','.png','.svg')) for x in changed)
+          subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+          subprocess.run(['git','commit','-m','docs: publish 38 verified runtime screenshots and complete delivery evidence'],check=True)
+          subprocess.run(['git','push','origin','HEAD:refs/heads/build/webapp-v1'],check=True)
+          PY
+# Pinned successful source/run evidence only. No traces, credentials, deployment or provider activation.
