@@ -9,3 +9,5 @@ Local browser navigation was blocked by managed Chromium (ERR_BLOCKED_BY_ADMINIS
 [Recovery manifest](DELIVERY-SOURCE-MANIFEST.json) · [Web register](../../WebApp/README.md) · [API register](../../APIbackend/README.md)
 
 Browser delivery correction: native fetch receiver fixed in both clients; customer capability display now uses the API payments field and fails closed on unknown values; bank quote submission waits for its selected beneficiary; recovery tests wait for route changes. Added regression tests. Local frontend tests: 79 passed; shared client tests: 7 passed. GitHub rerun and manual UAT remain distinct acceptance gates.
+
+Form readiness: bill validation remains disabled until the requested product is loaded. The recovery browser case waits for the actual recovery screen before typing, not only its URL. GitHub run 35837962795 passed all 11 actual Go/PostgreSQL browser journeys and all 38 screenshot/accessibility captures; two review form races were corrected here and remain subject to a full rerun. No assertions or retries were removed.
