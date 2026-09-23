@@ -135,3 +135,5 @@ Read [remaining work](docs/REMAINING-WORK.md). Source, tests, contracts, README 
 2026-09-23 v0.6: additive customer-parity migration, security, schedules/requests, private documents, identity/account lifecycle, funding interface and domain tests. Existing V1 checksum preserved. [Changelog](CHANGELOG.md).
 
 Delivery recovery: hash-verified application records restored, documentation tail rebuilt and OpenAPI duplication corrected. [Delivery evidence and remaining acceptance](../devdocs/project/GITHUB-DELIVERY.md).
+
+Browser delivery correction: native fetch receiver fixed in both clients; customer capability display now uses the API payments field and fails closed on unknown values; bank quote submission waits for its selected beneficiary; recovery tests wait for route changes. Added regression tests. Local frontend tests: 79 passed; shared client tests: 7 passed. GitHub rerun and manual UAT remain distinct acceptance gates.

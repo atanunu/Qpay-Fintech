@@ -107,3 +107,5 @@ Launch blockers: legal/custody approval, provider agreements, detailed executabl
 [Parity scope and gaps](devdocs/WebApp/02-COMPETITOR-PARITY.md) · [API contracts](APIbackend/docs/PARITY-API.md) · [Browser evidence](WebApp/docs/VALIDATION.md). The original task identifiers remain intact. New source is tracked as component implementation, not blanket certification.
 
 Delivery recovery: hash-verified application records restored, documentation tail rebuilt and OpenAPI duplication corrected. [Delivery evidence and remaining acceptance](devdocs/project/GITHUB-DELIVERY.md).
+
+Browser delivery correction: native fetch receiver fixed in both clients; customer capability display now uses the API payments field and fails closed on unknown values; bank quote submission waits for its selected beneficiary; recovery tests wait for route changes. Added regression tests. Local frontend tests: 79 passed; shared client tests: 7 passed. GitHub rerun and manual UAT remain distinct acceptance gates.

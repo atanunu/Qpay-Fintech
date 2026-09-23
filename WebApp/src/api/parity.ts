@@ -18,3 +18,10 @@ export function localMonth(date=new Date()):string { return new Intl.DateTimeFor
 export function watISO(value:string):string {const date=new Date(value+':00+01:00');if(!Number.isFinite(date.getTime()))throw new Error('Choose a valid West Africa Time date.');return date.toISOString();}
 export function watInput(date=new Date(Date.now()+86400000)):string{return new Date(date.getTime()+3600000).toISOString().slice(0,16);}
 export function splitMinor(total:string,count:number):string[]{if(!Number.isInteger(count)||count<1||count>20)throw new Error('Choose 1 to 20 people.');const t=BigInt(total);if(t<BigInt(count))throw new Error('Every share must be at least one kobo.');const base=t/BigInt(count),extra=Number(t%BigInt(count));return Array.from({length:count},(_,i)=>(base+BigInt(i<extra?1:0)).toString());}
+
+/** Display only; missing/unknown capability evidence must not appear eligible. */
+export function paymentEligibility(features: unknown): string {
+  if (!features || typeof features !== 'object' || Array.isArray(features)) return 'unavailable';
+  const value = (features as Record<string, unknown>).payments;
+  return typeof value === 'string' && ['eligible', 'verification_required', 'restricted', 'temporarily_unavailable', 'not_offered', 'unavailable'].includes(value) ? value.replaceAll('_', ' ') : 'unavailable';
+}

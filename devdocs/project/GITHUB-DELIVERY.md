@@ -7,3 +7,5 @@ Fresh local evidence: full Go 1.27.1 race/database tests, vet and build passed a
 Local browser navigation was blocked by managed Chromium (ERR_BLOCKED_BY_ADMINISTRATOR). GitHub normal-browser and actual Go/PostgreSQL integration results must be recorded separately. Manual UAT remains not-tested. No provider activation, deployment or real-money operation is included. The service remaining-work registers still apply.
 
 [Recovery manifest](DELIVERY-SOURCE-MANIFEST.json) · [Web register](../../WebApp/README.md) · [API register](../../APIbackend/README.md)
+
+Browser delivery correction: native fetch receiver fixed in both clients; customer capability display now uses the API payments field and fails closed on unknown values; bank quote submission waits for its selected beneficiary; recovery tests wait for route changes. Added regression tests. Local frontend tests: 79 passed; shared client tests: 7 passed. GitHub rerun and manual UAT remain distinct acceptance gates.

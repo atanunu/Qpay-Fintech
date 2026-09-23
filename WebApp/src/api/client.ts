@@ -59,7 +59,7 @@ export function safeBaseURL(value: string, localAllowed = false): string {
 export class HttpTransport implements Transport {
   csrf = '';
   private refreshInFlight: Promise<void> | undefined;
-  constructor(public base: string, private fetcher: typeof fetch = fetch) {}
+  constructor(public base: string, private fetcher: typeof fetch = (input, init) => globalThis.fetch(input, init)) {}
   clear() { this.csrf = ''; }
   private async call<T>(method: Method, path: string, options: RequestOptions = {}): Promise<T> {
     if (!path.startsWith('/v1/') || path.includes('..') || path.includes('\\') || path.includes('#')) throw new Error('Invalid API path.');

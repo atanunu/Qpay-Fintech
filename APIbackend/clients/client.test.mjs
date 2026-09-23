@@ -8,3 +8,9 @@ test('browser uses cookies and CSRF without bearer', async () => { const client 
 test('unknown financial transport result is not retried', async () => { let calls = 0; const c = new QpayClient({ baseURL: 'https://api.example.invalid', transport: 'mobile', fetchImpl: async () => { calls++; throw new Error('connection lost'); } }); await assert.rejects(c.pay('quote', 'token', 'persistent-idem-key')); assert.equal(calls, 1); });
 test('rejects cross-origin credential destinations', async () => { assert.throws(() => new QpayClient({ baseURL: 'https://user:password@api.example.invalid', transport: 'web' })); const c = new QpayClient({ baseURL: 'https://api.example.invalid', transport: 'mobile' }); await assert.rejects(c.request('GET', '//evil.invalid')); });
 test('surfaces structured errors', async () => { const c = new QpayClient({ baseURL: 'https://api.example.invalid', transport: 'mobile', fetchImpl: async () => ({ ok: false, status: 409, json: async () => ({ error: { code: 'conflict', message: 'Changed quote' }, request_id: 'req-test' }) }) }); await assert.rejects(c.request('GET', '/v1/me'), e => e instanceof APIError && e.status === 409 && e.requestId === 'req-test'); });
+
+test('default browser transport preserves native fetch receiver', async () => {
+  const original=globalThis.fetch;let calls=0;
+  globalThis.fetch=function(){assert.equal(this,globalThis);calls++;return Promise.resolve(ok({verified:true}));};
+  try{const client=new QpayClient({baseURL:'https://api.example.invalid',transport:'web'});assert.deepEqual(await client.request('GET','/v1/me'),{verified:true});assert.equal(calls,1);}finally{globalThis.fetch=original;}
+});

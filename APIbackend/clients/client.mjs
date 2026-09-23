@@ -9,7 +9,7 @@ export function minor(value) {
   return value;
 }
 export class QpayClient {
-  constructor({ baseURL, transport, fetchImpl = globalThis.fetch, getAccessToken = () => '', getCSRFToken = () => '', allowLocalHTTP = false }) {
+  constructor({ baseURL, transport, fetchImpl = (input, init) => globalThis.fetch(input, init), getAccessToken = () => '', getCSRFToken = () => '', allowLocalHTTP = false }) {
     const url = new URL(baseURL);
     const local = ['localhost', '127.0.0.1'].includes(url.hostname);
     if (url.username || url.password || url.search || url.hash || url.pathname !== '/' || (url.protocol !== 'https:' && !(allowLocalHTTP && local && url.protocol === 'http:'))) throw new TypeError('Use an approved HTTPS API origin');
