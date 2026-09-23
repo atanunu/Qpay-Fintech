@@ -1,4 +1,4 @@
-name: Parity development workspace
+name: Parity dependency qualification
 on:
   push:
     branches: [build/webapp-v1]
@@ -6,53 +6,36 @@ on:
 permissions:
   contents: read
 jobs:
-  workspace:
+  dependencies:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
         with:
           persist-credentials: false
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
-        with:
-          node-version: '22'
       - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
         with:
           go-version: '1.27.1'
           cache: false
-      - name: Capture exact source and locked toolchain for isolated development
+      - name: Resolve fixed upstream libraries without activation
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p /tmp/qpf-workspace
-          git archive --format=tar.gz HEAD > /tmp/qpf-workspace/source.tar.gz
-          git rev-parse HEAD > /tmp/qpf-workspace/source-commit.txt
-          cd WebApp
-          npm ci
-          tar -czf /tmp/qpf-workspace/node_modules.tar.gz node_modules
-          cd ../APIbackend
+          cd APIbackend
+          mkdir -p internal/workspacedeps /tmp/qpf-deps
+          printf 'package workspacedeps\nimport (_ "github.com/go-webauthn/webauthn/webauthn"; _ "github.com/minio/minio-go/v7")\n' > internal/workspacedeps/deps.go
+          go get github.com/go-webauthn/webauthn@v0.18.2 github.com/minio/minio-go/v7@v7.3.0
+          go mod tidy
           go mod download
           go mod verify
           go mod vendor
-          tar -czf /tmp/qpf-workspace/go-vendor.tar.gz vendor
-          tar -C "$(go env GOROOT)" -czf /tmp/qpf-workspace/go-toolchain.tar.gz .
-      - name: Capture installed PostgreSQL test tools
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 - <<'PY'
-          import glob,tarfile
-          paths=['/usr/lib/postgresql/16','/usr/share/postgresql/16']
-          for pattern in ['libicu*.so*','libpq.so*','libldap*.so*','liblber*.so*']:
-              paths+=glob.glob('/usr/lib/x86_64-linux-gnu/'+pattern)
-          with tarfile.open('/tmp/qpf-workspace/postgres-tools.tar.gz','w:gz') as tar:
-              for path in paths: tar.add(path,arcname=path.lstrip('/'))
-          PY
+          tar -czf /tmp/qpf-deps/dependencies.tar.gz vendor go.mod go.sum
+          tar -C "$(go env GOMODCACHE)" -czf /tmp/qpf-deps/module-cache.tar.gz .
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: parity-workspace
+          name: parity-dependencies
           retention-days: 2
           compression-level: 0
-          path: /tmp/qpf-workspace/
-# Read-only, isolated source/dependency capture. No deployment, account changes, or provider calls.
+          path: /tmp/qpf-deps/
+# Temporary read-only dependency qualification. No provider, credential or deployment calls.
