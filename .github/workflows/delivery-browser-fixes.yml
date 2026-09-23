@@ -1,0 +1,88 @@
+name: Publish browser delivery corrections
+on:
+  push:
+    branches: [recovery/parity-delivery]
+    paths: [.github/workflows/delivery-browser-fixes.yml]
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: github.repository == 'atanunu/Qpay-Fintech' && github.ref == 'refs/heads/recovery/parity-delivery'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Publish scoped browser fixes to the expected source revision
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess
+          expected='2f32746dce27c4167c0622ea55dc47a8225bcf9d'
+          subprocess.run(['git','fetch','origin','build/webapp-v1'],check=True)
+          assert subprocess.check_output(['git','rev-parse','origin/build/webapp-v1'],text=True).strip()==expected
+          subprocess.run(['git','checkout','-B','build/webapp-v1','origin/build/webapp-v1'],check=True)
+          root=Path.cwd()
+          def replace(path,old,new):
+              p=root/path;s=p.read_text();assert s.count(old)==1,(path,s.count(old));p.write_text(s.replace(old,new))
+          replace('WebApp/src/api/client.ts','private fetcher: typeof fetch = fetch','private fetcher: typeof fetch = (input, init) => globalThis.fetch(input, init)')
+          replace('APIbackend/clients/client.mjs','fetchImpl = globalThis.fetch,','fetchImpl = (input, init) => globalThis.fetch(input, init),')
+          p=root/'WebApp/src/api/parity.ts';p.write_text(p.read_text()+'''\n/** Display only; missing/unknown capability evidence must not appear eligible. */
+          export function paymentEligibility(features: unknown): string {
+            if (!features || typeof features !== 'object' || Array.isArray(features)) return 'unavailable';
+            const value = (features as Record<string, unknown>).payments;
+            return typeof value === 'string' && ['eligible', 'verification_required', 'restricted', 'temporarily_unavailable', 'not_offered', 'unavailable'].includes(value) ? value.replaceAll('_', ' ') : 'unavailable';
+          }
+          ''')
+          replace('WebApp/src/components/parity.tsx',"import type {CustomerCapabilities,Upload} from '../api/parity';","import {paymentEligibility} from '../api/parity';\nimport type {CustomerCapabilities,Upload} from '../api/parity';")
+          replace('WebApp/src/components/parity.tsx',"r.data.features.transfers.replaceAll('_',' ')","paymentEligibility(r.data.features)")
+          replace('WebApp/src/pages/payments.tsx',"kind === 'bank' && !beneficiary && !oneOff","kind === 'bank' && !oneOff && (newRecipient || beneficiaries.loading || !beneficiaries.data?.some(b => b.id === beneficiary))")
+          replace('WebApp/e2e/review.spec.ts',"await page.getByRole('link',{name:'Forgot password?'}).click();await page.getByLabel('Email address')","await page.getByRole('link',{name:'Forgot password?'}).click();await expect(page).toHaveURL(/forgot-password/);await page.getByLabel('Email address')")
+          replace('WebApp/e2e/review.spec.ts',"await page.getByRole('button',{name:'Request recovery code'}).click();await page.getByLabel('Verification code')","await page.getByRole('button',{name:'Request recovery code'}).click();await expect(page).toHaveURL(/reset-password/);await page.getByLabel('Verification code')")
+          (root/'WebApp/tests/delivery.test.ts').write_text('''import {describe,it,expect,vi} from 'vitest';
+          import {HttpTransport} from '../src/api/client';
+          import {paymentEligibility} from '../src/api/parity';
+          describe('browser delivery regressions',()=>{
+           it('calls default fetch on the host global rather than the transport instance',async()=>{
+            const fetcher=vi.fn(function(this:unknown){expect(this).toBe(globalThis);return Promise.resolve(new Response(JSON.stringify({data:{ok:true}}),{status:200}));});
+            vi.stubGlobal('fetch',fetcher);
+            try{const client=new HttpTransport('https://api.example.invalid');expect(await client.request('GET','/v1/delivery-probe')).toEqual({ok:true});expect(fetcher).toHaveBeenCalledTimes(1);}finally{vi.unstubAllGlobals();}
+           });
+           it.each([null,undefined,{}, {transfers:'eligible'}, {payments:42}, {payments:'unknown'}])('does not infer eligibility from invalid capability evidence %s',value=>expect(paymentEligibility(value)).toBe('unavailable'));
+           it('uses the backend payments capability rather than the absent transfers field',()=>{expect(paymentEligibility({payments:'verification_required'})).toBe('verification required');expect(paymentEligibility({payments:'eligible'})).toBe('eligible');expect(paymentEligibility({payments:'restricted'})).toBe('restricted');});
+          });
+          ''')
+          p=root/'APIbackend/clients/client.test.mjs';p.write_text(p.read_text()+'''\ntest('default browser transport preserves native fetch receiver', async () => {
+            const original=globalThis.fetch;let calls=0;
+            globalThis.fetch=function(){assert.equal(this,globalThis);calls++;return Promise.resolve(ok({verified:true}));};
+            try{const client=new QpayClient({baseURL:'https://api.example.invalid',transport:'web'});assert.deepEqual(await client.request('GET','/v1/me'),{verified:true});assert.equal(calls,1);}finally{globalThis.fetch=original;}
+          });
+          ''')
+          (root/'APIbackend/internal/httpapi/delivery_contracts_test.go').write_text('''package httpapi
+          import ("testing";"github.com/atanunu/Qpay-Fintech/APIbackend/internal/service")
+          func TestOpenAPIParametersAreUniqueAndKeepConcreteSchemas(t *testing.T) {
+            h:=New(&service.Service{},Config{});paths:=h.OpenAPI()["paths"].(map[string]any)
+            for path,methods:=range paths {for method,value:=range methods.(map[string]any) {
+              op:=value.(map[string]any);params,_:=op["parameters"].([]any);seen:=map[string]bool{}
+              for _,value:=range params {p:=value.(map[string]any);key:=p["in"].(string)+":"+p["name"].(string)
+                if seen[key]{t.Fatalf("%s %s duplicates %s",method,path,key)};seen[key]=true
+                if path=="/v1/statements"&&(p["name"]=="from"||p["name"]=="to") {if p["required"]!=true||p["schema"].(map[string]any)["format"]!="date-time"{t.Fatal("statement date constraints lost")}}
+                if path=="/v1/payments"&&p["name"]=="limit"&&p["schema"].(map[string]any)["type"]!="integer"{t.Fatal("pagination integer schema lost")}
+              }
+            }}
+          }
+          ''')
+          note='\nBrowser delivery correction: native fetch receiver fixed in both clients; customer capability display now uses the API payments field and fails closed on unknown values; bank quote submission waits for its selected beneficiary; recovery tests wait for route changes. Added regression tests. Local frontend tests: 79 passed; shared client tests: 7 passed. GitHub rerun and manual UAT remain distinct acceptance gates.\n'
+          for name in ['README.md','WebApp/README.md','APIbackend/README.md','devdocs/project/GITHUB-DELIVERY.md']:
+              p=root/name;p.write_text(p.read_text()+note)
+          for cmd in [['python3','scripts/docs/check.py','--write'],['python3','scripts/docs/check.py','--check'],['python3','-m','unittest','discover','-s','scripts/docs','-p','test_*.py']]:subprocess.run(cmd,check=True)
+          subprocess.run(['git','add','-A'],check=True)
+          assert not subprocess.check_output(['git','diff','--cached','--name-only','--','.github','.build'],text=True).strip()
+          subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+          subprocess.run(['git','commit','-m','fix(web): correct browser fetch binding and capability rendering'],check=True)
+          subprocess.run(['git','push','origin','HEAD:refs/heads/build/webapp-v1'],check=True)
+          PY
+# Source-only delivery corrections. No deployment, provider calls, secrets or financial activation.
