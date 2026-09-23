@@ -1,0 +1,50 @@
+name: Parity development workspace
+on:
+  push:
+    branches: [build/webapp-v1]
+    paths: [.github/workflows/parity-workspace.yml]
+permissions:
+  contents: read
+jobs:
+  workspace:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16
+        with:
+          go-version: '1.27.1'
+          cache: false
+      - name: Capture exact source and locked toolchain for isolated development
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/qpf-workspace
+          git archive --format=tar.gz HEAD > /tmp/qpf-workspace/source.tar.gz
+          git rev-parse HEAD > /tmp/qpf-workspace/source-commit.txt
+          cd WebApp
+          npm ci
+          tar -czf /tmp/qpf-workspace/node_modules.tar.gz node_modules
+          cd ../APIbackend
+          go mod download
+          go mod verify
+          go mod vendor
+          tar -czf /tmp/qpf-workspace/go-vendor.tar.gz vendor
+          tar -C "$(go env GOROOT)" -czf /tmp/qpf-workspace/go-toolchain.tar.gz .
+          cd /tmp
+          mkdir -p qpf-pg
+          cd qpf-pg
+          apt-get download postgresql-16 postgresql-client-16 libpq5 libllvm18 libicu74
+          cd /tmp/qpf-workspace
+          tar -C /tmp/qpf-pg -czf postgres-tools.tar.gz .
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: parity-workspace
+          retention-days: 2
+          path: /tmp/qpf-workspace/
+# Read-only, isolated source/dependency capture. No deployment, account changes, or provider calls.
