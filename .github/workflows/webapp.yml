@@ -74,6 +74,10 @@ jobs:
       QPF_ENV: local
       EXECUTION_MODE: local
       NOTIFICATION_MODE: local
+      PASSKEY_RP_ID: localhost
+      PRIVATE_UPLOAD_MODE: local
+      PRIVATE_UPLOAD_ROOT: /tmp/qpf-browser-private
+      FUNDING_MODE: local
       WEB_ORIGINS: http://localhost:5173
       HTTP_ADDR: 127.0.0.1:8080
       QPF_TEST_MODE: api
