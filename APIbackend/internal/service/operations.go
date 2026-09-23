@@ -316,6 +316,9 @@ func (s *Service) Decide(ctx context.Context, p Principal, id string, approve bo
 					if e = exec(tx, ctx, `UPDATE kyc_cases SET status='approved' WHERE id=$1`, target); e == nil {
 						e = exec(tx, ctx, `UPDATE users SET tier=$2,version=version+1 WHERE id=$1`, owner, in.Tier)
 					}
+					if e == nil {
+						e = s.recordVerifiedIdentity(ctx, tx, owner, target)
+					}
 					workflow = "kyc-approved"
 				case "kyc_decline":
 					if e = exec(tx, ctx, `UPDATE kyc_cases SET status='declined' WHERE id=$1`, target); e == nil {

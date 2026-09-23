@@ -1,7 +1,10 @@
-# Backend verification status
+# APIbackend v0.6 verification record
 
-Initial candidate: 3c72503c0969951a0d9f56dbc8f38b2fe8f581ef on build/api-backend-v1. Initial GitHub run: 35796609086. Initial compile/vet succeeded; the suite had four failures caused by synthetic staff email normalisation. Corrected fixtures and additional regression tests are present in this working snapshot, but a passing final rerun is not asserted here.
+## Local evidence
+TypeScript and 71 frontend unit/review contract tests passed. The additive Go parity domain suite passed against isolated PostgreSQL 16. Full Go race/private-object and content reruns are recorded separately before publication. The content catalogue contains 175 entries.
 
-Local JavaScript helper tests were executed; Go/PostgreSQL tests require the GitHub or independently supplied database environment. Node content tests for Novu and repository checks remain separate from financial tests. Container smoke and final contract generation are configured but not claimed passed without their execution evidence.
+## Browser and CI evidence
+Expanded normal-HTTP review and real Go/PostgreSQL browser suites are supplied, including a real cryptographic WebAuthn ceremony using a virtual authenticator. Final run/commit results are pending and must not be inferred from local compilation or component rendering. Existing baseline browser failures are retained as history, not silently called passed.
 
-No live provider acceptance, real email delivery, production deployment, independent restore, load/security certification or application-store verification occurred. Test counts must come from actual JSON test events; command packages with no tests are not skipped financial test cases.
+## Remaining acceptance
+In-person UAT remains not-tested. Real QPay funding, Novu delivery, private S3/ClamAV deployment, all-record privacy export, full financial/refund/treasury work and operational security/recovery remain separate. No live provider or real money was used. Exact screenshots require source/hash provenance.

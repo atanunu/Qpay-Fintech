@@ -20,9 +20,12 @@ import (
 	"time"
 
 	"github.com/atanunu/Qpay-Fintech/APIbackend/internal/httpapi"
+	"github.com/atanunu/Qpay-Fintech/APIbackend/internal/privateobjects"
 	"github.com/atanunu/Qpay-Fintech/APIbackend/internal/security"
 	"github.com/atanunu/Qpay-Fintech/APIbackend/internal/service"
 	"github.com/atanunu/Qpay-Fintech/APIbackend/internal/upstream"
+	"github.com/go-webauthn/webauthn/protocol"
+	"github.com/go-webauthn/webauthn/webauthn"
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
@@ -95,7 +98,63 @@ func Load(ctx context.Context) (*service.Service, httpapi.Config, error) {
 			return nil, httpapi.Config{}, errors.New("WEB_ORIGINS requires exact HTTPS origins (local HTTP permitted)")
 		}
 	}
+
 	c.Origins = origins
+	if rp := os.Getenv("PASSKEY_RP_ID"); rp != "" {
+		c.Passkeys, e = webauthn.New(&webauthn.Config{RPID: rp, RPDisplayName: "Qpay", RPOrigins: origins, AuthenticatorSelection: protocol.AuthenticatorSelection{UserVerification: protocol.VerificationRequired, ResidentKey: protocol.ResidentKeyRequirementRequired}})
+		if e != nil {
+			return nil, httpapi.Config{}, errors.New("invalid passkey relying-party configuration")
+		}
+	}
+	switch os.Getenv("PRIVATE_UPLOAD_MODE") {
+	case "", "off":
+	case "local":
+		if environment != "local" {
+			return nil, httpapi.Config{}, errors.New("local upload mode prohibited outside local environment")
+		}
+		root := os.Getenv("PRIVATE_UPLOAD_ROOT")
+		if root == "" {
+			return nil, httpapi.Config{}, errors.New("PRIVATE_UPLOAD_ROOT required")
+		}
+		c.UploadStore, e = privateobjects.NewLocal(root)
+		if e != nil {
+			return nil, httpapi.Config{}, e
+		}
+		c.UploadScanner = privateobjects.LocalScanner{}
+	case "s3":
+		store, err := privateobjects.NewS3(os.Getenv("PRIVATE_S3_ENDPOINT"), os.Getenv("PRIVATE_S3_BUCKET"), os.Getenv("PRIVATE_S3_REGION"), os.Getenv("PRIVATE_S3_ACCESS_KEY"), os.Getenv("PRIVATE_S3_SECRET_KEY"))
+		if err != nil {
+			return nil, httpapi.Config{}, err
+		}
+		if err = store.VerifyPrivate(ctx); err != nil {
+			return nil, httpapi.Config{}, err
+		}
+		c.UploadStore = store
+		socket := os.Getenv("CLAMD_SOCKET")
+		if socket == "" {
+			return nil, httpapi.Config{}, errors.New("private uploads require a configured scanning socket")
+		}
+		c.UploadScanner = privateobjects.Clamd{Socket: socket}
+	default:
+		return nil, httpapi.Config{}, errors.New("PRIVATE_UPLOAD_MODE must be off, local or s3")
+	}
+	if os.Getenv("FUNDING_MODE") == "local" {
+		if environment != "local" {
+			return nil, httpapi.Config{}, errors.New("local funding is prohibited outside local")
+		}
+		c.FundingGateway = service.LocalFunding{}
+	} else if mode := os.Getenv("FUNDING_MODE"); mode != "" && mode != "off" {
+		return nil, httpapi.Config{}, errors.New("a qualified funding provider adapter is required")
+	}
+	c.SchedulesEnabled = environment == "local" || truth("SCHEDULED_INTERNAL_ACCEPTED")
+	var fundingKey []byte
+	if raw := os.Getenv("FUNDING_CALLBACK_KEY"); raw != "" {
+		fundingKey, e = decodeKey(raw)
+		if e != nil {
+			return nil, httpapi.Config{}, e
+		}
+	}
+
 	mode := os.Getenv("EXECUTION_MODE")
 	if mode == "" {
 		mode = "off"
@@ -180,7 +239,7 @@ func Load(ctx context.Context) (*service.Service, httpapi.Config, error) {
 	default:
 		return fail(errors.New("EXECUTION_MODE must be off, local or qpay"))
 	}
-	return service.New(db, c), httpapi.Config{Environment: environment, Origins: origins, Logger: slog.New(slog.NewJSONHandler(os.Stdout, nil)), PolicyKey: c.PolicyKey}, nil
+	return service.New(db, c), httpapi.Config{Environment: environment, Origins: origins, Logger: slog.New(slog.NewJSONHandler(os.Stdout, nil)), PolicyKey: c.PolicyKey, FundingKey: fundingKey}, nil
 }
 func Main(kind string) {
 	if e := Run(kind); e != nil {
@@ -253,6 +312,18 @@ func Run(kind string) error {
 				if e = s.Scheduler(ctx); e != nil {
 					c.Logger.Error("scheduler_failed", "error_type", fmt.Sprintf("%T", e))
 				}
+
+				for i := 0; i < 50; i++ {
+					reminded, re := s.WorkReminder(ctx)
+					scheduled, se := s.WorkMandate(ctx)
+					if re != nil || se != nil {
+						c.Logger.Error("scheduled_work_failed")
+						break
+					}
+					if !reminded && !scheduled {
+						break
+					}
+				}
 				continue
 			}
 			for i := 0; i < 10; i++ {
@@ -264,7 +335,11 @@ func Run(kind string) error {
 				if ne != nil {
 					c.Logger.Error("notification_worker_failed", "error_type", fmt.Sprintf("%T", ne))
 				}
-				if !worked && !sent {
+				funded, fe := s.WorkFundingAccount(ctx)
+				if fe != nil {
+					c.Logger.Error("funding_account_worker_failed")
+				}
+				if !worked && !sent && !funded {
 					break
 				}
 			}

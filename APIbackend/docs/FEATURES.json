@@ -421,6 +421,166 @@
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Split each product into separately approved legal financial and technical work",
       "evidence": "Separately approved regulated products not implemented"
+    },
+    {
+      "id": "API-043",
+      "capability": "Customer capabilities personal controls and exact handles",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/customer_parity.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-044",
+      "capability": "One-off bank quotes and direct original lookup",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/payments.go; customer_parity.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-045",
+      "capability": "Private household bills and timestamped biller watches",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/bill_management.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-046",
+      "capability": "Time-zone aware reminder occurrences",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/bill_management.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-047",
+      "capability": "Bounded internal mandates and one-effect scheduler",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/mandates.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-048",
+      "capability": "Requests partial shares and atomic ledger linkage",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/money_requests.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-049",
+      "capability": "Posted-month insights annotations and budgets",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/insights.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-050",
+      "capability": "Checked encrypted private document storage",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/private_uploads.go; internal/privateobjects/; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-051",
+      "capability": "Resumable identity and immutable review snapshots",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/identity_privacy.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-052",
+      "capability": "WebAuthn credential and ceremony verification",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/passkeys.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-053",
+      "capability": "Dual-mailbox verified email changes",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/identity_privacy.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-054",
+      "capability": "Zero-balance closure and scoped profile export",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/identity_privacy.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-055",
+      "capability": "Support evidence escalation and event history",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/support.go; identity_privacy.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-056",
+      "capability": "Persistent funding provisioning and independent credit verification interface",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/funding_accounts.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-057",
+      "capability": "Additive version-two migrations and contract exports",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/migrate.go; parity_v2.sql; internal/httpapi/parity_routes.go; parity domain tests and client integration suite"
+    },
+    {
+      "id": "API-058",
+      "capability": "Real API browser and private-object regression qualification",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity API](docs/PARITY-API.md)",
+      "acceptance": "Owner scoped; current state checked; errors and release gates explicit",
+      "evidence": "internal/service/parity_test.go; WebApp/e2e/parity.api.spec.ts; parity domain tests and client integration suite"
     }
   ]
 }

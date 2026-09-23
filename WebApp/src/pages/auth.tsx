@@ -1,3 +1,4 @@
+import {PasskeySignIn} from './security_parity';
 import { useState } from 'react';
 import { ArrowRight, ArrowUpRight, Check, Eye, EyeOff, LockKeyhole, ShieldCheck } from 'lucide-react';
 import { Link, Navigate, Outlet, useLocation, useNavigate } from 'react-router-dom';
@@ -26,7 +27,7 @@ export function LoginPage() {
   <ErrorBox error={a.error}/><Field label="Email address"><input required type="email" autoComplete="username" value={email} onChange={e => setEmail(e.target.value)} placeholder="you@example.com" maxLength={254}/></Field><Password value={password} onChange={setPassword}/>
   <div className="form-between"><button className="text-link" type="button" aria-expanded={advanced} onClick={() => setAdvanced(v => !v)}>Use two-step verification</button><Link className="text-link" to="/forgot-password">Forgot password?</Link></div>
   {advanced && <>{useRecovery ? <Field label="Recovery code"><input value={recovery} onChange={e => setRecovery(e.target.value)} autoComplete="off" maxLength={100}/></Field> : <Field label="Authenticator code"><input inputMode="numeric" pattern="[0-9]{6}" autoComplete="one-time-code" maxLength={6} value={mfa} onChange={e => setMfa(e.target.value)} placeholder="6-digit code"/></Field>}<button type="button" className="text-link" onClick={() => { setUseRecovery(v => !v); setMfa(''); setRecovery(''); }}>{useRecovery ? 'Use authenticator instead' : 'Use a recovery code instead'}</button></>}
-  <Button type="submit" busy={a.busy} className="full">Sign in <ArrowRight size={18}/></Button></Form><p className="auth-switch">New to Qpay? <Link to="/register">Create an account</Link></p><SecurityNote/></>;
+  <Button type="submit" busy={a.busy} className="full">Sign in <ArrowRight size={18}/></Button></Form><PasskeySignIn/><p className="auth-switch">New to Qpay? <Link to="/register">Create an account</Link></p><SecurityNote/></>;
 }
 export function RegisterPage() {
   const { client } = useApp(); const navigate = useNavigate(); const a = useAction(); const [name, setName] = useState(''); const [email, setEmail] = useState(''); const [password, setPassword] = useState('');

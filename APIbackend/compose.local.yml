@@ -6,6 +6,7 @@ x-app: &app
     context: ..
     dockerfile: APIbackend/Dockerfile
   env_file: .env.local
+  volumes: [qpf-private:/app/private]
   read_only: true
   tmpfs: [/tmp]
   cap_drop: [ALL]
@@ -50,9 +51,12 @@ services:
     <<: *app
     entrypoint: [/app/bin/qpfctl]
     profiles: [tools]
+    environment:
+      PRIVATE_UPLOAD_MODE: 'off'
     restart: 'no'
-    volumes: ['./local-secrets:/run/qpf-secrets:ro']
+    volumes: ['./local-secrets:/run/qpf-secrets:ro', qpf-private:/app/private]
     depends_on:
       migrate: {condition: service_completed_successfully}
 volumes:
   qpf-data:
+  qpf-private:

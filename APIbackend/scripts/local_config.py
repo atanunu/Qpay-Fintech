@@ -20,6 +20,10 @@ WEB_ORIGINS=http://localhost:5173,http://localhost:5174
 EXECUTION_MODE=local
 NOTIFICATION_MODE=local
 HTTP_ADDR=:8080
+PASSKEY_RP_ID=localhost
+PRIVATE_UPLOAD_MODE=local
+PRIVATE_UPLOAD_ROOT=/app/private
+FUNDING_MODE=local
 """
 fd = os.open(root / '.env.local', os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
 with os.fdopen(fd, 'w') as stream:

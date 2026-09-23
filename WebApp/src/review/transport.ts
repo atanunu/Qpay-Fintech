@@ -1,3 +1,4 @@
+import { reviewParity, beforeReviewPayment, afterReviewPayment, type ParityState } from './parity';
 import { operationID } from '../api/id';
 /** Explicitly synthetic UI harness. Never imported as a fallback for an API error. */
 import { APIError } from '../api/client';
@@ -6,7 +7,7 @@ import type { Approval, Beneficiary, Capabilities, Device, Entry, Funding, Kind,
 export const reviewCredentials = { email: 'review@qpay.example.invalid', password: 'Review-only-2026', code: '123456', pin: '123456', recipient: 'usr_review_tunde_02' };
 export type Scenario = 'success' | 'pending' | 'failed' | 'unknown' | 'expired' | 'insufficient' | 'restricted' | 'offline';
 export interface ReviewControls { sampleEmail: string; scenario: Scenario; setScenario(value: Scenario): void; reset(): void; resolvePending(): void }
-interface State { version: 1; signedIn: boolean; user: User; balance: string; held: string; payments: Payment[]; quotes: Record<string, Quote>; beneficiaries: Beneficiary[]; notices: Notice[]; preferences: Preferences; cases: SupportCase[]; messages: Record<string, Message[]>; kyc: KycCase[]; devices: Device[]; entries: Entry[]; funding: Funding[]; idempotency: Record<string, string> }
+export interface State { parity?: ParityState; version: 1; signedIn: boolean; user: User; balance: string; held: string; payments: Payment[]; quotes: Record<string, Quote>; beneficiaries: Beneficiary[]; notices: Notice[]; preferences: Preferences; cases: SupportCase[]; messages: Record<string, Message[]>; kyc: KycCase[]; devices: Device[]; entries: Entry[]; funding: Funding[]; idempotency: Record<string, string> }
 const storeKey = 'qpf.synthetic-review.v1';
 const now = () => new Date().toISOString();
 const id = (kind: string) => `${kind}_review_${operationID().replaceAll('-', '')}`;
@@ -48,6 +49,8 @@ export class ReviewTransport implements Transport, ReviewControls {
       this.state.balance = (BigInt(this.state.balance) - BigInt(p.total_minor)).toString();
       this.state.held = (BigInt(this.state.held) - BigInt(p.total_minor)).toString();
       if (p.kind === 'bill') p.fulfilment_status = 'ready';
+      if (!this.state.entries.some(e => e.reference === p.id)) this.state.entries.unshift({ id: Math.max(0, ...this.state.entries.map(e => e.id)) + 1, journal_id: 'jnl_' + p.id, reference: p.id, kind: p.kind === 'internal' ? 'internal_transfer' : 'external_payment', delta_minor: '-' + p.total_minor, created_at: p.updated_at });
+      afterReviewPayment(this.state, p);
     }); this.persist();
   }
   async request<T>(method: Method, inputPath: string, options: RequestOptions = {}): Promise<T> {
@@ -74,6 +77,7 @@ export class ReviewTransport implements Transport, ReviewControls {
     if (path === '/v1/auth/challenges') return { status: 'accepted' };
     if (path === '/v1/auth/challenges/verify') { if (b.code !== '123456') throw new APIError(401, 'unauthorized', 'The review code is 123456.'); s.user.email_verified = true; return { status: 'accepted' }; }
     if (!s.signedIn) throw new APIError(401, 'unauthorized', 'Sign in to continue.');
+    const parityResult = reviewParity(s, method, url, options); if (parityResult.handled) return parityResult.value;
     if (path === '/v1/auth/csrf') return { csrf_token: 'synthetic-csrf' };
     if (path === '/v1/auth/refresh') return session();
     if (path === '/v1/auth/logout') { s.signedIn = false; return undefined; }
@@ -116,6 +120,7 @@ export class ReviewTransport implements Transport, ReviewControls {
       const key = options.idempotencyKey || ''; const existing = s.idempotency[key];
       if (existing) { const p = s.payments.find(x => x.id === existing)!; if (p.quote_id !== b.quote_id) throw new APIError(409, 'conflict', 'Key already bound.'); return p; }
       const q = s.quotes[b.quote_id]; if (!q || q.used || this.approvals.get(q.id)?.authorisation_token !== b.authorisation_token) throw new APIError(401, 'unauthorized', 'Authorise this quote first.');
+      beforeReviewPayment(s, q);
       if (this.scenario === 'insufficient' || BigInt(q.total_minor) > BigInt(s.balance) - BigInt(s.held)) throw new APIError(409, 'insufficient_funds', 'Insufficient available balance.');
       const status = this.scenario === 'pending' ? 'pending' : this.scenario === 'failed' ? 'failed' : 'succeeded';
       const p: Payment = { id: id('pay'), quote_id: q.id, kind: q.kind, status, amount_minor: q.amount_minor, fee_minor: q.fee_minor, total_minor: q.total_minor, currency: 'NGN', direction: 'outgoing', fulfilment_status: q.kind === 'bill' ? status === 'succeeded' ? 'ready' : 'pending' : 'not_applicable', created_at: now(), updated_at: now() };
@@ -123,7 +128,7 @@ export class ReviewTransport implements Transport, ReviewControls {
       if (status === 'succeeded') { s.balance = (BigInt(s.balance) - BigInt(p.total_minor)).toString(); s.entries.unshift({ id: Date.now(), journal_id: id('jnl'), reference: p.id, kind: p.kind + '_payment', delta_minor: '-' + p.total_minor, created_at: now() }); }
       if (status === 'pending') s.held = (BigInt(s.held) + BigInt(p.total_minor)).toString();
       s.notices.unshift({ id: id('notice'), workflow: 'transfer-' + status, subject: q.kind === 'bill' ? 'Bill payment update' : 'Transfer update', reference: p.id, created_at: now(), read: false });
-      this.persist();
+      afterReviewPayment(s, p); this.persist();
       if (this.scenario === 'unknown') throw new APIError(0, 'network_unknown', 'Synthetic response loss after the request was accepted. Check the original request.');
       return p;
     }

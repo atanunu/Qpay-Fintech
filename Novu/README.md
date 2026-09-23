@@ -2,7 +2,7 @@
 
 **Approved stack:** self-hosted Novu, with repository-owned email content, templates, schemas and code-workflow definitions under `Novu/`. Portable content uses dependency-free Node.js 22+ ESM; the production TypeScript/Novu Framework host and exact server/SDK versions require qualification. The previously proposed `Notifications/` directory is superseded.
 
-**Status — 22 September 2026:** 164 email scenarios and six built-in themes render locally. The workflow factory passes a contract harness, not a real Novu SDK integration test. **Zero live workflows are enabled; no Novu instance, provider, production bridge or email delivery has been activated.** Community is the planning edition baseline; do not assume Cloud or paid Enterprise capabilities.
+**Status — 22 September 2026:** 175 email scenarios and six built-in themes render locally. The workflow factory passes a contract harness, not a real Novu SDK integration test. **Zero live workflows are enabled; no Novu instance, provider, production bridge or email delivery has been activated.** Community is the planning edition baseline; do not assume Cloud or paid Enterprise capabilities.
 
 ## Purpose and boundaries
 Own deterministic email content, payload schemas, workflow code, theme rendering, deployment/import documentation and notification-specific acceptance. Go owns business facts, identity, financial state, notification intent, recipient eligibility, consent, suppression and audit. No email, callback, link or delivery failure can approve, reverse or complete a payment. See [accepted ADR](../devdocs/adrs/0003-SELF-HOSTED-NOVU.md) and [specification index](../devdocs/Novu/00-INDEX.md).
@@ -35,7 +35,7 @@ For real hosting, follow [deployment and import](../devdocs/Novu/05-DEPLOYMENT-A
 ## Source and API map
 | Path | Responsibility |
 |---|---|
-| [catalogue/emails.psv](catalogue/emails.psv) | Canonical 164-event catalogue: audience, scope, class, theme, guard and real copy. |
+| [catalogue/emails.psv](catalogue/emails.psv) | Canonical 175-event catalogue: audience, scope, class, theme, guard and real copy. |
 | [src/content.mjs](src/content.mjs) | Six themes, validation, payload schemas, synthetic fixtures, safe HTML and plain text. |
 | [bridge/workflows.mjs](bridge/workflows.mjs) | Importable factory accepting the real Framework API and mandatory trusted adapter seams. |
 | [bridge/README.md](bridge/README.md) | Production bindings, signatures, provider overrides and limitations. |
@@ -53,7 +53,7 @@ Status measures the named task, not end-to-end product readiness. Content implem
 | ID | Capability | Milestone | Priority | Status | Specification | Acceptance | Evidence |
 |---|---|---|---|---|---|---|---|
 | NOT-001 | Self-hosted architecture and operating specifications | M0 | P0 | Implemented | [Spec](../devdocs/Novu/01-SELF-HOSTED-ARCHITECTURE.md) | Ownership, edition gaps, private hosting and operations documented | devdocs/Novu/01–08; accepted ADR-0003 |
-| NOT-002 | End-to-end email catalogue and deterministic identifiers | M0 | P0 | Implemented | [Spec](../devdocs/Novu/02-EMAIL-CATALOGUE.md) | 164 unique copy-bearing scenarios and synthetic fixtures validate | catalogue/emails.psv; content tests; docs/CONTENT-SUMMARY.json |
+| NOT-002 | End-to-end email catalogue and deterministic identifiers | M0 | P0 | Implemented | [Spec](../devdocs/Novu/02-EMAIL-CATALOGUE.md) | 175 unique copy-bearing scenarios and synthetic fixtures validate | catalogue/emails.psv; content tests; docs/CONTENT-SUMMARY.json |
 | NOT-003 | Six built-in email themes and safe renderer | M0 | P0 | Implemented | [Spec](../devdocs/Novu/03-THEMES-AND-CONTENT.md) | Escaped HTML and plain text render with approved theme and bounded values | src/content.mjs; six-theme browser preview; renderer tests |
 | NOT-004 | Per-workflow payload schemas and portable content bundle | M0 | P0 | Implemented | [Spec](../devdocs/Novu/04-CONTRACTS-AND-DELIVERY.md) | Export schemas, fixtures, HTML and text without credentials or network | scripts/build.mjs; build and --check executed |
 | NOT-005 | Offline content and workflow-contract regression suite | M0 | P0 | Implemented | [Spec](../devdocs/Novu/07-TESTING-AND-ROADMAP.md) | Positive and adversarial catalogue, render and factory cases pass | tests/content.test.mjs; 207 Node tests passed |
@@ -82,7 +82,7 @@ Status measures the named task, not end-to-end product readiness. Content implem
 <!-- FEATURES:END -->
 
 ## Done, pending and blocked
-**Built locally:** 164 subject/body definitions (134 core, 20 growth, 10 regulated), six theme variants, per-workflow strict schemas, synthetic fixtures, HTML/text export, opt-out header values, factory contract seam and offline regression suite. Core does not mean automatically enabled: the production allowlist is empty. Growth and regulated rows do not grant product approval.
+**Built locally:** 175 subject/body definitions (145 core, 20 growth, 10 regulated), six theme variants, per-workflow strict schemas, synthetic fixtures, HTML/text export, opt-out header values, factory contract seam and offline regression suite. Core does not mean automatically enabled: the production allowlist is empty. Growth and regulated rows do not grant product approval.
 
 **Partial:** code-first factory integration. **Pending:** real Framework host/signatures, provider MIME mapping, infrastructure, actual sync, Go outbox and subscriber policy, callbacks, client inboxes, sender qualification, live screenshots, recovery and release. Exact hostnames, target Novu version, legal sender information and provider account selection are required for deployment, not for local content development.
 
@@ -102,3 +102,6 @@ Source/catalogue changes require this README, the root README, relevant spec, te
 
 ## Changelog
 2026-09-22: accepted self-hosted Novu under `Novu/`; built content catalogue, themes, validation/export and partial workflow factory; documented installation, migration, delivery safety and all remaining production gates. See [changelog](CHANGELOG.md).
+
+### Customer-parity additions — 2026-09-23
+Eleven additive events cover reminders, request/share lifecycle, internal schedules, dual-mailbox verification and passkey changes. Existing workflow IDs are preserved. Go embeds the canonical catalogue with drift tests. Live deployment stays unqualified. [Producer mapping](../APIbackend/docs/PARITY-API.md). The displayed six-theme image retains its original capture provenance; it is not a preview of newly delivered emails.

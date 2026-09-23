@@ -13,6 +13,7 @@ type CaseInput struct {
 	Subject   string `json:"subject"`
 	Message   string `json:"message"`
 	PaymentID string `json:"payment_id,omitempty"`
+	IssueType string `json:"issue_type,omitempty"`
 }
 
 func (s *Service) CaseCreate(ctx context.Context, p Principal, in CaseInput) (string, error) {
@@ -27,6 +28,14 @@ func (s *Service) CaseCreate(ctx context.Context, p Principal, in CaseInput) (st
 	}
 	if e := s.Rate(ctx, "case:"+p.User.ID, 10, time.Hour); e != nil {
 		return "", e
+	}
+	if in.IssueType == "" {
+		in.IssueType = "general"
+	}
+	switch in.IssueType {
+	case "general", "money-not-received", "wrong-recipient", "duplicate-debit", "missing-token", "unfulfilled-bill", "suspicious-activity":
+	default:
+		return "", Invalid("unsupported issue type")
 	}
 	id := stringID("case_")
 	e := s.transact(ctx, func(tx *sql.Tx) error {
@@ -45,6 +54,12 @@ func (s *Service) CaseCreate(ctx context.Context, p Principal, in CaseInput) (st
 			return Invalid("dispute must reference your payment")
 		}
 		if e := exec(tx, ctx, `INSERT INTO support_cases(id,owner_id,payment_id,kind,subject) VALUES($1,$2,$3,$4,$5)`, id, p.User.ID, payment, in.Kind, in.Subject); e != nil {
+			return e
+		}
+		if e := exec(tx, ctx, `UPDATE support_cases SET issue_type=$2,response_due_at=$3 WHERE id=$1`, id, in.IssueType, s.Now().Add(24*time.Hour)); e != nil {
+			return e
+		}
+		if e := exec(tx, ctx, `INSERT INTO case_events(id,case_id,actor_id,event) VALUES($1,$2,$3,'case_opened')`, stringID("caseevt_"), id, p.User.ID); e != nil {
 			return e
 		}
 		if e := s.appendMessage(ctx, tx, id, p.User.ID, in.Message); e != nil {
@@ -137,6 +152,16 @@ func (s *Service) CaseReply(ctx context.Context, p Principal, id, message, statu
 		p.User = u
 		staff = caseStaff(p)
 		var owner string
+		if e = tx.QueryRowContext(ctx, `SELECT owner_id FROM support_cases WHERE id=$1 AND ($2 OR owner_id=$3)`, id, staff, p.User.ID).Scan(&owner); e != nil {
+			return isMissing(e)
+		}
+		customer, e := s.user(ctx, tx, owner, true)
+		if e != nil {
+			return e
+		}
+		if customer.Status == "closed" {
+			return conflict("closed-account case requires the controlled retention process")
+		}
 		if e = tx.QueryRowContext(ctx, `SELECT owner_id FROM support_cases WHERE id=$1 AND ($2 OR owner_id=$3) FOR UPDATE`, id, staff, p.User.ID).Scan(&owner); e != nil {
 			return isMissing(e)
 		}
@@ -144,6 +169,9 @@ func (s *Service) CaseReply(ctx context.Context, p Principal, id, message, statu
 			return e
 		}
 		if e = exec(tx, ctx, `UPDATE support_cases SET status=CASE WHEN $2='' THEN status ELSE $2 END,updated_at=$3 WHERE id=$1`, id, status, s.Now()); e != nil {
+			return e
+		}
+		if e = exec(tx, ctx, `INSERT INTO case_events(id,case_id,actor_id,event) VALUES($1,$2,$3,$4)`, stringID("caseevt_"), id, p.User.ID, "reply_"+status); e != nil {
 			return e
 		}
 		if staff {

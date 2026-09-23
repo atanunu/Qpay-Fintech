@@ -1,9 +1,10 @@
-# WebApp verification record
+# WebApp v0.6 verification record
 
-Initial local execution: TypeScript strict typecheck, API/review/offline build paths, and 58 Vitest unit/contract/review-adapter tests. Local Chromium rendered the actual React components using a MemoryRouter and injected in-memory browser-storage harness because navigation is restricted in the working environment. Desktop/mobile screens and transfer stages produced zero uncaught page errors and zero WCAG-tagged axe violations in that harness after corrections.
+## Local evidence
+TypeScript and 71 frontend unit/review contract tests passed. The additive Go parity domain suite passed against isolated PostgreSQL 16. Full Go race/private-object and content reruns are recorded separately before publication. The content catalogue contains 175 entries.
 
-That local rendering is **not** real API-cookie or provider acceptance. The committed Playwright suites separately exercise a normal HTTP origin and a real Go/PostgreSQL local API in GitHub CI. Final run/commit IDs and result totals must be attached after execution; they are not inferred from the local tests.
+## Browser and CI evidence
+Expanded normal-HTTP review and real Go/PostgreSQL browser suites are supplied, including a real cryptographic WebAuthn ceremony using a virtual authenticator. Final run/commit results are pending and must not be inferred from local compilation or component rendering. Existing baseline browser failures are retained as history, not silently called passed.
 
-Test layers: exact money/date validation, response-schema guards, cookie/CSRF transport, read-only refresh recovery, no write replay, idempotency/reference recovery, synthetic scenarios; browser auth/payment/bills/support/settings/statement journeys; automated accessibility and responsive captures; API-connected browser tests with real PostgreSQL and synthetic execution. No external banking or email service is called.
-
-Remaining acceptance: in-person reviewer sign-off; all GAP decisions; actual same-site deployment and additional supported browsers/devices; real Novu delivery; real QPay sandbox/provider evidence; production financial, legal, security and independent recovery approval.
+## Remaining acceptance
+In-person UAT remains not-tested. Real QPay funding, Novu delivery, private S3/ClamAV deployment, all-record privacy export, full financial/refund/treasury work and operational security/recovery remain separate. No live provider or real money was used. Exact screenshots require source/hash provenance.

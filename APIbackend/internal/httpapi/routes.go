@@ -96,6 +96,7 @@ func accepted() map[string]string             { return map[string]string{"status
 func created(id string, e error) (any, error) { return map[string]string{"id": id}, e }
 func (h *Handler) register() {
 	s := h.Service
+	h.parityRoutes()
 	h.Router.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		h.fail(w, r, &service.Fault{Status: 404, Code: "not_found", Message: "route not found"})
 	})

@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "catalogue_sha256": "26a9d65bac5cb7db0382377355ec31ab674051aa2e3c64b4159ed5aae04424de",
-  "total": 164,
+  "catalogue_sha256": "e8c6870024f99be9aeaa4fc511c8548602ed352268e91d34a29d0f0855b1d301",
+  "total": 175,
   "scopes": {
-    "core": 134,
+    "core": 145,
     "growth": 20,
     "regulated": 10
   },
@@ -15,7 +15,7 @@
     "operations",
     "campaign"
   ],
-  "code_challenges": 3,
+  "code_challenges": 5,
   "status": "content-built; live-setup-unverified",
   "live_workflows_enabled": 0
 }

@@ -1,6 +1,6 @@
 # Qpay-Fintech
 
-**Customer WebApp review candidate v0.5 — 23 September 2026.** The responsive React customer app now has API-connected journeys plus a separate synthetic review mode. The previously supplied persistent Go backend working source is reconciled for joint local testing. The API retains its documented incomplete funding, refund, reconciliation, provider and production gates. No real-money launch or live Novu/provider activation is claimed.
+**Customer parity review candidate v0.6 — 23 September 2026.** WebApp and APIbackend now implement everyday-money improvements with an additive database migration: private identity/support documents, passkeys, personal limits, exact recipients, household bills, calendar reminders, bounded internal schedules, requests/split shares, monthly insights, dual-mailbox changes and guarded closure. Real transaction providers and specialised products remain gated. Final CI and manual in-person acceptance are distinct from implemented source.
 
 ## Product and operating scope
 Initial product-planning scope: Nigeria, NGN and adult individual customers targeting a partner-backed operating model. This is a planning baseline, not regulatory approval; legal entity, partner agreements and operating permissions still require verification. Bills and transfers must include the ledger, recovery, reconciliation, risk, support and operational controls that make them usable end to end. Growth and separately regulated products require explicit approval.
@@ -25,7 +25,7 @@ APIbackend/       Go API, worker, scheduler, internal domains, migrations and te
 MobileApp/        React Native source, tests and independent documentation
 AdminDashboard/   Bespoke staff web source, tests and independent documentation
 WebApp/           Customer web source, tests and independent documentation
-Novu/             Self-hosted notification specs, 164 email scenarios, six themes and tests
+Novu/             Self-hosted notification specs, 175 email scenarios, six themes and tests
 contracts/        OpenAPI, events and synthetic contract-fixture workspaces
 devdocs/          Shared plans, service indexes, ADRs and delivery templates
 docs/diagrams/    Canonical target-design source and rendered SVG images
@@ -49,16 +49,16 @@ The following derived summary counts service task rows. These are not unique end
 <!-- PROGRESS:START -->
 | Service | Total tasks | Planned | In progress | Partial | Implemented | Blocked | Unverified | Deferred |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| [APIbackend](APIbackend/README.md) | 42 | 10 | 0 | 32 | 0 | 0 | 0 | 0 |
+| [APIbackend](APIbackend/README.md) | 58 | 10 | 0 | 48 | 0 | 0 | 0 | 0 |
 | [MobileApp](MobileApp/README.md) | 25 | 25 | 0 | 0 | 0 | 0 | 0 | 0 |
 | [AdminDashboard](AdminDashboard/README.md) | 26 | 26 | 0 | 0 | 0 | 0 | 0 | 0 |
-| [WebApp](WebApp/README.md) | 21 | 1 | 0 | 20 | 0 | 0 | 0 | 0 |
+| [WebApp](WebApp/README.md) | 34 | 1 | 0 | 33 | 0 | 0 | 0 | 0 |
 | [Novu](Novu/README.md) | 27 | 19 | 0 | 1 | 6 | 0 | 0 | 1 |
 <!-- PROGRESS:END -->
 
 See [documentation task progress](devdocs/project/DOCUMENTATION-PROGRESS.md) for completed foundation work and remaining specification gates.
 
-Implementation baseline: persistent Go core; responsive React customer journeys and clearly marked API-pending drafts; explicit synthetic scenarios; 58 passing local WebApp unit/contract tests. Normal HTTP browser and real API/PostgreSQL verification are separate CI gates. Novu retains 164 content scenarios and six themes, with live bridge/provider acceptance still pending. See [validation report](devdocs/project/VALIDATION-REPORT.md) for the exact scope of documentation-only checks.
+Implementation baseline: persistent Go core; responsive React customer journeys and clearly marked API-pending drafts; explicit synthetic scenarios; 71 passing local WebApp unit/contract tests. Normal HTTP browser and real API/PostgreSQL verification are separate CI gates. Novu retains 175 content scenarios and six themes, with live bridge/provider acceptance still pending. See [validation report](devdocs/project/VALIDATION-REPORT.md) for the exact scope of documentation-only checks.
 
 ## Documentation and open decisions
 Start with [devdocs/00-INDEX.md](devdocs/00-INDEX.md). The [full document inventory](devdocs/project/17-DOCUMENT-INVENTORY.md) distinguishes drafted planning documents from detailed specifications still to write. Open launch decisions include operating authority/custody, provider contracts, hostnames, production infrastructure, theme counts and release objectives. Stack and E1 integration are accepted in [ADR-0001](devdocs/adrs/0001-APPROVED-ARCHITECTURE.md).
@@ -102,3 +102,8 @@ Launch blockers: legal/custody approval, provider agreements, detailed executabl
 
 ## In-person customer review
 [WebApp](WebApp/README.md) · [Test procedure](WebApp/docs/IN-PERSON-TESTING.md) · [API mapping](WebApp/docs/API-MAPPING.md) · [Web verification](WebApp/docs/VALIDATION.md). Synthetic UI and actual Go/PostgreSQL tests are distinct; both remain separate from actual provider acceptance.
+
+## Everyday-customer parity delivery
+[Parity scope and gaps](devdocs/WebApp/02-COMPETITOR-PARITY.md) · [API contracts](APIbackend/docs/PARITY-API.md) · [Browser evidence](WebApp/docs/VALIDATION.md). The original task identifiers remain intact. New source is tracked as component implementation, not blanket certification.
+
+Delivery recovery: hash-verified application records restored, documentation tail rebuilt and OpenAPI duplication corrected. [Delivery evidence and remaining acceptance](devdocs/project/GITHUB-DELIVERY.md).

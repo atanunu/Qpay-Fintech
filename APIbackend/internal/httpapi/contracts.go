@@ -121,7 +121,21 @@ func enrichOpenAPI(spec map[string]any) map[string]any {
 				params = append(params, map[string]any{"name": "format", "in": "query", "schema": map[string]any{"type": "string", "enum": []string{"json", "csv"}, "default": "json"}})
 			}
 			if len(params) > 0 {
-				op["parameters"] = params
+				// Registry defaults and concrete contracts may describe the same
+				// parameter. Keep its position, but let the richer contract win.
+				unique := make([]any, 0, len(params))
+				indexes := make(map[string]int, len(params))
+				for _, value := range params {
+					parameter := value.(map[string]any)
+					key := parameter["in"].(string) + ":" + parameter["name"].(string)
+					if index, ok := indexes[key]; ok {
+						unique[index] = parameter
+					} else {
+						indexes[key] = len(unique)
+						unique = append(unique, parameter)
+					}
+				}
+				op["parameters"] = unique
 			}
 		}
 	}

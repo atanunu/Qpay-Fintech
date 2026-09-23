@@ -27,6 +27,7 @@ type Config struct {
 	Origins     []string
 	Logger      *slog.Logger
 	PolicyKey   []byte
+	FundingKey  []byte
 }
 type Handler struct {
 	Service *service.Service
@@ -387,8 +388,24 @@ func (h *Handler) OpenAPI() map[string]any {
 		if strings.Contains(r.Path, "{id}") {
 			parameters = append(parameters, map[string]any{"name": "id", "in": "path", "required": true, "schema": map[string]any{"type": "string"}})
 		}
-		if r.Path == "/v1/payments" && r.Method == "POST" {
+		if (r.Path == "/v1/payments" || r.Path == "/v1/money-requests") && r.Method == "POST" {
 			parameters = append(parameters, map[string]any{"name": "Idempotency-Key", "in": "header", "required": true, "schema": map[string]any{"type": "string", "minLength": 16, "maxLength": 100}})
+		}
+		queryFields := map[string][]string{
+			"/v1/me/controls": {}, "/v1/recipients/lookup": {"handle"},
+			"/v1/payments/lookup": {"idempotency_key", "quote_id"}, "/v1/payments": {"limit", "before"},
+			"/v1/notifications": {"limit", "before"}, "/v1/wallet/entries": {"limit", "before"},
+			"/v1/statements": {"from", "to", "format"}, "/v1/insights": {"month"}, "/v1/search": {"q"},
+			"/v1/money-requests": {"before"}, "/v1/bills/token-archive": {"before"},
+			"/v1/uploads": {"purpose", "case_id"}, "/v1/budgets/{id}": {"month"},
+		}
+		if r.Method == "GET" || r.Method == "DELETE" {
+			for _, name := range queryFields[r.Path] {
+				parameters = append(parameters, map[string]any{"name": name, "in": "query", "required": false, "schema": map[string]any{"type": "string"}})
+			}
+		}
+		if r.Path == "/v1/uploads" && r.Method == "POST" {
+			operation["requestBody"] = map[string]any{"required": true, "content": map[string]any{"multipart/form-data": map[string]any{"schema": map[string]any{"type": "object", "required": []string{"file", "purpose"}, "properties": map[string]any{"file": map[string]any{"type": "string", "format": "binary", "description": "JPEG, PNG or PDF; at most 5 MiB"}, "purpose": map[string]any{"type": "string", "enum": []string{"kyc", "support"}}, "case_id": map[string]any{"type": "string"}}}}}}
 		}
 		if len(parameters) > 0 {
 			operation["parameters"] = parameters
@@ -408,5 +425,5 @@ func (h *Handler) OpenAPI() map[string]any {
 		}
 		path[strings.ToLower(r.Method)] = operation
 	}
-	return enrichOpenAPI(map[string]any{"openapi": "3.1.0", "info": map[string]any{"title": "Qpay-Fintech API", "version": "0.4.0", "description": "Persistent core API. Local execution is synthetic. Provider, regulatory, security and production acceptance remain separate release gates."}, "paths": paths, "components": map[string]any{"securitySchemes": map[string]any{"mobileBearer": map[string]any{"type": "http", "scheme": "bearer", "description": "Opaque mobile session token"}, "customerCookie": map[string]any{"type": "apiKey", "in": "cookie", "name": h.cookieName("customer", "access")}, "staffCookie": map[string]any{"type": "apiKey", "in": "cookie", "name": h.cookieName("staff", "access")}}}})
+	return enrichOpenAPI(map[string]any{"openapi": "3.1.0", "info": map[string]any{"title": "Qpay-Fintech API", "version": "0.6.0", "description": "Persistent core API. Local execution is synthetic. Provider, regulatory, security and production acceptance remain separate release gates."}, "paths": paths, "components": map[string]any{"securitySchemes": map[string]any{"mobileBearer": map[string]any{"type": "http", "scheme": "bearer", "description": "Opaque mobile session token"}, "customerCookie": map[string]any{"type": "apiKey", "in": "cookie", "name": h.cookieName("customer", "access")}, "staffCookie": map[string]any{"type": "apiKey", "in": "cookie", "name": h.cookieName("staff", "access")}}}})
 }

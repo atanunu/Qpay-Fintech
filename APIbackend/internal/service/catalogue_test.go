@@ -13,7 +13,7 @@ func TestEmbeddedCatalogueExactlyMatchesNovu(t *testing.T) {
 	if string(canonical) != notificationCatalogue {
 		t.Fatal("embedded catalogue drift; regenerate from canonical Novu source")
 	}
-	if len(NotificationMetadata) != 164 {
+	if len(NotificationMetadata) != 175 {
 		t.Fatal("unexpected catalogue size")
 	}
 	for _, key := range []string{"transfer-completed", "funding-received", "identity-verify-email", "support-reply-received"} {

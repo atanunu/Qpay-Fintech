@@ -10,9 +10,9 @@ Synthetic records and the selected scenario are kept in the current browser tab;
 The web app does not switch modes following a timeout or 503. Configure a separate explicit review build instead. Financial submits are allowed only against reported local/staging environments; production reports are blocked by this release, with independent backend controls still mandatory.
 
 ## Session workflow
-Start in the Review workspace. Name the session with non-sensitive text. The 13 UAT rows start as Not tested. Follow registration/login, account readiness, bank/internal transfer, bill validation/value, interruption recovery, receipts/statements, security/devices, support and notification journeys. Exercise success, pending, definitive failure, response loss, expiry, insufficient-funds, restriction and outage cases. Record expected versus observed behaviour and the environment used.
+Start in the Review workspace. Name the session with non-sensitive text. The 24 UAT rows start as Not tested. Follow registration/login, account readiness, bank/internal transfer, bill validation/value, interruption recovery, receipts/statements, security/devices, support and notification journeys. Exercise success, pending, definitive failure, response loss, expiry, insufficient-funds, restriction and outage cases. Record expected versus observed behaviour and the environment used.
 
-UI gaps are a separate review category: bank funding instructions, card/USSD choice, KYC upload, contact changes, privacy export and closure must remain clearly unsubmitted. A support dispute must not claim a refund was executed. Classify a row as blocked when the API or operating decision is missing rather than marking the screen's appearance as end-to-end success.
+Review gaps are a separate category: actual partner funding, card/USSD collection, verified SMS, automatic identity-provider verification and full all-record privacy export remain unavailable. Digital document submission, dual-mailbox email changes and guarded closure now have actual backend operations and must be tested as such. A support dispute must not claim a refund was executed. Classify a row as blocked when the API or operating decision is missing rather than marking the screen's appearance as end-to-end success.
 
 Export the JSON notes before ending the tab. The export includes mode, capability report, manual results and the 14 integration gaps. Do not put PINs, passwords, recovery codes, customer documents, bank numbers or other personal data into notes, traces or screenshots. Clear test state between reviewers and revoke test sessions when finished.
 
@@ -24,3 +24,6 @@ Export the JSON notes before ending the tab. The export includes mode, capabilit
 5. Security, legal, treasury, recovery and operational approval before production money movement.
 
 Do not count steps 1 or 2 as evidence that step 4 or 5 passed. No external payment, email or deployment authority is implied by this test plan.
+
+## New parity journeys
+Saved bills and reminders are server-backed in API mode. Internal schedules require explicit caps and new approval after pause; external autopay is unavailable. Request participants see only their own share, and cancellation is rechecked when paying. Monthly insights use complete posted-ledger queries. Test passkeys on the real configured origin; synthetic mode never pretends to perform cryptographic ceremonies. Only local test documents are allowed in local_unscanned mode. Cosmetic masking is visual convenience, not data access control.

@@ -180,7 +180,7 @@ func (s *Service) BeneficiaryCreate(ctx context.Context, p Principal, enquiry, l
 	return id, e
 }
 func (s *Service) Beneficiaries(ctx context.Context, owner string) ([]map[string]any, error) {
-	rows, e := s.DB.QueryContext(ctx, `SELECT b.id,b.label,e.name FROM beneficiaries b JOIN enquiries e ON e.id=b.enquiry_id WHERE b.owner_id=$1 AND b.active ORDER BY b.created_at DESC LIMIT 100`, owner)
+	rows, e := s.DB.QueryContext(ctx, `SELECT b.id,b.label,e.name,b.favourite FROM beneficiaries b JOIN enquiries e ON e.id=b.enquiry_id WHERE b.owner_id=$1 AND b.active ORDER BY b.favourite DESC,b.created_at DESC LIMIT 100`, owner)
 	if e != nil {
 		return nil, e
 	}
@@ -188,10 +188,11 @@ func (s *Service) Beneficiaries(ctx context.Context, owner string) ([]map[string
 	out := []map[string]any{}
 	for rows.Next() {
 		var id, label, name string
-		if e = rows.Scan(&id, &label, &name); e != nil {
+		var favourite bool
+		if e = rows.Scan(&id, &label, &name, &favourite); e != nil {
 			return nil, e
 		}
-		out = append(out, map[string]any{"id": id, "label": label, "account_name": name})
+		out = append(out, map[string]any{"id": id, "label": label, "account_name": name, "favourite": favourite})
 	}
 	return out, rows.Err()
 }
@@ -238,7 +239,7 @@ func (s *Service) CreateQuote(ctx context.Context, p Principal, in QuoteInput) (
 	d := Destination{}
 	switch in.Kind {
 	case "internal":
-		if in.RecipientID == p.User.ID || !validID(in.RecipientID) || in.BeneficiaryID != "" || in.ValidationID != "" {
+		if in.EnquiryID != "" || in.RecipientID == p.User.ID || !validID(in.RecipientID) || in.BeneficiaryID != "" || in.ValidationID != "" {
 			return q, Invalid("invalid internal recipient")
 		}
 		u, e := s.user(ctx, s.DB, in.RecipientID, false)
@@ -257,7 +258,14 @@ func (s *Service) CreateQuote(ctx context.Context, p Principal, in QuoteInput) (
 			return q, unavailable()
 		}
 		var eid, sealed string
-		e = s.DB.QueryRowContext(ctx, `SELECT e.id,e.destination_enc FROM beneficiaries b JOIN enquiries e ON e.id=b.enquiry_id WHERE b.id=$1 AND b.owner_id=$2 AND b.active`, in.BeneficiaryID, p.User.ID).Scan(&eid, &sealed)
+		if (in.BeneficiaryID == "") == (in.EnquiryID == "") {
+			return q, Invalid("use exactly one saved beneficiary or current enquiry")
+		}
+		if in.EnquiryID != "" {
+			e = s.DB.QueryRowContext(ctx, `SELECT id,destination_enc FROM enquiries WHERE id=$1 AND owner_id=$2 AND kind='bank' AND expires_at>$3`, in.EnquiryID, p.User.ID, s.Now()).Scan(&eid, &sealed)
+		} else {
+			e = s.DB.QueryRowContext(ctx, `SELECT e.id,e.destination_enc FROM beneficiaries b JOIN enquiries e ON e.id=b.enquiry_id WHERE b.id=$1 AND b.owner_id=$2 AND b.active`, in.BeneficiaryID, p.User.ID).Scan(&eid, &sealed)
+		}
 		if e != nil {
 			return q, isMissing(e)
 		}
@@ -277,7 +285,7 @@ func (s *Service) CreateQuote(ctx context.Context, p Principal, in QuoteInput) (
 		}
 		d.AccountName = enquiry.Name
 	case "bill":
-		if in.RecipientID != "" || in.BeneficiaryID != "" {
+		if in.EnquiryID != "" || in.RecipientID != "" || in.BeneficiaryID != "" {
 			return q, Invalid("bill quote requires only a validation")
 		}
 		if !s.Config.ExternalEnabled || s.Config.Gateway == nil {
@@ -467,6 +475,9 @@ func (s *Service) CreatePayment(ctx context.Context, p Principal, quoteID, token
 		if version != q.PolicyVersion {
 			return conflict("policy changed; obtain and authorise a new quote")
 		}
+		if e = s.ensureSpendingControl(ctx, tx, u.ID, q.Total); e != nil {
+			return e
+		}
 		if q.Total > per {
 			return Invalid("total exceeds per-payment limit")
 		}
@@ -518,6 +529,9 @@ func (s *Service) CreatePayment(ctx context.Context, p Principal, quoteID, token
 			fulfilment = "pending"
 		}
 		if e = exec(tx, ctx, `INSERT INTO payments(id,owner_id,recipient_id,quote_id,idempotency_key,request_hash,kind,status,amount,fee,total,currency,destination_enc,narration,fulfilment_status,created_at,updated_at) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$16)`, id, u.ID, recipient, q.ID, key, hash, q.Kind, state, int64(q.Amount), int64(q.Fee), int64(q.Total), q.Currency, sealed, q.Narration, fulfilment, s.Now()); e != nil {
+			return e
+		}
+		if e = s.applyRequestShare(ctx, tx, q, id, u.ID); e != nil {
 			return e
 		}
 		if e = exec(tx, ctx, `UPDATE quotes SET used=true WHERE id=$1`, q.ID); e != nil {

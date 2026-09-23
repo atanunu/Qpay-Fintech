@@ -11,7 +11,7 @@ class DocumentationChecks(unittest.TestCase):
     def setUp(self):
         self.tmp = tempfile.TemporaryDirectory()
         self.copy = Path(self.tmp.name) / 'repo'
-        shutil.copytree(ROOT, self.copy, ignore=shutil.ignore_patterns('__pycache__'))
+        shutil.copytree(ROOT, self.copy, ignore=shutil.ignore_patterns('__pycache__', '.git', 'node_modules', 'vendor', 'dist', 'test-results', 'playwright-report', '.test-fixtures'))
     def tearDown(self):
         self.tmp.cleanup()
     def run_check(self):
@@ -21,6 +21,12 @@ class DocumentationChecks(unittest.TestCase):
         p=self.copy/relative
         p.write_text(p.read_text(encoding='utf-8').replace(old,new,1),encoding='utf-8')
     def test_valid_pack_passes(self):
+        result=self.run_check()
+        self.assertEqual(result.returncode,0,result.stderr)
+    def test_vendor_documentation_is_not_project_documentation(self):
+        p=self.copy/'APIbackend/vendor/example/README.md'
+        p.parent.mkdir(parents=True)
+        p.write_text('[third-party link](missing-vendor-file.md)')
         result=self.run_check()
         self.assertEqual(result.returncode,0,result.stderr)
     def test_missing_service_readme_fails(self):

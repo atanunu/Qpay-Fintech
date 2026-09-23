@@ -15,13 +15,6 @@ export function loadIntent(owner: string, storage: Storage = sessionStorage): In
 export function clearIntent(storage: Storage = sessionStorage): void { storage.removeItem(KEY); }
 export async function findOriginal(client: Transport, intent: Intent): Promise<Payment | null> {
   if (intent.paymentId) return client.request('GET', `/v1/payments/${encodeURIComponent(intent.paymentId)}`);
-  let before = '';
-  for (let page = 0; page < 10; page++) {
-    const records = await client.request<Payment[]>('GET', `/v1/payments?limit=100${before ? '&before=' + encodeURIComponent(before) : ''}`);
-    const original = records.find(x => x.quote_id === intent.quoteId);
-    if (original) return original;
-    if (records.length < 100) return null;
-    before = records[records.length - 1].id;
-  }
-  return null; // Not-found is not proof of failure. UI must retain unknown status.
+  const result = await client.request<{found:boolean;payment?:Payment}>('GET', `/v1/payments/lookup?idempotency_key=${encodeURIComponent(intent.idempotencyKey)}&quote_id=${encodeURIComponent(intent.quoteId)}`);
+  return result.found && result.payment ? result.payment : null; // absence is never proof of failure
 }

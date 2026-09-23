@@ -20,9 +20,9 @@ const code = find('identity-verify-email'), optional = find('identity-onboarding
 const changed = (e, patch) => ({ ...fixture(e), ...patch });
 
 test('catalogue has stable unique IDs and guards', () => {
-  assert.equal(catalogue.length, 164);
-  assert.equal(new Set(catalogue.map(e => e.workflowId)).size, 164);
-  assert.equal(catalogue.filter(e => e.scope === 'core').length, 134);
+  assert.equal(catalogue.length, 175);
+  assert.equal(new Set(catalogue.map(e => e.workflowId)).size, 175);
+  assert.equal(catalogue.filter(e => e.scope === 'core').length, 145);
 });
 test('rejects duplicate catalogue keys', () => {
   const lines = readFileSync(new URL('../catalogue/emails.psv', import.meta.url), 'utf8').trim().split('\n');

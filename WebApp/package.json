@@ -1,6 +1,6 @@
 {
   "name": "@qpay-fintech/webapp",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -15,7 +15,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "test:e2e:api": "QPF_TEST_MODE=api playwright test e2e/api.spec.ts",
+    "test:e2e:api": "QPF_TEST_MODE=api playwright test",
     "check": "npm run typecheck && npm test",
     "build:offline": "tsc --noEmit && QPF_OFFLINE_EXPORT=true VITE_REVIEW_ROUTER=hash vite build --mode review && node scripts/export-offline.mjs"
   },

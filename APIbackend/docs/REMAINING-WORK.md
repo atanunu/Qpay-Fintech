@@ -1,20 +1,18 @@
-# Remaining backend work and honest readiness
+# Remaining work and release gates — v0.6
 
-This release is a substantial persistent core, not completion of all 42 programme tasks.
+## Delivered components
+Migration two supplies owned private uploads, a scanner/store adapter, resumable/immutable manual identity review, dual-mailbox changes, guarded account closure, passkeys, saved bills, budgets/insights, requests, reminders and bounded internal mandates. Do not continue reporting these as missing source. Their actual deployment qualification remains separate.
 
-## Launch-blocking engineering
-Partner account provisioning, owned funding instructions and verified callback/requery credit pipeline; authenticated durable provider callback inbox; complete refund/return workflows and independent compensating operations; comprehensive three-way reconciliation, suspense resolution, treasury/float/settlement; owned private document storage and scanning with KYC provider integration; transaction-specific provider fee/status/fulfilment qualification; production notification bridge, correlation/bounce/complaint callbacks and unsubscribe; complete staff invitation/recovery/contact-change/account-closure flows; automated risk controls; role-separated production database privileges; observability and independent recovery/load/security acceptance.
+## Financial and partner engineering still incomplete
+The funding provisioning/verified-credit interface and persistent lifecycle exist, but only a local synthetic adapter is available. Implement and qualify the actual QPay partner adapter before real funding. Complete provider callbacks, refund/return compensation, three-way reconciliation, suspense management, treasury/float/settlement, and supported provider fees/states/value retrieval. Missing provider outcomes retain original references; they are not permission to resubmit.
 
-KYC currently accepts an evidence reference for manual review. This is not proof of identity, document ownership, liveness or regulatory eligibility. Account policy caps are not a representation of approved regulatory tiers. Reconciliation compares supplied rows and does not prove completeness of a bank statement or settlement period. CreditFunding is a tested internal primitive; a customer cannot currently obtain a real funding account through this API.
+## Identity, privacy and service operations
+Automatic identity-provider verification/liveness and phone-assisted camera handoff are not implemented. Private S3/ClamAV adapters need actual deployment, ACL/public-access-block, key custody, encrypted backup, scanner update, retention and orphan-cleanup acceptance. Verified SMS/phone changes are unavailable. Current profile export is deliberately limited and is not a complete all-record privacy-access response. Larger financial exports need asynchronous jobs and complete pagination.
 
-## Provider gates
-QPay adapter source follows inspected interfaces, with HTTP fixtures and safe unresolved-state behaviour. No real QPay sandbox/live acceptance has been completed. Unknown operations retain their original reference; list bounds or unsupported states may require manual investigation. No provider should be activated solely by toggling an environment variable.
+Support attachments/escalation/events exist; complete staff assignment, SLA automation, retention and inbound email do not. Staff invitation/recovery hardening, automated risk rules, production database role separation, metrics, independent recovery, load tests and external security review remain gates.
 
-## Client and delivery work
-Finish complete per-view schemas/typed SDK acceptance, all list pagination and async exports; integrate actual web/mobile UI and native secure-storage/deep-link tests; receive and inspect real MIME, provider callbacks and notification permissions. Existing support lacks attachments, assignment/SLA automation and inbound email processing.
+## Notification and growth gates
+The catalogue now includes customer-parity events and backend producers. Self-hosted Novu HTTP bridge, exact version compatibility, email-client rendering, real delivery, complaints/bounces and optional unsubscribe acceptance remain unfinished. External bank/bill autopay, money pockets, rewards, cards, lending, business products, international payments and other specialised financial programmes are not enabled.
 
-## Expansion
-Recurring mandates, business KYB/payroll/bulk payouts, merchant collections/QR/payment links, rewards/referrals/budgets, partner APIs and separately regulated products remain planned. They must not be advertised as live features.
-
-## Verification/publication
-The corrected suite and container smoke test must pass on the exact final revision. The working snapshot does not claim a passing final CI run or a completed push to main. Preserve the previous main until verification and documentation are reconciled.
+## Publication evidence
+Local tests, exact remote source, CI results, manual in-person acceptance and production readiness must each be recorded separately. Review-code publication does not authorise real transactions.

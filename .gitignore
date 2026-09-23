@@ -29,3 +29,6 @@ __pycache__/
 **/test-results/
 **/playwright-report/
 APIbackend/evidence/
+
+**/.test-fixtures/
+WebApp/dependency-audit.json

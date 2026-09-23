@@ -40,7 +40,7 @@
       "status": "Partial",
       "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Upload and verification flow handles failures and review without data leaks",
-      "evidence": "pages/account.tsx; manual evidence case API plus clearly unsubmitted digital draft; GAP-03"
+      "evidence": "pages/funding_identity.tsx; private documents and resumable immutable submission; parity API tests; automatic identity provider remains GAP-03"
     },
     {
       "id": "WEB-005",
@@ -50,7 +50,7 @@
       "status": "Partial",
       "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Show authoritative scoped available held and funding states",
-      "evidence": "pages/overview.tsx; authoritative wallet and funding history; funding-account interfaces pending GAP-01/02"
+      "evidence": "pages/overview.tsx; authoritative wallet and persistent funding provisioning; local-only TEST adapter; real partner remains GAP-01/02"
     },
     {
       "id": "WEB-006",
@@ -190,7 +190,7 @@
       "status": "Partial",
       "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Real integration paths use maintained generated contracts and deterministic tests",
-      "evidence": "tests/core.test.ts and review.test.ts: 58 pass; e2e/review.spec.ts and api.spec.ts authored; remote execution pending"
+      "evidence": "tests/core.test.ts, review.test.ts, parity.test.ts: 71 local passes; expanded normal browser and API verification pending"
     },
     {
       "id": "WEB-020",
@@ -211,6 +211,136 @@
       "specification": "[Implementation](../devdocs/WebApp/01-IMPLEMENTATION-AND-REVIEW.md)",
       "acceptance": "Split selected products into end-to-end web and operations tasks",
       "evidence": "src/api/integration.ts GAP-13 decision register; unapproved expansion is not presented as executable services"
+    },
+    {
+      "id": "WEB-022",
+      "capability": "Account capabilities and effective limits",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "CapabilitiesCard and current policy state",
+      "evidence": "src/components/parity.tsx; e2e/parity.api.spec.ts"
+    },
+    {
+      "id": "WEB-023",
+      "capability": "Exact handles and one-off bank recipients",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Owned enquiry and fresh quote; no compulsory saving",
+      "evidence": "src/pages/payments.tsx; core and API browser suites"
+    },
+    {
+      "id": "WEB-024",
+      "capability": "Original payment resolution and safe repeat preparation",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Owner lookup; hold timeline; new quote for repeat",
+      "evidence": "src/api/recovery.ts; components/payment_parity.tsx; tests/core.test.ts"
+    },
+    {
+      "id": "WEB-025",
+      "capability": "Saved household bills and protected token archive",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Private saved accounts and original-value retrieval",
+      "evidence": "src/pages/planner.tsx; e2e/parity.review.spec.ts; parity.api.spec.ts"
+    },
+    {
+      "id": "WEB-026",
+      "capability": "Payment reminders and bounded internal schedules",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Explicit approval caps and per-occurrence traceability",
+      "evidence": "src/pages/planner.tsx; APIbackend/internal/service/parity_test.go"
+    },
+    {
+      "id": "WEB-027",
+      "capability": "Requests split shares and partial payments",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Exact sums; participant privacy; cancel rechecked at commit",
+      "evidence": "src/pages/requests.tsx; tests/parity.test.ts; e2e/parity.api.spec.ts"
+    },
+    {
+      "id": "WEB-028",
+      "capability": "Complete monthly insights annotations and budgets",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Posted-ledger aggregate; exclusions never change balances",
+      "evidence": "src/pages/insights.tsx; components/payment_parity.tsx; parity tests"
+    },
+    {
+      "id": "WEB-029",
+      "capability": "Passkeys personal freeze and security controls",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Actual WebAuthn and existing MFA; no payment auto-approval",
+      "evidence": "src/pages/security_parity.tsx; e2e/parity.api.spec.ts"
+    },
+    {
+      "id": "WEB-030",
+      "capability": "Private digital identity draft and submission",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Owned checked uploads and immutable submitted identity",
+      "evidence": "src/pages/funding_identity.tsx; e2e/parity.api.spec.ts"
+    },
+    {
+      "id": "WEB-031",
+      "capability": "Funding lifecycle and missing-credit support",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "No invented bank details; independently verified provider contract",
+      "evidence": "src/pages/funding_identity.tsx; backend parity tests; actual partner gated"
+    },
+    {
+      "id": "WEB-032",
+      "capability": "Private support evidence and escalation",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Owned attachments and audited case events; not financial refund",
+      "evidence": "src/pages/support.tsx; components/parity.tsx; API browser suite"
+    },
+    {
+      "id": "WEB-033",
+      "capability": "Dual-mailbox change scoped export and guarded closure",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Step-up proofs; no funds or open cases at closure",
+      "evidence": "src/pages/security_parity.tsx; backend parity tests; SMS and full export gated"
+    },
+    {
+      "id": "WEB-034",
+      "capability": "Responsive search masking and compact presentation",
+      "milestone": "M3",
+      "priority": "P0",
+      "status": "Partial",
+      "specification": "[Parity scope](../devdocs/WebApp/02-COMPETITOR-PARITY.md)",
+      "acceptance": "Desktop/mobile navigation and labels; no private offline cache",
+      "evidence": "src/components/layout.tsx; styles/app.css; e2e/review.spec.ts"
     }
   ]
 }

@@ -42,9 +42,9 @@ export function validated<T>(path: string, data: unknown): T {
   if (p === '/v1/capabilities') return validateCapabilities(data) as T;
   if (p === '/v1/wallet') return validateWallet(data) as T;
   if (p === '/v1/me' || p === '/v1/auth/me') return validateUser(data) as T;
-  if (p === '/v1/auth/login' || p === '/v1/auth/refresh') { const a = record(data); validateUser(a.user); text(a.csrf_token); if (a.access_token || a.refresh_token) throw new APIError(502, 'unsafe_session', 'The API returned credentials for the wrong transport.'); return data as T; }
+  if (p === '/v1/auth/login' || p === '/v1/auth/refresh' || p === '/v1/auth/passkeys/finish') { const a = record(data); validateUser(a.user); text(a.csrf_token); if (a.access_token || a.refresh_token) throw new APIError(502, 'unsafe_session', 'The API returned credentials for the wrong transport.'); return data as T; }
   if (/^\/v1\/quotes(?:\/[^/]+)?$/.test(p)) return validateQuote(data) as T;
-  if (/^\/v1\/payments\/[^/]+$/.test(p)) return validatePayment(data) as T;
+  if (p !== '/v1/payments/lookup' && /^\/v1\/payments\/[^/]+$/.test(p)) return validatePayment(data) as T;
   if (p === '/v1/payments') {
     if (Array.isArray(data)) return data.map(validatePayment) as T;
     return validatePayment(data) as T;
@@ -64,12 +64,13 @@ export class HttpTransport implements Transport {
   private async call<T>(method: Method, path: string, options: RequestOptions = {}): Promise<T> {
     if (!path.startsWith('/v1/') || path.includes('..') || path.includes('\\') || path.includes('#')) throw new Error('Invalid API path.');
     const headers: Record<string, string> = { Accept: options.raw ? 'text/csv' : 'application/json' };
-    if (options.body !== undefined) headers['Content-Type'] = 'application/json';
+    const multipart = typeof FormData !== 'undefined' && options.body instanceof FormData;
+    if (options.body !== undefined && !multipart) headers['Content-Type'] = 'application/json';
     if (method !== 'GET' && this.csrf) headers['X-CSRF-Token'] = this.csrf;
     if (options.idempotencyKey) headers['Idempotency-Key'] = options.idempotencyKey;
     let response: Response;
     try {
-      response = await this.fetcher(this.base + path, { method, headers, body: options.body === undefined ? undefined : JSON.stringify(options.body), credentials: 'include', cache: 'no-store', redirect: 'error', signal: options.signal ? AbortSignal.any([options.signal, AbortSignal.timeout(25000)]) : AbortSignal.timeout(25000) });
+      response = await this.fetcher(this.base + path, { method, headers, body: options.body === undefined ? undefined : multipart ? options.body as FormData : JSON.stringify(options.body), credentials: 'include', cache: 'no-store', redirect: 'error', signal: options.signal ? AbortSignal.any([options.signal, AbortSignal.timeout(multipart ? 60000 : 25000)]) : AbortSignal.timeout(multipart ? 60000 : 25000) });
     } catch (error) {
       if (options.signal?.aborted) throw error;
       throw new APIError(0, 'network_unknown', method === 'GET' ? 'Cannot reach the API. Check your connection and try refreshing.' : 'The response was not received. The outcome may be unknown; check the original operation before retrying.');
@@ -83,7 +84,7 @@ export class HttpTransport implements Transport {
       throw new APIError(response.status, String(error.code ?? 'request_failed'), String(error.message ?? 'Request could not be completed.'), String(envelope.request_id ?? ''));
     }
     const data = validated<T>(path, envelope.data);
-    if (path === '/v1/auth/login' || path === '/v1/auth/refresh') this.csrf = (data as Session).csrf_token;
+    if (path === '/v1/auth/login' || path === '/v1/auth/refresh' || path === '/v1/auth/passkeys/finish') this.csrf = (data as Session).csrf_token;
     return data;
   }
   async refreshCSRF() { const data = await this.call<{ csrf_token: string }>('GET', '/v1/auth/csrf'); this.csrf = text(data.csrf_token); }
@@ -99,7 +100,7 @@ export class HttpTransport implements Transport {
     return this.refreshInFlight;
   }
   async request<T>(method: Method, path: string, options: RequestOptions = {}): Promise<T> {
-    const publicAuth = ['/v1/auth/login', '/v1/auth/register', '/v1/auth/challenges', '/v1/auth/challenges/verify'].includes(path);
+    const publicAuth = ['/v1/auth/login', '/v1/auth/register', '/v1/auth/challenges', '/v1/auth/challenges/verify', '/v1/auth/passkeys/begin','/v1/auth/passkeys/finish'].includes(path);
     if (method !== 'GET' && !publicAuth && !this.csrf) await this.refreshCSRF();
     try { return await this.call<T>(method, path, options); }
     catch (error) {

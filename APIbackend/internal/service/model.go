@@ -120,6 +120,7 @@ type QuoteInput struct {
 	Amount        Money  `json:"amount_minor"`
 	Currency      string `json:"currency"`
 	BeneficiaryID string `json:"beneficiary_id,omitempty"`
+	EnquiryID     string `json:"enquiry_id,omitempty"`
 	ValidationID  string `json:"validation_id,omitempty"`
 	RecipientID   string `json:"recipient_id,omitempty"`
 	Narration     string `json:"narration"`
@@ -198,6 +199,12 @@ type Gateway interface {
 }
 
 type Config struct {
+	SchedulesEnabled bool
+	UploadStore      UploadStore
+	UploadScanner    UploadScanner
+	FundingGateway   FundingGateway
+	Passkeys         *PasskeyProvider
+
 	Environment      string
 	Pepper           []byte
 	Box              security.Box
@@ -340,7 +347,7 @@ func (s *Service) Payments(ctx context.Context, owner string, limit int, before 
 }
 func (s *Service) Ping(ctx context.Context) error {
 	var version int
-	return s.DB.QueryRowContext(ctx, `SELECT version FROM schema_migrations WHERE version=1`).Scan(&version)
+	return s.DB.QueryRowContext(ctx, `SELECT version FROM schema_migrations WHERE version=2`).Scan(&version)
 }
 func FaultStatus(err error) (int, string, string) {
 	var f *Fault

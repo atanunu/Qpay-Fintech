@@ -73,7 +73,11 @@ func (s *Service) WorkPayment(ctx context.Context) (bool, error) {
 		}
 		request = ProviderRequest{Reference: payment, UpstreamID: p.ProviderReference, Kind: p.Kind, Amount: p.Amount, Currency: p.Currency, Destination: d, Narration: narration}
 		if p.Status == "accepted" {
-			if e = s.eligible(u); e != nil {
+			controls, ce := s.controls(ctx, tx, u.ID)
+			if ce != nil {
+				return ce
+			}
+			if e = s.eligible(u); e != nil || controls.Frozen {
 				skip = true
 				if e = exec(tx, ctx, `UPDATE payments SET status='pending_review',updated_at=$2 WHERE id=$1`, payment, s.Now()); e != nil {
 					return e

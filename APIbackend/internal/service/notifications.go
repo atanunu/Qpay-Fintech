@@ -59,6 +59,9 @@ func (s *Service) notify(ctx context.Context, tx *sql.Tx, owner, workflow, refer
 	return s.notifyOccurrence(ctx, tx, owner, workflow, reference, reference, values, secret)
 }
 func (s *Service) notifyOccurrence(ctx context.Context, tx *sql.Tx, owner, workflow, reference, occurrence string, values map[string]any, secret bool) error {
+	return s.notifyTo(ctx, tx, owner, workflow, reference, occurrence, values, secret, "")
+}
+func (s *Service) notifyTo(ctx context.Context, tx *sql.Tx, owner, workflow, reference, occurrence string, values map[string]any, secret bool, email string) error {
 	meta, ok := NotificationMetadata[workflow]
 	if !ok || meta.Scope != "core" {
 		return errors.New("unknown or inactive notification workflow")
@@ -69,6 +72,9 @@ func (s *Service) notifyOccurrence(ctx context.Context, tx *sql.Tx, owner, workf
 	u, e := s.user(ctx, tx, owner, false)
 	if e != nil {
 		return e
+	}
+	if email == "" {
+		email = u.Email
 	}
 	id := stringID("notice_")
 	now := s.Now().UTC().Truncate(time.Millisecond)
@@ -97,7 +103,7 @@ func (s *Service) notifyOccurrence(ctx context.Context, tx *sql.Tx, owner, workf
 	if e != nil {
 		return e
 	}
-	return exec(tx, ctx, `INSERT INTO notification_intents(id,owner_id,workflow,reference,recipient_email,payload_enc,secret,expires_at,created_at,occurrence) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) ON CONFLICT(owner_id,workflow,reference,occurrence) DO NOTHING`, id, owner, workflow, reference, u.Email, encrypted, secret, expires, now, occurrence)
+	return exec(tx, ctx, `INSERT INTO notification_intents(id,owner_id,workflow,reference,recipient_email,payload_enc,secret,expires_at,created_at,occurrence) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) ON CONFLICT(owner_id,workflow,reference,occurrence) DO NOTHING`, id, owner, workflow, reference, email, encrypted, secret, expires, now, occurrence)
 }
 func (s *Service) Notifications(ctx context.Context, owner string, limit int, before string) (map[string]any, error) {
 	if limit < 1 || limit > 100 {
@@ -191,7 +197,8 @@ func (s *Service) notificationEligibility(ctx context.Context, id string, suppli
 	if e != nil {
 		return false, "recipient_missing", nil, e
 	}
-	if u.Email != email || u.Status == "closed" {
+	contactCode := key == "identity-contact-old-code" || key == "identity-contact-new-code"
+	if (!contactCode && u.Email != email) || u.Status == "closed" {
 		return false, "recipient_changed", nil, nil
 	}
 	var suppressed bool
@@ -201,7 +208,30 @@ func (s *Service) notificationEligibility(ctx context.Context, id string, suppli
 	if suppressed {
 		return false, "mailbox_suppressed", nil, nil
 	}
-	if NotificationMetadata[key].Code {
+	if contactCode {
+		var encrypted, oldHash string
+		var valid bool
+		e = s.DB.QueryRowContext(ctx, `SELECT new_value_enc,old_value_hash,NOT consumed AND attempts<5 AND expires_at>$3 FROM account_changes WHERE id=$1 AND owner_id=$2`, reference, uid, s.Now()).Scan(&encrypted, &oldHash, &valid)
+		if errors.Is(e, sql.ErrNoRows) {
+			return false, "contact_change_missing", nil, nil
+		}
+		if e != nil {
+			return false, "contact_change_unavailable", nil, e
+		}
+		if !valid || !security.Equal(oldHash, security.MAC(s.Config.Pepper, u.Email)) {
+			return false, "contact_change_expired", nil, nil
+		}
+		destination := u.Email
+		if key == "identity-contact-new-code" {
+			destination, e = s.Config.Box.Open(encrypted, "contact-change:"+reference)
+			if e != nil {
+				return false, "contact_change_unavailable", nil, e
+			}
+		}
+		if email != destination {
+			return false, "contact_destination_mismatch", nil, nil
+		}
+	} else if NotificationMetadata[key].Code {
 		var valid bool
 		e = s.DB.QueryRowContext(ctx, `SELECT NOT consumed AND attempts<5 AND expires_at>$2 FROM challenges WHERE id=$1 AND user_id=$3`, reference, s.Now(), uid).Scan(&valid)
 		if errors.Is(e, sql.ErrNoRows) {
@@ -296,7 +326,7 @@ func (s *Service) LocalChallenge(ctx context.Context, email string) (map[string]
 		return nil, denied()
 	}
 	var id, encrypted string
-	e := s.DB.QueryRowContext(ctx, `SELECT n.id,n.payload_enc FROM notification_intents n JOIN users u ON u.id=n.owner_id WHERE u.email=$1 AND n.secret AND n.expires_at>$2 ORDER BY n.created_at DESC LIMIT 1`, strings.ToLower(email), s.Now()).Scan(&id, &encrypted)
+	e := s.DB.QueryRowContext(ctx, `SELECT n.id,n.payload_enc FROM notification_intents n WHERE n.recipient_email=$1 AND n.secret AND n.expires_at>$2 ORDER BY n.created_at DESC LIMIT 1`, strings.ToLower(email), s.Now()).Scan(&id, &encrypted)
 	if e != nil {
 		return nil, isMissing(e)
 	}

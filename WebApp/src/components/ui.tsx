@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import type { ButtonHTMLAttributes, FormEvent, ReactNode } from 'react';
+import { Children, cloneElement, isValidElement, useEffect, useId, useRef } from 'react';
+import type { ButtonHTMLAttributes, FormEvent, ReactElement, ReactNode } from 'react';
 import { ArrowRight, CheckCircle2, Copy, Info, LoaderCircle, ShieldCheck, TriangleAlert, X } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { APIError, message } from '../api/client';
@@ -8,7 +8,19 @@ import { useApp } from '../state';
 export function Button({ children, busy, variant = 'primary', className = '', ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { busy?: boolean; variant?: string }) {
   return <button type="button" {...props} disabled={props.disabled || busy} aria-busy={busy} className={`button ${variant} ${className}`}>{busy && <LoaderCircle size={17} className="spin"/>}{children}</button>;
 }
-export function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) { return <label className="field"><span className="field-label">{label}</span>{children}{hint && <span className="field-hint">{hint}</span>}</label>; }
+export function Field({ label, hint, children }: { label: string; hint?: string; children: ReactNode }) {
+  const id = useId(); let linked = false;
+  const connect = (nodes: ReactNode): ReactNode => Children.map(nodes, node => {
+    if (!isValidElement(node)) return node;
+    const element = node as ReactElement<Record<string, unknown>>;
+    if (!linked && ['input', 'select', 'textarea'].includes(String(element.type))) {
+      linked = true;
+      return cloneElement(element, { id, 'aria-labelledby': id + '-label', 'aria-describedby': hint ? id + '-hint' : undefined });
+    }
+    return element.props.children ? cloneElement(element, {}, connect(element.props.children as ReactNode)) : element;
+  });
+  return <div className="field"><label className="field-label" id={id+'-label'} htmlFor={id}>{label}</label>{connect(children)}{hint && <span className="field-hint" id={id+'-hint'}>{hint}</span>}</div>;
+}
 export function Form({ children, onSubmit, className = '' }: { children: ReactNode; onSubmit: () => void; className?: string }) { return <form className={`form ${className}`} onSubmit={(e: FormEvent) => { e.preventDefault(); onSubmit(); }}>{children}</form>; }
 export function ErrorBox({ error, retry }: { error: unknown; retry?: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -26,7 +38,7 @@ export function Card({ title, action, children, className = '' }: { title?: stri
 export function PageTitle({ eyebrow = 'YOUR ACCOUNT', title, description, action }: { eyebrow?: string; title: string; description?: string; action?: ReactNode }) { return <div className="page-title"><div><span className="eyebrow">{eyebrow}</span><h1 tabIndex={-1}>{title}</h1>{description && <p>{description}</p>}</div>{action}</div>; }
 export function Loading({ label = 'Loading your account…' }: { label?: string }) { return <div className="loading" role="status"><LoaderCircle size={23} className="spin"/><span>{label}</span></div>; }
 export function Empty({ title, children, action }: { title: string; children?: ReactNode; action?: ReactNode }) { return <div className="empty"><span className="empty-icon"><Info size={25}/></span><h3>{title}</h3><p>{children}</p>{action}</div>; }
-export function Badge({ status }: { status: string }) { const labels: Record<string, string> = { succeeded: 'Completed', pending_review: 'Under review', submitted: 'Processing', accepted: 'Request received', failed: 'Unsuccessful', ready: 'Value ready', approved: 'Approved', information_required: 'Action needed' }; return <span className={`badge ${status}`}><span className="dot"/>{labels[status] || status.replaceAll('_', ' ')}</span>; }
+export function Badge({ status }: { status: string }) { const labels: Record<string, string> = { succeeded: 'Completed', pending: 'Pending', pending_review: 'Under review', submitted: 'Processing', accepted: 'Request received', failed: 'Unsuccessful', ready: 'Value ready', approved: 'Approved', information_required: 'Action needed' }; return <span className={`badge ${status}`}><span className="dot"/>{labels[status] || status.replaceAll('_', ' ')}</span>; }
 export function Modal({ title, children, onClose }: { title: string; children: ReactNode; onClose: () => void }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => { const d = ref.current!; if (!d.open) d.showModal(); return () => { if (d.open) d.close(); }; }, []);
