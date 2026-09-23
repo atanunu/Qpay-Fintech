@@ -36,15 +36,23 @@ jobs:
           go mod vendor
           tar -czf /tmp/qpf-workspace/go-vendor.tar.gz vendor
           tar -C "$(go env GOROOT)" -czf /tmp/qpf-workspace/go-toolchain.tar.gz .
-          cd /tmp
-          mkdir -p qpf-pg
-          cd qpf-pg
-          apt-get download postgresql-16 postgresql-client-16 libpq5 libllvm18 libicu74
-          cd /tmp/qpf-workspace
-          tar -C /tmp/qpf-pg -czf postgres-tools.tar.gz .
+      - name: Capture installed PostgreSQL test tools
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import glob,tarfile
+          paths=['/usr/lib/postgresql/16','/usr/share/postgresql/16']
+          for pattern in ['libicu*.so*','libpq.so*','libldap*.so*','liblber*.so*']:
+              paths+=glob.glob('/usr/lib/x86_64-linux-gnu/'+pattern)
+          with tarfile.open('/tmp/qpf-workspace/postgres-tools.tar.gz','w:gz') as tar:
+              for path in paths: tar.add(path,arcname=path.lstrip('/'))
+          PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
         with:
           name: parity-workspace
           retention-days: 2
+          compression-level: 0
           path: /tmp/qpf-workspace/
 # Read-only, isolated source/dependency capture. No deployment, account changes, or provider calls.
