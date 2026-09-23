@@ -1,0 +1,40 @@
+name: Delivery source recovery
+on:
+  push:
+    branches: [recovery/parity-delivery]
+    paths: [.github/workflows/delivery-recovery.yml]
+permissions:
+  contents: read
+jobs:
+  recover:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Export existing source without executing it
+        run: |
+          mkdir -p /tmp/recovery
+          git archive --format=tar.gz 63f25f3464f79317a5d4aba9ed11ccafa7c09337 > /tmp/recovery/baseline.tar.gz
+          cp .build/parity-*.b64 /tmp/recovery/
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64,lzma,json,hashlib
+          parts=sorted(Path('/tmp/recovery').glob('parity-*.b64'))
+          data=b''.join(base64.b64decode(p.read_text(),validate=True) for p in parts)
+          d=lzma.LZMADecompressor(memlimit=512*1024*1024)
+          raw=d.decompress(data,max_length=20*1024*1024)
+          Path('/tmp/recovery/decoded-prefix.json').write_bytes(raw)
+          report={'parts':len(parts),'compressed_bytes':len(data),'decoded_bytes':len(raw),'complete_stream':d.eof,'compressed_sha256':hashlib.sha256(data).hexdigest()}
+          Path('/tmp/recovery/report.json').write_text(json.dumps(report,indent=2))
+          print(json.dumps(report))
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: delivery-recovery
+          retention-days: 7
+          path: /tmp/recovery/
+# Source-only, read-only recovery. No application, secrets, providers or deployment.
