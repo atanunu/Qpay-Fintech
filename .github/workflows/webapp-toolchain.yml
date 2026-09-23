@@ -19,11 +19,11 @@ jobs:
           node-version: '22'
       - name: Resolve exact development dependencies
         run: |
+          npm install --global npm@11
           mkdir -p /tmp/qpf-toolchain
           cd /tmp/qpf-toolchain
           npm init -y
-          npm install --save-exact react@19 react-dom@19 react-router-dom@7 lucide-react qrcode
-          npm install --save-dev --save-exact vite@7 @vitejs/plugin-react@5 typescript@5 @types/react@19 @types/react-dom@19 @types/node@22 @types/qrcode vitest@4 @playwright/test@1 @axe-core/playwright
+          npm install --save-exact react@19 react-dom@19 react-router-dom@7 lucide-react qrcode vite@7 @vitejs/plugin-react@5 typescript@5 @types/react@19 @types/react-dom@19 @types/node@22 @types/qrcode vitest@4 @playwright/test@1 @axe-core/playwright
           npm ls --depth=0 > dependency-versions.txt
           npm audit --json > dependency-audit.json || true
           tar -czf /tmp/web-toolchain.tar.gz node_modules package.json package-lock.json dependency-versions.txt dependency-audit.json
