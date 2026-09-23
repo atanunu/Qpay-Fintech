@@ -1,0 +1,38 @@
+import { useEffect, useState } from 'react';
+import { ArrowRight, Bell, ChevronDown, FlaskConical, LayoutDashboard, LifeBuoy, LogOut, Menu, Moon, ReceiptText, Send, Settings, ShieldCheck, Sun, UsersRound, Wallet, X, Zap } from 'lucide-react';
+import { Link, Navigate, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { useAction, useApp } from '../state';
+import { Button, Callout, ErrorBox, Loading } from './ui';
+import { isReview, reviewTools } from '../api/config';
+
+export function Brand({ inverse = false }: { inverse?: boolean }) { return <Link to="/" className={`brand ${inverse ? 'inverse' : ''}`} aria-label="Qpay home"><span className="brand-mark" aria-hidden="true">q</span><span>qpay<span className="brand-dot">.</span></span></Link>; }
+export function EnvironmentBar() { const { capabilities } = useApp(); return <div className={`environment ${isReview ? 'synthetic' : ''}`} role="status"><FlaskConical size={14}/>{isReview ? 'UI REVIEW · Synthetic data only. No money moves and no messages are sent.' : capabilities?.environment === 'production' ? 'READ-ONLY REVIEW · Production payments are blocked in this release.' : `API TESTING · ${capabilities?.environment || 'Connection pending'}. No production transaction approval.`}</div>; }
+export function RouteFocus() { const { pathname } = useLocation(); useEffect(() => { const h = document.querySelector<HTMLElement>('h1'); h?.focus({ preventScroll: true }); window.scrollTo({ top: 0 }); document.title = `${h?.textContent || 'Your account'} · Qpay`; }, [pathname]); return null; }
+export function ThemeToggle() {
+  const [dark, setDark] = useState(() => { try { return localStorage.getItem('qpf.appearance') === 'dark'; } catch { return false; } });
+  useEffect(() => { document.documentElement.dataset.theme = dark ? 'dark' : 'light'; try { localStorage.setItem('qpf.appearance', dark ? 'dark' : 'light'); } catch { /* Cosmetic preference only. */ } }, [dark]);
+  return <Button variant="icon" aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'} onClick={() => setDark(v => !v)}>{dark ? <Sun size={19}/> : <Moon size={19}/>}</Button>;
+}
+export function SessionGate() {
+  const { status, error, refresh, review } = useApp(); const location = useLocation();
+  if (status === 'loading') return <div className="boot"><Brand/><Loading label="Connecting to your account…"/></div>;
+  if (status === 'unavailable') return <div className="boot"><Brand/><h1>Let’s reconnect.</h1><ErrorBox error={error} retry={refresh}/><p>{isReview ? 'The selected synthetic outage blocks account requests. Reset the sample environment to continue.' : 'The app has not switched to sample data. Your account will appear when the API is reachable.'}</p>{review && <Button onClick={() => { review.reset(); refresh(); }}>Reset synthetic review</Button>}<Link to="/login" className="text-link">Go to sign in</Link></div>;
+  if (status !== 'ready') return <Navigate to="/login" replace state={{ from: location.pathname + location.search }}/>;
+  return <PortalLayout/>;
+}
+const links = [
+  { to: '/', name: 'Overview', icon: LayoutDashboard, end: true }, { to: '/transfers', name: 'Transfers', icon: Send }, { to: '/bills', name: 'Bill payments', icon: Zap },
+  { to: '/wallet', name: 'My wallet', icon: Wallet }, { to: '/activity', name: 'Activity', icon: ReceiptText }, { to: '/beneficiaries', name: 'Beneficiaries', icon: UsersRound },
+  { to: '/statements', name: 'Statements', icon: ReceiptText }, { to: '/notifications', name: 'Notifications', icon: Bell },
+];
+function PortalLayout() {
+  const { user, signOut, capabilities } = useApp(); const action = useAction(); const [open, setOpen] = useState(false); const [online, setOnline] = useState(navigator.onLine); const location = useLocation();
+  useEffect(() => { setOpen(false); }, [location.pathname]);
+  useEffect(() => { const update = () => setOnline(navigator.onLine); addEventListener('online', update); addEventListener('offline', update); return () => { removeEventListener('online', update); removeEventListener('offline', update); }; }, []);
+  const name = user?.name || 'Your account';
+  return <><a className="skip-link" href="#main-content">Skip to content</a><EnvironmentBar/>
+    <div className="portal"><aside className={`sidebar ${open ? 'open' : ''}`} aria-label="Main navigation"><div className="sidebar-brand"><Brand inverse/><Button variant="icon mobile-only" aria-label="Close navigation" onClick={() => setOpen(false)}><X size={20}/></Button></div><span className="nav-heading">PERSONAL ACCOUNT</span><nav>{links.map(({ to, name, icon: Icon, end }) => <NavLink end={end} key={to} to={to}><Icon size={18}/><span>{name}</span></NavLink>)}</nav><div className="nav-divider"/><nav><NavLink to="/settings"><Settings size={18}/>Settings</NavLink><NavLink to="/support"><LifeBuoy size={18}/>Help & support</NavLink>{reviewTools && <NavLink to="/review"><FlaskConical size={18}/>Review workspace</NavLink>}</nav><div className="sidebar-bottom"><div className="sidebar-note"><ShieldCheck size={23}/><strong>Made for everyday clarity.</strong><p>One place for your payments, receipts and account activity.</p></div><button className="logout" onClick={() => void action.run(signOut)} disabled={action.busy}><LogOut size={17}/>Sign out</button></div></aside>
+    {open && <button className="nav-backdrop" aria-label="Close navigation" onClick={() => setOpen(false)}/>}
+    <div className="workspace"><header className="topbar"><div className="row"><Button variant="icon mobile-only" aria-label="Open navigation" onClick={() => setOpen(true)}><Menu size={22}/></Button><span className="breadcrumb">Personal <span>/</span> <strong>{links.find(l => l.to !== '/' && location.pathname.startsWith(l.to))?.name || (location.pathname.startsWith('/settings') ? 'Settings' : location.pathname.startsWith('/support') ? 'Support' : 'Overview')}</strong></span></div><div className="topbar-actions"><span className="connection"><span className={`dot ${capabilities ? 'green' : 'amber'}`}/>{isReview ? 'Review environment' : 'API connected'}</span><ThemeToggle/><Link to="/notifications" className="icon-link" aria-label="Open notifications"><Bell size={20}/></Link><Link to="/settings" className="account-chip"><span className="avatar">{name.split(' ').map(x => x[0]).slice(0, 2).join('').toUpperCase()}</span><span className="account-name">{name}<small>Personal account</small></span><ChevronDown size={14}/></Link></div></header>
+    <main id="main-content" className="main-content"><RouteFocus/>{!online && <Callout tone="warning" title="You’re offline">Payments are paused. Reconnect and check any unresolved operation before trying again.</Callout>}<ErrorBox error={action.error}/><Outlet/></main><footer className="footer"><span>Qpay · Your money, in good order.</span><span>Times shown in West Africa Time <span className="footer-dot">·</span> <Link to="/support">Need a hand? <ArrowRight size={13}/></Link></span></footer></div></div></>;
+}

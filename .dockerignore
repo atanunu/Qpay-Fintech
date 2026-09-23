@@ -1,0 +1,12 @@
+.git
+**/.env
+**/.env.*
+**/local-secrets
+**/node_modules
+**/evidence
+**/dist
+**/coverage
+**/__pycache__
+**/*.pem
+**/*.key
+**/*.zip

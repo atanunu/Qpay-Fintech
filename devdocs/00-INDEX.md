@@ -30,3 +30,6 @@ Approved documentation/scaffold v0.2, 22 September 2026. B1/M1/A1/W1/E1 are acce
 
 ## Self-hosted notifications
 [Novu specifications](Novu/00-INDEX.md) · [Canonical Novu README](../Novu/README.md) · [Accepted ADR-0003](adrs/0003-SELF-HOSTED-NOVU.md). This additive v0.3 plan includes built-in email themes and offline content; original financial application tasks remain planned.
+
+## Customer interface review v0.5
+[WebApp implementation](WebApp/01-IMPLEMENTATION-AND-REVIEW.md) and [in-person test plan](../WebApp/docs/IN-PERSON-TESTING.md) connect the available persistent Go core and flag missing contracts without fictional success. Root/service progress remains the authority.

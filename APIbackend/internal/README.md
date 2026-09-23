@@ -1,4 +1,3 @@
-# Reserved implementation workspace
-Status: scaffold only. Private Go domain packages: identity, kyc, accounts, ledger, funding, transfers, bills, pricing, limits, risk, reconciliation, treasury, support, notifications, audit and reporting. One migration owner; no cross-module SQL shortcuts.
+# Backend implementation
 
-Read the service README and accepted ADRs before implementation. Add pinned manifests, real setup commands, tests and evidence with the first functional change; a directory is not a completed feature.
+app wires processes/config; httpapi owns transport and contracts; security owns cryptographic helpers; service owns persistent product/financial rules; upstream adapts explicit local or QPay execution. [Backend README](../README.md).

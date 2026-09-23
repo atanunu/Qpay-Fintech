@@ -1,0 +1,32 @@
+/** Review inventory, not dynamically enabled provider capability. */
+export const integrationGaps = [
+  { id: 'GAP-01', title: 'Bank-transfer funding instructions', screen: '/wallet', api: 'API-005 / API-014', status: 'API needed', requirement: 'Provision an owned partner account, recover uncertain provisioning, show verified account instructions, and reconcile authenticated incoming-credit events. Never display invented account details.' },
+  { id: 'GAP-02', title: 'Card and USSD funding', screen: '/wallet', api: 'API-014', status: 'Decision needed', requirement: 'Choose an approved hosted collection flow and establish fees, limits, signed return/callback verification and verified wallet credit. The browser must never collect raw card security data.' },
+  { id: 'GAP-03', title: 'Identity-document upload and verification', screen: '/verification', api: 'API-004 / API-031', status: 'Partial API', requirement: 'Replace the manual evidence-reference handoff with owned private upload sessions, scanning, verification-provider review and deletion/retention policy. Draft files currently never leave this browser.' },
+  { id: 'GAP-04', title: 'Verified email and phone changes', screen: '/settings/profile', api: 'API-001 / API-002', status: 'API needed', requirement: 'Add transaction-safe old/new contact verification, reauthentication, queued-notice invalidation and security notices. Editing this review form does not change the account.' },
+  { id: 'GAP-05', title: 'Privacy data export', screen: '/settings/privacy', api: 'API-031', status: 'API needed', requirement: 'Create a verified, scoped privacy-request case, prepare a complete encrypted export and deliver expiring authorised access. Financial statements already use their separate API.' },
+  { id: 'GAP-06', title: 'Account closure', screen: '/settings/privacy', api: 'API-001 / API-031', status: 'API needed', requirement: 'Check balance, pending obligations, disputes and retention requirements; require step-up and explicit confirmation; expose a queryable closure lifecycle. Do not simulate successful closure in API mode.' },
+  { id: 'GAP-07', title: 'Support attachments and inbound replies', screen: '/support', api: 'API-030 / API-031', status: 'Partial API', requirement: 'Add private attachment upload, scanning, conversation pagination, safe inbound sender association and loop prevention. Current support APIs accept text-only messages.' },
+  { id: 'GAP-08', title: 'Dispute decisions, refunds and returns', screen: '/support/new', api: 'API-023 / API-024', status: 'Partial API', requirement: 'A customer can open a dispute case, but linked compensating financial execution, provider evidence and independent operator review remain separate backend work.' },
+  { id: 'GAP-09', title: 'Original payment lookup after transport loss', screen: '/transfers/recovery', api: 'API-011 / API-019', status: 'API improvement', requirement: 'Add an owner-scoped lookup by idempotency key/quote ID. The current client queries an existing payment ID or searches up to 1,000 history records, and does not infer failure when no match is found.' },
+  { id: 'GAP-10', title: 'Complete statement and history exports', screen: '/statements', api: 'API-028', status: 'API improvement', requirement: 'Current JSON/CSV statements are bounded to 366 days and 10,000 entries. Add async jobs for larger exports and stable filters/pagination for history, funding and case messages.' },
+  { id: 'GAP-11', title: 'Notification delivery and action destinations', screen: '/notifications', api: 'API-029 / NOT-009 / NOT-016', status: 'Partial API', requirement: 'Qualify the self-hosted Novu bridge and provider callbacks; align email action origins with the web app; preserve authorised destinations and implement subscribed-mail opt-out separately.' },
+  { id: 'GAP-12', title: 'Recipient discovery and bill catalogue', screen: '/transfers/new', api: 'API-015 / API-020 / API-021', status: 'API improvement', requirement: 'Review customer-safe wallet recipient lookup, stable canonical bill categories, searchable/paginated products, destination masking and recipient summaries. Current internal transfers need an exact recipient user ID.' },
+  { id: 'GAP-13', title: 'Recurring and business products', screen: '/review', api: 'API-037–042 / WEB-021', status: 'Not approved for execution', requirement: 'Decide product scope and operating approval first. Recurring mandates, payroll, merchants, cards and regulated products are not silently enabled by a dashboard design.' },
+  { id: 'GAP-14', title: 'Session and browser deployment compatibility', screen: '/settings/devices', api: 'API-002 / WEB-017', status: 'Acceptance needed', requirement: 'Test actual same-site hostnames, secure cookies, CSRF restore, cross-tab refresh, revocation and expired-session recovery. The backend must not expose mobile tokens to browser clients.' },
+] as const;
+export const acceptanceJourneys = [
+  ['UAT-01', 'Sign in, sign out and recover the session after a browser refresh', '/login'],
+  ['UAT-02', 'Register, verify contact, recover password and reject an invalid code', '/register'],
+  ['UAT-03', 'Review available, held and book balance; never show invented funding details', '/wallet'],
+  ['UAT-04', 'Enquire bank account, save a beneficiary, review fees and approve a transfer', '/transfers/new'],
+  ['UAT-05', 'Internal wallet transfer with exact recipient and quote-bound approval', '/transfers/new?type=internal'],
+  ['UAT-06', 'Validate and pay an electricity bill; distinguish payment and value delivery', '/bills'],
+  ['UAT-07', 'Recover the original operation after a lost response or reload', '/transfers/recovery'],
+  ['UAT-08', 'Review pending, failed, expired, restricted and insufficient-funds states', '/review'],
+  ['UAT-09', 'Open authoritative receipt, download statement and search history', '/activity'],
+  ['UAT-10', 'Update name/preferences, enrol MFA and revoke another device', '/settings'],
+  ['UAT-11', 'Create a dispute/support case and read or send a permitted reply', '/support'],
+  ['UAT-12', 'Read notification, follow a protected reference and review missing API connections', '/notifications'],
+  ['UAT-13', 'Use narrow-screen navigation, keyboard controls and dark appearance', '/'],
+] as const;

@@ -1,7 +1,1 @@
-{
-  "schema_version": 1,
-  "service": "WebApp",
-  "status": "not_captured",
-  "reason": "Application is not implemented. Target diagrams are design evidence only.",
-  "captures": []
-}
+{"schema_version":1,"service":"WebApp","status":"not_captured","reason":"Local synthetic component-render evidence exists; final normal-HTTP revision captures are awaiting CI and provenance publication.","captures":[]}

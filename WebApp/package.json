@@ -1,0 +1,41 @@
+{
+  "name": "@qpay-fintech/webapp",
+  "version": "0.5.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "dev:review": "vite --mode review",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc --noEmit && vite build",
+    "build:review": "tsc --noEmit && vite build --mode review",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:api": "QPF_TEST_MODE=api playwright test e2e/api.spec.ts",
+    "check": "npm run typecheck && npm test",
+    "build:offline": "tsc --noEmit && QPF_OFFLINE_EXPORT=true VITE_REVIEW_ROUTER=hash vite build --mode review && node scripts/export-offline.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "1.47.0",
+    "qrcode": "1.5.4",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-router-dom": "7.18.4"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
+    "@types/node": "22.20.4",
+    "@types/qrcode": "1.5.6",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.6",
+    "vitest": "4.1.11"
+  }
+}

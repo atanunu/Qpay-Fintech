@@ -1,4 +1,3 @@
-# Reserved implementation workspace
-Status: scaffold only. HTTP process entry point. Customer/staff endpoints must have separate audience/permission checks. No product handler exists yet.
+# api process
 
-Read the service README and accepted ADRs before implementation. Add pinned manifests, real setup commands, tests and evidence with the first functional change; a directory is not a completed feature.
+Entrypoint: main.go delegates to internal/app. See the [backend README](../../README.md) and [operations guide](../../docs/OPERATIONS.md) for safe configuration and execution. This command does not imply live provider acceptance.

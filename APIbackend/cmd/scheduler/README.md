@@ -1,4 +1,3 @@
-# Reserved implementation workspace
-Status: scaffold only. Scheduler entry point. Schedule recurring/recovery work through durable jobs, not in-memory financial timers. Recurring debit requires approved consent.
+# scheduler process
 
-Read the service README and accepted ADRs before implementation. Add pinned manifests, real setup commands, tests and evidence with the first functional change; a directory is not a completed feature.
+Entrypoint: main.go delegates to internal/app. See the [backend README](../../README.md) and [operations guide](../../docs/OPERATIONS.md) for safe configuration and execution. This command does not imply live provider acceptance.
