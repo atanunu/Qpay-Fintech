@@ -1,0 +1,39 @@
+name: Web development toolchain
+on:
+  push:
+    branches: [build/webapp-v1]
+    paths: ['.github/workflows/webapp-toolchain.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  toolchain:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Resolve exact development dependencies
+        run: |
+          mkdir -p /tmp/qpf-toolchain
+          cd /tmp/qpf-toolchain
+          npm init -y
+          npm install --save-exact react@19 react-dom@19 react-router-dom@7 lucide-react qrcode
+          npm install --save-dev --save-exact vite@7 @vitejs/plugin-react@5 typescript@5 @types/react@19 @types/react-dom@19 @types/node@22 @types/qrcode vitest@4 @playwright/test@1 @axe-core/playwright
+          npm ls --depth=0 > dependency-versions.txt
+          npm audit --json > dependency-audit.json || true
+          tar -czf /tmp/web-toolchain.tar.gz node_modules package.json package-lock.json dependency-versions.txt dependency-audit.json
+      - name: Archive reviewed baseline
+        run: git archive --format=tar.gz HEAD > /tmp/qpf-main-baseline.tar.gz
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: web-toolchain
+          retention-days: 2
+          path: |
+            /tmp/web-toolchain.tar.gz
+            /tmp/qpf-main-baseline.tar.gz
+# Read-only dependency bootstrap. No deploy, secrets or financial operations.
