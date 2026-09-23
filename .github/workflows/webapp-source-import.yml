@@ -1,0 +1,80 @@
+name: Materialise reviewed web source
+on:
+  push:
+    branches: [build/webapp-v1]
+    paths: [.github/workflows/webapp-source-import.yml]
+permissions:
+  contents: write
+jobs:
+  materialise:
+    if: github.repository == 'atanunu/Qpay-Fintech' && github.ref == 'refs/heads/build/webapp-v1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Validate exact reviewed source and materialise without executing it
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import hashlib,json,lzma,subprocess
+          root=Path.cwd().resolve()
+          base='3c72503c0969951a0d9f56dbc8f38b2fe8f581ef'
+          parts=[Path(f'.build/web-source-{i:02d}.part') for i in range(1,15)]
+          compressed=b''.join(p.read_bytes() for p in parts)
+          assert len(compressed)==119584
+          assert hashlib.sha256(compressed).hexdigest()=='e1001d86eea90715557e71f98b18130a89469b04eba08f8fa4acdc6ac7a0b8df'
+          decoder=lzma.LZMADecompressor(memlimit=512*1024*1024)
+          raw=decoder.decompress(compressed,max_length=5*1024*1024)
+          assert decoder.eof and not decoder.unused_data
+          manifest=json.loads(raw)
+          assert manifest['version']==1 and manifest['base_commit']==base and manifest['branch']=='build/webapp-v1'
+          assert len(manifest['files'])==128
+          subprocess.run(['git','fetch','--no-tags','origin',base],check=True)
+          allowed={'WebApp','APIbackend','contracts','devdocs'}
+          exact={'README.md','AGENTS.md','CHANGELOG.md','.gitignore','.dockerignore'}
+          pending=[]
+          digest=lambda b:hashlib.sha256(b).hexdigest()
+          for name,item in manifest['files'].items():
+              rel=PurePosixPath(name)
+              assert not rel.is_absolute() and '..' not in rel.parts and str(rel)==name
+              assert rel.parts[0] in allowed or name in exact or name.startswith('scripts/docs/')
+              assert not any(x in {'.git','.github','node_modules','local-secrets'} for x in rel.parts)
+              assert not rel.name.startswith('.env') or name in {'APIbackend/.env.example','WebApp/.env.example','WebApp/.env.review'}
+              target=root.joinpath(*rel.parts)
+              assert target.resolve().is_relative_to(root)
+              assert not any(p.is_symlink() for p in [target,*target.parents] if p.is_relative_to(root))
+              before=target.read_bytes() if target.is_file() else None
+              assert (None if before is None else digest(before))==item['before_sha256'],f'Concurrent source change: {name}'
+              result=subprocess.run(['git','show',f'{base}:{name}'],capture_output=True)
+              baseline=result.stdout if result.returncode==0 else b''
+              assert digest(baseline)==item['base_sha256'],f'Pinned baseline differs: {name}'
+              lines=baseline.decode('utf-8').splitlines(keepends=True)
+              text=[]
+              for operation in item['ops']:
+                  if isinstance(operation,str): text.append(operation)
+                  else:
+                      assert isinstance(operation,list) and len(operation)==2
+                      start,end=operation
+                      assert type(start) is int and type(end) is int and 0<=start<=end<=len(lines)
+                      text.extend(lines[start:end])
+              content=''.join(text).encode('utf-8')
+              assert len(content)<2*1024*1024 and digest(content)==item['sha256'],f'Final source differs: {name}'
+              pending.append((name,target,content))
+          for name,target,content in pending:
+              target.parent.mkdir(parents=True,exist_ok=True)
+              target.write_bytes(content)
+              target.chmod(0o644)
+          subprocess.run(['git','add','--',*[name for name,_,_ in pending]],check=True)
+          subprocess.run(['git','rm','--',*[str(p) for p in parts]],check=True)
+          subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+          subprocess.run(['git','commit','-m','feat(web): materialise reviewed API-connected and synthetic-review application'],check=True)
+          subprocess.run(['git','push','origin','HEAD:refs/heads/build/webapp-v1'],check=True)
+          print('Materialised 128 hash-verified text files; no application code, provider or deployment executed.')
+          PY
+# Temporary, branch-scoped, hash-locked source transport. Remove after materialisation.
