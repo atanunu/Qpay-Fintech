@@ -1,15 +1,17 @@
 # Browser delivery verification
 
-Source correction revisions: `d59e888fc49e8e96861db05eba9ab9a1c7d76951` and `4458128d1db3c4bb6f486116bf541b21af31e289`.
+## Accepted automated baseline
 
-Normal-browser tests exposed native fetch receiver binding, an incorrect customer capabilities field, and asynchronous form-readiness races. Both clients now bind native fetch correctly; capability display uses the backend payments field and fails closed for missing/unknown values; bank and bill quote actions wait for their selected records. The recovery test waits for the actual destination screen rather than only its changed URL. No assertions were removed, and automatic browser retries remain disabled.
+Application source head `254f586b65223ed4db3d4e2df9c209e6e5ee3f58` passed all three GitHub workflows: web run **35838616223**, backend run **35838616217**, and documentation/Novu run **35838616287**. There were 79 frontend unit/contract tests, 20 synthetic browser tests, 11 actual Go/PostgreSQL browser tests, seven shared client tests, 218 Novu content tests, and 29 documentation regression tests. The full Go race/PostgreSQL suite, builds, contract export and Docker Compose smoke passed. Browser tests had no failures, skips or retries.
 
-## Evidence before the final rerun
+Evidence-only commit `6504923011cf981c8383d5ceda9e3e3972cc902e` published all 38 runtime PNG captures, a source/UTC/viewport/SHA-256 manifest, screenshot gallery, root/service README updates and machine-readable verification. The evidence publisher verified that the screenshot source Git tree exactly matched the tested application head. Raw traces, credentials, failure snapshots and private documents were not copied into the repository. This commit reruns CI over the complete source and documentation package before merge.
 
-Local: 79 frontend unit/contract tests, TypeScript and seven shared client tests passed. GitHub backend run 35836388881 passed the complete race/PostgreSQL suite, builds and Docker Compose API smoke test.
+## Historical failures and corrections
 
-GitHub web run 35837962795 on source head `939bccb5e8ca2c3ffd36561c08d1ed66f9bf14cf` passed all 11 actual Go/PostgreSQL browser tests, including private uploads, request/schedule authorisation, real cryptographic WebAuthn and outage/production-submission guards. Its screenshot sweep captured all 38 screens with accessibility and overflow assertions passing. Overall synthetic-review result was 18 passed, two failed: the final form-readiness corrections above address those failures. The complete suite must be green on a subsequent revision before final delivery acceptance.
+Earlier browser runs exposed incorrect native fetch receivers, an absent capability field, and asynchronous recipient/product/recovery-screen readiness. Additive regression tests and explicit readiness checks fixed these; assertions were not removed and automatic retries remain disabled. Run 35837962795 was an intermediate result (11 API journeys passed; 18 review tests passed and two failed). It is superseded by the green baseline above, not relabelled as passed.
 
-Manual in-person acceptance and actual QPay/provider qualification remain outstanding. No real-money or production operation is enabled.
+## Acceptance boundary
 
-[Delivery](GITHUB-DELIVERY.md) · [Web register](../../WebApp/README.md) · [API register](../../APIbackend/README.md)
+Manual in-person UAT remains not-tested. Real QPay/provider qualification, live self-hosted Novu delivery, production private-store/scanner acceptance, financial refund/return/treasury work and the service remaining-work registers remain separate. This is verified development-source delivery, not a real-money or production launch.
+
+[Exact CI links and source recovery](GITHUB-DELIVERY.md) · [Machine-readable evidence](DELIVERY-VERIFICATION.json) · [38-screen gallery](../../WebApp/docs/SCREENSHOTS.md) · [Web register](../../WebApp/README.md) · [API register](../../APIbackend/README.md)
