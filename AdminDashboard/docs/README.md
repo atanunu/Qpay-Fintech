@@ -1,4 +1,3 @@
-# AdminDashboard documentation and evidence
-The [service README](../README.md) is the canonical task register. FEATURES.json is generated; do not edit it independently. SCREENSHOTS.json records only actual synthetic-data runtime captures. It is intentionally empty while the application is unimplemented. The shared diagram is target architecture, not a screenshot.
+# Admin documentation
 
-Required capture fields: path relative to this manifest, screen/route, source_commit (full SHA), captured_at (UTC), environment, fixture_id, state, viewport/device and sha256. No secrets or real customer evidence. Read [the visual standard](../../devdocs/project/09-UX-AND-SCREEN-PLAN.md) before capture.
+[Service README](../README.md) is the canonical task register. [Specification](../../devdocs/AdminDashboard/00-INDEX.md) contains architecture, interfaces, workflow, configuration, testing, operations and pending-work contracts. [Validation](VALIDATION.md) records what executed. [Runtime gallery](SCREENSHOTS.md) and SCREENSHOTS.json identify source-bound visual evidence. FEATURES.json is generated from the service README; do not edit it independently.

@@ -29,11 +29,11 @@
       "total": 26,
       "counts": {
         "Blocked": 0,
-        "Deferred": 0,
+        "Deferred": 1,
         "Implemented": 0,
         "In progress": 0,
-        "Partial": 0,
-        "Planned": 26,
+        "Partial": 25,
+        "Planned": 0,
         "Unverified": 0
       }
     },

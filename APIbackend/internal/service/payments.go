@@ -310,6 +310,15 @@ func (s *Service) CreateQuote(ctx context.Context, p Principal, in QuoteInput) (
 	default:
 		return q, Invalid("kind must be internal, bank or bill")
 	}
+	if in.Kind == "bill" {
+		var blocked bool
+		if e = s.DB.QueryRowContext(ctx, `SELECT EXISTS(SELECT 1 FROM product_controls WHERE id=$1 AND NOT enabled)`, d.ProductID).Scan(&blocked); e != nil {
+			return q, e
+		}
+		if blocked {
+			return q, &Fault{503, "product_disabled", "This bill product is disabled by operations"}
+		}
+	}
 	if in.Kind != "internal" {
 		fee, e = s.Config.Gateway.Quote(ctx, in.Kind, d, in.Amount)
 		if e != nil {
@@ -393,6 +402,16 @@ func (s *Service) Authorise(ctx context.Context, p Principal, id, pin, mfa strin
 		if e != nil {
 			return e
 		}
+		if q.Kind == "bill" {
+			var allowed bool
+			err := tx.QueryRowContext(ctx, `SELECT enabled FROM product_controls WHERE id=$1 FOR SHARE`, q.Destination.ProductID).Scan(&allowed)
+			if err != nil && !errors.Is(err, sql.ErrNoRows) {
+				return err
+			}
+			if err == nil && !allowed {
+				return &Fault{503, "product_disabled", "This bill product is disabled by operations"}
+			}
+		}
 		if q.Used || !q.ExpiresAt.After(s.Now()) {
 			return conflict("quote is used or expired")
 		}
@@ -450,6 +469,16 @@ func (s *Service) CreatePayment(ctx context.Context, p Principal, quoteID, token
 		q, e := s.loadQuote(ctx, tx, u.ID, quoteID, true)
 		if e != nil {
 			return e
+		}
+		if q.Kind == "bill" {
+			var allowed bool
+			err := tx.QueryRowContext(ctx, `SELECT enabled FROM product_controls WHERE id=$1 FOR SHARE`, q.Destination.ProductID).Scan(&allowed)
+			if err != nil && !errors.Is(err, sql.ErrNoRows) {
+				return err
+			}
+			if err == nil && !allowed {
+				return &Fault{503, "product_disabled", "This bill product is disabled by operations"}
+			}
 		}
 		if q.Used || !q.ExpiresAt.After(s.Now()) {
 			return conflict("quote is used or expired")

@@ -16,3 +16,6 @@ Approved customer parity implementation in WebApp and APIbackend, additive migra
 
 ## 2026-09-23 — GitHub development delivery
 Recovered pending source, corrected browser transport/capability/form-readiness bugs and OpenAPI parameters, verified normal browser and Go/PostgreSQL suites, and published 38 runtime screenshots with provenance. Manual and production/provider gates remain outstanding.
+
+## 2026-09-24 — AdminDashboard v0.7 implementation
+Runnable staff console, additive operational backend, independent staff lifecycle, redacted reports, encrypted investigations, product containment, customer/KYC review, support, notification metadata and verification workflows. No production/provider acceptance claimed; see AdminDashboard/docs/VALIDATION.md.

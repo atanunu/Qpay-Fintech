@@ -180,6 +180,9 @@ func (h *Handler) parityRoutes() {
 	}})
 	for _, v := range []struct{ path, auth string }{{"/v1/uploads/{id}/download", "customer"}, {"/v1/admin/uploads/{id}/download", "staff"}} {
 		h.add(Route{Method: "GET", Path: v.path, Summary: "Audited attachment-only private document download", Auth: v.auth, Status: 200, Run: func(w http.ResponseWriter, r *http.Request, p service.Principal) (any, error) {
+			if p.Audience == "staff" {
+				return nil, &service.Fault{Status: 410, Code: "reasoned_access_required", Message: "use the reasoned staff console evidence endpoint"}
+			}
 			meta, data, e := s.DownloadDocument(r.Context(), p, key(r))
 			if e != nil {
 				return nil, e
@@ -219,7 +222,9 @@ func (h *Handler) parityRoutes() {
 		return accepted(), s.EscalateCase(r.Context(), p, key(r))
 	}})
 	h.get("/v1/support/cases/{id}/timeline", "Own case events", "customer", []map[string]any{}, func(r *http.Request, p service.Principal) (any, error) { return s.CaseTimeline(r.Context(), p, key(r)) })
-	h.get("/v1/admin/identity/{id}", "Permissioned digital identity evidence", "staff", map[string]any{}, func(r *http.Request, p service.Principal) (any, error) { return s.IdentityCase(r.Context(), p, key(r)) })
+	h.get("/v1/admin/identity/{id}", "Permissioned digital identity evidence", "staff", map[string]any{}, func(r *http.Request, p service.Principal) (any, error) {
+		return nil, &service.Fault{Status: 410, Code: "reasoned_access_required", Message: "use POST /v1/admin/console/identity/{id} with access reason"}
+	})
 	jsonRoute(h, "POST", "/v1/admin/bills/availability", "Audited observed biller state; never a success guarantee", "staff", 200, map[string]string{}, func(_ http.ResponseWriter, r *http.Request, p service.Principal, in AvailabilityInput) (any, error) {
 		return accepted(), s.ObserveBiller(r.Context(), p, in.ProductID, in.Status)
 	})

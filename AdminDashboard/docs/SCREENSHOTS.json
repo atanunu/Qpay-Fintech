@@ -2,6 +2,6 @@
   "schema_version": 1,
   "service": "AdminDashboard",
   "status": "not_captured",
-  "reason": "Application is not implemented. Target diagrams are design evidence only.",
+  "reason": "Runnable application implemented; actual browser capture pending GitHub CI because local HTTP navigation is blocked by policy.",
   "captures": []
 }

@@ -231,6 +231,7 @@ func (h *Handler) register() {
 	h.caseRoutes("/v1/support/cases", "customer")
 	h.caseRoutes("/v1/admin/support/cases", "staff")
 	h.adminRoutes()
+	h.consoleRoutes()
 	h.add(Route{Method: "POST", Path: "/internal/notifications/authorise", Summary: "Signed bridge eligibility check", Auth: "internal", Status: 200, Request: PolicyRequest{}, Response: map[string]any{}, Run: func(_ http.ResponseWriter, r *http.Request, _ service.Principal) (any, error) {
 		raw, e := readSigned(r, h.Config.PolicyKey)
 		if e != nil {
@@ -275,7 +276,7 @@ func (h *Handler) authRoutes(audience, prefix string) {
 		auth = "staff_enrol"
 	}
 	jsonRoute(h, "POST", prefix+"/login", "Authenticate "+audience+" and create a transport-bound session", "public", 200, service.Session{}, func(w http.ResponseWriter, r *http.Request, _ service.Principal, in service.LoginInput) (any, error) {
-		if in.Client == "web" && !h.originAllowed(r.Header.Get("Origin")) {
+		if in.Client == "web" && !h.requestOriginAllowed(r) {
 			return nil, &service.Fault{Status: 403, Code: "origin_required", Message: "approved browser origin required"}
 		}
 		if audience == "staff" && in.Client != "web" {
@@ -290,7 +291,7 @@ func (h *Handler) authRoutes(audience, prefix string) {
 	jsonRoute(h, "POST", prefix+"/refresh", "Rotate credentials and detect refresh-token reuse", "public", 200, service.Session{}, func(w http.ResponseWriter, r *http.Request, _ service.Principal, in RefreshInput) (any, error) {
 		token := in.RefreshToken
 		if in.Client == "web" {
-			if token != "" || !h.originAllowed(r.Header.Get("Origin")) {
+			if token != "" || !h.requestOriginAllowed(r) {
 				return nil, &service.Fault{Status: 403, Code: "csrf_rejected", Message: "approved origin and cookie transport required"}
 			}
 			token = h.cookie(r, audience, "refresh")
@@ -308,7 +309,7 @@ func (h *Handler) authRoutes(audience, prefix string) {
 		return h.session(w, out, audience, in.Client), nil
 	})
 	h.get(prefix+"/csrf", "Restore browser CSRF material using the refresh cookie", "public", map[string]string{}, func(r *http.Request, _ service.Principal) (any, error) {
-		if !h.originAllowed(r.Header.Get("Origin")) {
+		if !h.requestOriginAllowed(r) {
 			return nil, &service.Fault{Status: 403, Code: "origin_required", Message: "approved browser origin required"}
 		}
 		token, e := s.BrowserCSRF(r.Context(), h.cookie(r, audience, "refresh"), audience)
@@ -362,7 +363,7 @@ func (h *Handler) adminRoutes() {
 		return s.CustomerList(r.Context(), p, limit(r), r.URL.Query().Get("before"))
 	})
 	jsonRoute(h, "POST", "/v1/admin/staff", "Create staff credentials with mandatory MFA enrolment", "staff", 201, map[string]string{}, func(_ http.ResponseWriter, r *http.Request, p service.Principal, in StaffInput) (any, error) {
-		return created(s.CreateStaff(r.Context(), p, in.Email, in.Name, in.TemporaryPassword, in.Role))
+		return nil, &service.Fault{Status: 410, Code: "use_staff_invitation", Message: "Use independently approved staff invitations; direct HTTP credential creation is retired"}
 	})
 	h.get("/v1/admin/kyc/cases", "Permissioned identity review queue", "staff", []map[string]any{}, func(r *http.Request, p service.Principal) (any, error) { return s.KYCList(r.Context(), p) })
 	h.get("/v1/admin/policy", "Current versioned transaction policy", "staff", map[string]any{}, func(r *http.Request, p service.Principal) (any, error) {

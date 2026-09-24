@@ -6,6 +6,8 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
+	"github.com/atanunu/Qpay-Fintech/APIbackend/internal/security"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -169,6 +171,10 @@ func (s *Service) Reconcile(ctx context.Context, p Principal, in ReconciliationI
 		}
 		seen[v.Reference] = true
 	}
+	sorted := append([]ReconciliationEntry(nil), in.Entries...)
+	sort.Slice(sorted, func(i, j int) bool { return sorted[i].Reference < sorted[j].Reference })
+	canonical, _ := json.Marshal(ReconciliationInput{Source: in.Source, Entries: sorted})
+	digest := security.Digest(string(canonical))
 	id := stringID("recon_")
 	results := []map[string]any{}
 	e := s.transact(ctx, func(tx *sql.Tx) error {
@@ -181,7 +187,23 @@ func (s *Service) Reconcile(ctx context.Context, p Principal, in ReconciliationI
 			return e
 		}
 		results = nil
-		if e = exec(tx, ctx, `INSERT INTO reconciliation_runs(id,actor_id,source) VALUES($1,$2,$3)`, id, u.ID, in.Source); e != nil {
+		if e = exec(tx, ctx, `SELECT pg_advisory_xact_lock(hashtextextended($1,0))`, digest); e != nil {
+			return e
+		}
+		var previous string
+		e = tx.QueryRowContext(ctx, `SELECT id FROM reconciliation_runs WHERE import_digest=$1`, digest).Scan(&previous)
+		if e == nil {
+			id = previous
+			results, e = readAdminRows(ctx, tx, `SELECT row_to_json(t) FROM (SELECT reference,matched,reason FROM reconciliation_items WHERE run_id=$1 ORDER BY id) t`, id)
+			if e != nil {
+				return e
+			}
+			return s.audit(ctx, tx, u.ID, "reconciliation.import_recovered", id, map[string]any{"digest": digest})
+		}
+		if e != sql.ErrNoRows {
+			return e
+		}
+		if e = exec(tx, ctx, `INSERT INTO reconciliation_runs(id,actor_id,source,import_digest) VALUES($1,$2,$3,$4)`, id, u.ID, in.Source, digest); e != nil {
 			return e
 		}
 		for i, v := range in.Entries {

@@ -1,5 +1,6 @@
 """Regression tests for the limited planning checker, never application tests."""
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -48,7 +49,11 @@ class DocumentationChecks(unittest.TestCase):
         self.change('APIbackend/README.md','| Planned |','| Implemented |')
         self.assertIn('unsupported Implemented',self.run_check().stderr)
     def test_invalid_status_fails(self):
-        self.change('AdminDashboard/README.md','| Planned |','| Magic |')
+        p=self.copy/'AdminDashboard/README.md'
+        before=p.read_text()
+        after=re.sub(r'(\| ADM-\d{3} \|[^\n]*?\| M[0-6] \| P[012] \| )[^|]+',r'\1Magic ',before,count=1)
+        self.assertNotEqual(before,after,'Invalid-status fixture must actually modify a task')
+        p.write_text(after)
         self.assertIn('invalid status',self.run_check().stderr)
 
 if __name__ == '__main__':

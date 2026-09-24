@@ -32,3 +32,8 @@ APIbackend/evidence/
 
 **/.test-fixtures/
 WebApp/dependency-audit.json
+
+!AdminDashboard/.env.review
+AdminDashboard/node_modules
+AdminDashboard/evidence/
+AdminDashboard/dependency-audit.json

@@ -99,6 +99,16 @@ func Load(ctx context.Context) (*service.Service, httpapi.Config, error) {
 		}
 	}
 
+	staffOrigins := []string{}
+	if value := os.Getenv("ADMIN_ORIGINS"); value != "" {
+		staffOrigins = strings.Split(value, ",")
+	}
+	for _, origin := range staffOrigins {
+		p, e := url.Parse(origin)
+		if e != nil || p.Hostname() == "" || p.User != nil || p.RawQuery != "" || p.Fragment != "" || p.Path != "" || (p.Scheme != "https" && (environment != "local" || p.Scheme != "http")) {
+			return nil, httpapi.Config{}, errors.New("ADMIN_ORIGINS requires exact HTTPS origins")
+		}
+	}
 	c.Origins = origins
 	if rp := os.Getenv("PASSKEY_RP_ID"); rp != "" {
 		c.Passkeys, e = webauthn.New(&webauthn.Config{RPID: rp, RPDisplayName: "Qpay", RPOrigins: origins, AuthenticatorSelection: protocol.AuthenticatorSelection{UserVerification: protocol.VerificationRequired, ResidentKey: protocol.ResidentKeyRequirementRequired}})
@@ -239,7 +249,7 @@ func Load(ctx context.Context) (*service.Service, httpapi.Config, error) {
 	default:
 		return fail(errors.New("EXECUTION_MODE must be off, local or qpay"))
 	}
-	return service.New(db, c), httpapi.Config{Environment: environment, Origins: origins, Logger: slog.New(slog.NewJSONHandler(os.Stdout, nil)), PolicyKey: c.PolicyKey, FundingKey: fundingKey}, nil
+	return service.New(db, c), httpapi.Config{Environment: environment, Origins: origins, StaffOrigins: staffOrigins, Logger: slog.New(slog.NewJSONHandler(os.Stdout, nil)), PolicyKey: c.PolicyKey, FundingKey: fundingKey}, nil
 }
 func Main(kind string) {
 	if e := Run(kind); e != nil {
@@ -381,6 +391,8 @@ func control(ctx context.Context, s *service.Service) error {
 	}
 	var id string
 	switch command {
+	case "bootstrap-checker":
+		id, e = s.BootstrapChecker(ctx, os.Getenv("QPF_CTL_EMAIL"), os.Getenv("QPF_CTL_NAME"), password)
 	case "bootstrap-admin":
 		id, e = s.BootstrapStaff(ctx, os.Getenv("QPF_CTL_EMAIL"), os.Getenv("QPF_CTL_NAME"), password)
 	case "seed-local":
@@ -415,7 +427,7 @@ func initLocal() error {
 		return base64.StdEncoding.EncodeToString(raw)
 	}
 	password := security.Random("", 24)
-	_, e = fmt.Fprintf(f, "# LOCAL SYNTHETIC DEVELOPMENT ONLY\nQPF_ENV=local\nPOSTGRES_PASSWORD=%s\nDATABASE_URL=postgres://qpf:%s@postgres:5432/qpf?sslmode=disable\nAUTH_PEPPER=%s\nDATA_KEY_ID=v1\nDATA_KEYS=v1:%s\nNOTIFICATION_POLICY_KEY=%s\nWEB_ORIGINS=http://localhost:5173,http://localhost:5174\nEXECUTION_MODE=local\nNOTIFICATION_MODE=local\nHTTP_ADDR=:8080\n", password, password, key(), key(), key())
+	_, e = fmt.Fprintf(f, "# LOCAL SYNTHETIC DEVELOPMENT ONLY\nQPF_ENV=local\nPOSTGRES_PASSWORD=%s\nDATABASE_URL=postgres://qpf:%s@postgres:5432/qpf?sslmode=disable\nAUTH_PEPPER=%s\nDATA_KEY_ID=v1\nDATA_KEYS=v1:%s\nNOTIFICATION_POLICY_KEY=%s\nWEB_ORIGINS=http://localhost:5173\nADMIN_ORIGINS=http://localhost:5174\nEXECUTION_MODE=local\nNOTIFICATION_MODE=local\nHTTP_ADDR=:8080\n", password, password, key(), key(), key())
 	return e
 }
 func contracts() error {

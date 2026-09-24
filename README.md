@@ -34,7 +34,7 @@ tests/acceptance/ Cross-service acceptance workspace
 scripts/docs/     Executable documentation checks and regression tests
 .github/          Read-only CI, ownership and contribution templates
 ```
-WebApp contains runnable customer UI, two explicit transports, tests and in-person review tools. APIbackend contains the persistent core and local test runtime, with its remaining work tracked. MobileApp and AdminDashboard remain planned scaffolds. Novu contains offline content and a partial live integration.
+WebApp contains runnable customer UI, two explicit transports, tests and in-person review tools. APIbackend contains the persistent core and local test runtime, with its remaining work tracked. AdminDashboard now contains the runnable staff console, six-role permissions, 26 management modules and supporting versioned backend operations; see its verification record for acceptance. MobileApp remains a planned scaffold. Novu contains offline content and a partial live integration.
 
 ## Images and visual evidence
 
@@ -51,7 +51,7 @@ The following derived summary counts service task rows. These are not unique end
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | [APIbackend](APIbackend/README.md) | 58 | 10 | 0 | 48 | 0 | 0 | 0 | 0 |
 | [MobileApp](MobileApp/README.md) | 25 | 25 | 0 | 0 | 0 | 0 | 0 | 0 |
-| [AdminDashboard](AdminDashboard/README.md) | 26 | 26 | 0 | 0 | 0 | 0 | 0 | 0 |
+| [AdminDashboard](AdminDashboard/README.md) | 26 | 0 | 0 | 25 | 0 | 0 | 0 | 1 |
 | [WebApp](WebApp/README.md) | 34 | 1 | 0 | 33 | 0 | 0 | 0 | 0 |
 | [Novu](Novu/README.md) | 27 | 19 | 0 | 1 | 6 | 0 | 0 | 1 |
 <!-- PROGRESS:END -->
@@ -95,9 +95,10 @@ Use the [acceptance plan](devdocs/project/10-TESTING-AND-ACCEPTANCE.md). Documen
 [Security policy](SECURITY.md) · [Contributing](CONTRIBUTING.md) · [Agent rules](AGENTS.md). Never publish secrets or real customer/KYC/payment data. Staff and customer sessions are independent. Read [security/compliance](devdocs/project/07-SECURITY-AND-COMPLIANCE.md) and [operations](devdocs/project/11-OPERATIONS-AND-DEPLOYMENT.md) before live activation.
 
 ## Limitations and launch blockers
-Launch blockers: legal/custody approval, provider agreements, remaining contract/product coverage, MobileApp/AdminDashboard and remaining API implementation, independent security review, financial reconciliation qualification, off-host recovery, signed app distribution and operating support. No completed QPay features are inherited by copying their names. The 14 WebApp GAP items drive in-person review before upstream activation.
+Launch blockers: legal/custody approval, provider agreements, remaining contract/product coverage, MobileApp and remaining financial/provider API implementation, independent security review, financial reconciliation qualification, off-host recovery, signed app distribution and operating support. No completed QPay features are inherited by copying their names. The 14 WebApp GAP items drive in-person review before upstream activation.
 
 ## Changelog
+- 2026-09-24: AdminDashboard v0.7 implementation with supporting additive backend operations, security tests and complete service specifications. Normal-browser CI and source-bound visual delivery are tracked in [admin validation](AdminDashboard/docs/VALIDATION.md).
 [Project changelog](CHANGELOG.md). 2026-09-23: WebApp and the backend review core brought together with explicit test modes, endpoint gaps and browser acceptance; 2026-09-22: self-hosted Novu accepted, email content/themes and traceable notification plan added;  recommended stack and E1 approved; documentation, ADRs, repository structure and validation workflow established. See the changelog and handover for the exact scope.
 
 ## In-person customer review

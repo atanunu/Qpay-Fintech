@@ -1,4 +1,3 @@
-# Reserved implementation workspace
-Status: scaffold only. Bespoke React operations UI source. Separate auth shell from authenticated navigation. Staff permissions enforced in Go; no direct financial database or provider secrets.
+# Source ownership
 
-Read the service README and accepted ADRs before implementation. Add pinned manifests, real setup commands, tests and evidence with the first functional change; a directory is not a completed feature.
+main.tsx owns routes; auth.tsx owns isolated staff access; layout.tsx and modules.ts own permission-aware navigation. api.ts is the only real transport. review.ts is a compile-time separate, explicitly synthetic adapter. components/ui.tsx owns accessible form/table/dialog/error primitives. pages implement actual management journeys. Never add financial authority or provider secrets to browser code. Update the service/root README, tests and changed runtime captures with every source change.

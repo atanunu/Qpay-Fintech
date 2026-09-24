@@ -184,7 +184,7 @@ func (s *Service) Propose(ctx context.Context, p Principal, in ProposalInput) (s
 	if !safeText(in.Reason, 500) {
 		return "", Invalid("a bounded review reason is required")
 	}
-	if in.Action != "kyc_approve" && in.Action != "kyc_decline" && in.Action != "restrict" && in.Action != "restore" && in.Action != "policy" {
+	if in.Action != "kyc_approve" && in.Action != "kyc_decline" && in.Action != "kyc_request_info" && in.Action != "restrict" && in.Action != "restore" && in.Action != "policy" {
 		return "", Invalid("unsupported proposal")
 	}
 	if in.Action == "kyc_approve" && (in.Tier < 1 || in.Tier > 3) {
@@ -230,6 +230,15 @@ func (s *Service) Propose(ctx context.Context, p Principal, in ProposalInput) (s
 	return id, e
 }
 func (s *Service) Decide(ctx context.Context, p Principal, id string, approve bool) error {
+	return s.decide(ctx, p, id, approve, "")
+}
+func (s *Service) DecideReasoned(ctx context.Context, p Principal, id string, approve bool, reason string) error {
+	if !safeText(reason, 1000) || len(strings.TrimSpace(reason)) < 8 {
+		return Invalid("decision reason of 8 to 1000 characters required")
+	}
+	return s.decide(ctx, p, id, approve, reason)
+}
+func (s *Service) decide(ctx context.Context, p Principal, id string, approve bool, reason string) error {
 	return s.transact(ctx, func(tx *sql.Tx) error {
 		u, e := s.activePrincipal(ctx, tx, p)
 		if e != nil {
@@ -260,7 +269,7 @@ func (s *Service) Decide(ctx context.Context, p Principal, id string, approve bo
 		if e != nil {
 			return e
 		}
-		if makerUser.Status != "active" {
+		if makerUser.Status != "active" || !makerUser.MFA {
 			return denied()
 		}
 		if e = requireRole(Principal{User: makerUser, Audience: "staff", MFAReady: true}, proposalRoles(action)...); e != nil {
@@ -320,6 +329,11 @@ func (s *Service) Decide(ctx context.Context, p Principal, id string, approve bo
 						e = s.recordVerifiedIdentity(ctx, tx, owner, target)
 					}
 					workflow = "kyc-approved"
+				case "kyc_request_info":
+					if e = exec(tx, ctx, `UPDATE kyc_cases SET status='information_required' WHERE id=$1`, target); e == nil {
+						e = exec(tx, ctx, `UPDATE users SET version=version+1 WHERE id=$1`, owner)
+					}
+					workflow = "kyc-more-information"
 				case "kyc_decline":
 					if e = exec(tx, ctx, `UPDATE kyc_cases SET status='declined' WHERE id=$1`, target); e == nil {
 						e = exec(tx, ctx, `UPDATE users SET version=version+1 WHERE id=$1`, owner)
@@ -337,7 +351,7 @@ func (s *Service) Decide(ctx context.Context, p Principal, id string, approve bo
 		if e = exec(tx, ctx, `UPDATE proposals SET status=$2,checker_id=$3 WHERE id=$1`, id, next, u.ID); e != nil {
 			return e
 		}
-		return s.audit(ctx, tx, u.ID, "proposal."+next, id, map[string]any{"action": action})
+		return s.audit(ctx, tx, u.ID, "proposal."+next, id, map[string]any{"action": action, "reason": reason})
 	})
 }
 func (s *Service) Proposals(ctx context.Context, p Principal) ([]map[string]any, error) {
@@ -401,6 +415,15 @@ func (s *Service) Audit(ctx context.Context, p Principal, limit int, before stri
 	return out, rows.Err()
 }
 func (s *Service) RetryJob(ctx context.Context, p Principal, payment string) error {
+	return s.retryJob(ctx, p, payment, "")
+}
+func (s *Service) RetryJobReasoned(ctx context.Context, p Principal, payment, reason string) error {
+	if !safeText(reason, 1000) || len(strings.TrimSpace(reason)) < 8 {
+		return Invalid("requery reason of 8 to 1000 characters required")
+	}
+	return s.retryJob(ctx, p, payment, reason)
+}
+func (s *Service) retryJob(ctx context.Context, p Principal, payment, reason string) error {
 	if e := requireRole(p, "admin", "finance"); e != nil {
 		return e
 	}
@@ -428,7 +451,7 @@ func (s *Service) RetryJob(ctx context.Context, p Principal, payment string) err
 		if n != 1 {
 			return conflict("job is not awaiting retry")
 		}
-		return s.audit(ctx, tx, p.User.ID, "payment.requery_requested", payment, map[string]any{})
+		return s.audit(ctx, tx, p.User.ID, "payment.requery_requested", payment, map[string]any{"reason": reason})
 	})
 }
 

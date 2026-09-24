@@ -30,7 +30,7 @@
       "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Reject customer tokens and unauthorised operator actions",
-      "evidence": "operations.go and HTTP staff boundary; invite lifecycle and final acceptance pending"
+      "evidence": "operations.go and HTTP staff boundary; independent invitation, controlled recovery and operational console implemented; full qualification tracked in AdminDashboard/docs/VALIDATION.md"
     },
     {
       "id": "API-004",

@@ -33,6 +33,8 @@ node --test clients/client.test.mjs
 Tests create isolated schemas and remove them. Never use a production database. Missing PostgreSQL fails when QPF_REQUIRE_POSTGRES=true; otherwise those tests explicitly skip.
 
 ## Source and API map
+
+The v0.7 staff console adds migration 3, audited allowlisted operational resources, recent staff proof, independent staff invitation/role/status/recovery, product controls, emergency containment/resumption, encrypted investigations, scoped evidence access, idempotent reconciliation imports and capped exports. See [admin interfaces](../devdocs/AdminDashboard/02-INTERFACES.md) and [admin validation](../AdminDashboard/docs/VALIDATION.md). ADMIN_ORIGINS is separate from WEB_ORIGINS. No direct financial execution or provider activation is added.
 | Area | Source |
 |---|---|
 | Process/configuration wiring | internal/app/app.go and cmd/ |
@@ -56,7 +58,7 @@ Stable 42-task register preserved. A task is Partial where working code exists b
 |---|---|---|---|---|---|---|---|
 | API-001 | Customer registration and verified contacts | M1 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Reject duplicate and enumeration abuse without leaking identity | internal/service/auth.go; registration/challenge tests; real email transport acceptance pending |
 | API-002 | Customer sessions and devices | M1 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Rotate and revoke sessions with cross-device recovery tests | auth.go and browser.go; cookie/bearer and refresh-reuse tests; final rerun outstanding |
-| API-003 | Separate staff identity and permissions | M1 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Reject customer tokens and unauthorised operator actions | operations.go and HTTP staff boundary; invite lifecycle and final acceptance pending |
+| API-003 | Separate staff identity and permissions | M1 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Reject customer tokens and unauthorised operator actions | operations.go and HTTP staff boundary; independent invitation, controlled recovery and operational console implemented; full qualification tracked in AdminDashboard/docs/VALIDATION.md |
 | API-004 | KYC cases and policy-based tiers | M2 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Document decisions and enforce approved policy on every money action | KYC case/manual independent approval implemented; evidence ownership and KYC provider pending |
 | API-005 | Partner account provisioning | M2 | P0 | Planned | [Specification](../devdocs/APIbackend/00-INDEX.md) | Recover duplicate or ambiguous provisioning without creating unrelated accounts | Partner account provisioning and customer funding instructions not implemented |
 | API-006 | PostgreSQL schema and migrations | M1 | P0 | Partial | [Specification](../devdocs/APIbackend/00-INDEX.md) | Clean setup and compatible migrations pass against real PostgreSQL | schema.sql and migrate.go; PostgreSQL migration tests executed in candidate suite |
@@ -132,6 +134,7 @@ Run API, worker and scheduler together, with explicit migrations. Use stable ori
 Read [remaining work](docs/REMAINING-WORK.md). Source, tests, contracts, README and progress updates belong in one reviewed delivery. Re-run the canonical notification catalogue check and documentation generator on changes. Store exact CI commit/result evidence; no manual status promotion to production-ready.
 
 ## Changelog
+- 2026-09-24: Additive AdminDashboard operational APIs, security lifecycle and regression tests; migrations 1/2 preserved.
 2026-09-23 v0.6: additive customer-parity migration, security, schedules/requests, private documents, identity/account lifecycle, funding interface and domain tests. Existing V1 checksum preserved. [Changelog](CHANGELOG.md).
 
 ## GitHub delivery evidence

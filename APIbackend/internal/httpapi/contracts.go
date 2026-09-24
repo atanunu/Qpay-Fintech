@@ -106,13 +106,16 @@ func enrichOpenAPI(spec map[string]any) map[string]any {
 				}
 			}
 			params, _ := op["parameters"].([]any)
-			if method == "get" && (p == "/v1/payments" || p == "/v1/wallet/entries" || p == "/v1/notifications" || p == "/v1/admin/customers" || p == "/v1/admin/audit") {
+			if method == "get" && (p == "/v1/payments" || p == "/v1/wallet/entries" || p == "/v1/notifications" || p == "/v1/admin/customers" || p == "/v1/admin/audit" || p == "/v1/admin/console/records/{resource}") {
 				params = append(params, map[string]any{"name": "limit", "in": "query", "schema": map[string]any{"type": "integer", "minimum": 1, "maximum": 100, "default": 50}})
 				cursor := text()
 				if p == "/v1/wallet/entries" {
 					cursor = map[string]any{"type": "integer", "minimum": 0}
 				}
 				params = append(params, map[string]any{"name": "before", "in": "query", "schema": cursor, "description": "Exclusive cursor from the last item id; ordering is descending id."})
+			}
+			if p == "/v1/admin/console/records/{resource}" {
+				params = append(params, map[string]any{"name": "search", "in": "query", "schema": map[string]any{"type": "string", "maxLength": 100}, "description": "Literal substring over the authorised redacted projection"})
 			}
 			if p == "/v1/statements" {
 				for _, name := range []string{"from", "to"} {

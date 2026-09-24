@@ -1,4 +1,3 @@
-# Reserved implementation workspace
-Status: scaffold only. Browser component and end-to-end tests for staff roles, independent approval, KYC/support/finance workflows, keyboard access and safe exports. No application tests yet.
+# Admin application tests
 
-Read the service README and accepted ADRs before implementation. Add pinned manifests, real setup commands, tests and evidence with the first functional change; a directory is not a completed feature.
+Run npm run typecheck and npm test from AdminDashboard. Run npm run test:e2e for explicit synthetic browser review. Run npm run test:e2e:api with a disposable real API/database and .test-fixtures/admin.json produced by e2e/api-fixture.py. Fixture source uses normal staff bootstrap, approval, invitation and MFA flows. It never prints credentials and is restricted to local execution. Never include fixture output or browser authentication traces in artifacts. See [validation](../docs/VALIDATION.md) for executed results, and the [test plan](../../devdocs/AdminDashboard/05-TESTING.md) for acceptance boundaries.

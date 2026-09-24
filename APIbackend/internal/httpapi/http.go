@@ -23,11 +23,12 @@ import (
 )
 
 type Config struct {
-	Environment string
-	Origins     []string
-	Logger      *slog.Logger
-	PolicyKey   []byte
-	FundingKey  []byte
+	Environment  string
+	Origins      []string
+	StaffOrigins []string
+	Logger       *slog.Logger
+	PolicyKey    []byte
+	FundingKey   []byte
 }
 type Handler struct {
 	Service *service.Service
@@ -66,7 +67,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}
 	}()
 	if origin := r.Header.Get("Origin"); origin != "" {
-		if !h.originAllowed(origin) {
+		if !h.requestOriginAllowed(r) {
 			h.fail(w, r, &service.Fault{Status: 403, Code: "origin_denied", Message: "browser origin not permitted"})
 			return
 		}
@@ -76,7 +77,7 @@ func (h *Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Expose-Headers", "X-Request-ID,Retry-After")
 	}
 	if r.Method == "OPTIONS" {
-		if !h.originAllowed(r.Header.Get("Origin")) {
+		if !h.requestOriginAllowed(r) {
 			h.fail(w, r, service.Invalid("approved origin required"))
 			return
 		}
@@ -94,6 +95,23 @@ func (h *Handler) originAllowed(origin string) bool {
 		}
 	}
 	return false
+}
+
+// Staff and customer browser origins are separately configured. Local tests may share the legacy allowlist.
+func (h *Handler) requestOriginAllowed(r *http.Request) bool {
+	if strings.HasPrefix(r.URL.Path, "/v1/admin/") {
+		origins := h.Config.StaffOrigins
+		if len(origins) == 0 && h.Config.Environment == "local" {
+			origins = h.Config.Origins
+		}
+		for _, origin := range origins {
+			if origin == r.Header.Get("Origin") {
+				return true
+			}
+		}
+		return false
+	}
+	return h.originAllowed(r.Header.Get("Origin"))
 }
 func (h *Handler) cookieName(audience, kind string) string {
 	prefix := ""
@@ -157,12 +175,17 @@ func (h *Handler) authenticate(r *http.Request, auth string) (service.Principal,
 		return p, &service.Fault{Status: 403, Code: "forbidden", Message: "session transport or audience mismatch"}
 	}
 	if fromCookie && r.Method != "GET" && r.Method != "HEAD" {
-		if !h.originAllowed(r.Header.Get("Origin")) || !security.Equal(p.CSRFHash, security.Digest(r.Header.Get("X-CSRF-Token"))) {
+		if !h.requestOriginAllowed(r) || !security.Equal(p.CSRFHash, security.Digest(r.Header.Get("X-CSRF-Token"))) {
 			return p, &service.Fault{Status: 403, Code: "csrf_rejected", Message: "valid origin and CSRF token required"}
 		}
 	}
 	if auth == "staff" && (!p.MFAReady || !p.User.MFA || p.User.Status != "active") {
 		return p, &service.Fault{Status: 403, Code: "staff_mfa_required", Message: "active staff with enrolled MFA required"}
+	}
+	if auth == "staff" && r.Method != "GET" && r.Method != "HEAD" {
+		if e := h.Service.RequireStaffElevation(r.Context(), p); e != nil {
+			return p, e
+		}
 	}
 	return p, nil
 }
