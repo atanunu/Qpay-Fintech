@@ -112,3 +112,5 @@ Launch blockers: legal/custody approval, provider agreements, remaining contract
 ![Qpay customer overview — actual synthetic runtime](WebApp/docs/screenshots/overview-desktop.png)
 
 [Delivery verification and CI results](devdocs/project/GITHUB-DELIVERY.md) · [38-screen runtime gallery](WebApp/docs/SCREENSHOTS.md) · [Machine-readable evidence](devdocs/project/DELIVERY-VERIFICATION.json). Source, normal-browser/Go integration, builds and documentation are verified; manual UAT, real provider qualification and production activation remain separate.
+
+Admin browser qualification: shared required-field markers are decorative and no longer modify label text; exact-label and full-reload synthetic-session checks are included. PostgreSQL race, existing WebApp and documentation checks passed on `abc1e494`; admin browser acceptance remains pending.

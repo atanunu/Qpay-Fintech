@@ -113,3 +113,5 @@ Every source change must update this README, its canonical task register, affect
 
 ## Changelog
 - 2026-09-24 — v0.7 runnable admin console and additive backend operations; source, contract, security, workflow and test documentation delivered together. Verification evidence is maintained separately.
+
+Admin browser qualification: shared required-field markers are decorative and no longer modify label text; exact-label and full-reload synthetic-session checks are included. PostgreSQL race, existing WebApp and documentation checks passed on `abc1e494`; admin browser acceptance remains pending.
