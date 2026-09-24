@@ -1,0 +1,80 @@
+name: Materialise reviewed identity presentation
+on:
+  push:
+    branches: [build/admin-dashboard-v1]
+    paths: [.github/workflows/admin-identity-final.yml]
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: github.repository == 'atanunu/Qpay-Fintech' && github.ref == 'refs/heads/build/admin-dashboard-v1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: true
+      - name: Preserve source and apply reviewed identity field projection
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,subprocess
+          expected={'README.md':'43c27ea218b69ef0a158ddf4c9e45eb3a590fd9d106e42558ad02485f788f75a','AdminDashboard/README.md':'bbcf1b40f90e9d790b895d1a245819c6881e3ed0d93d9cf803b38b8fbd9eec72','AdminDashboard/e2e/admin.review.spec.ts':'19b868dba2ee8daa1a587afd85c541beeaab6fa5f3adca44c1205adc4abf5d9f'}
+          pending={}
+          for name,sha in expected.items():
+              p=Path(name);assert p.is_file() and not p.is_symlink()
+              assert hashlib.sha256(p.read_bytes()).hexdigest()==sha,name
+              pending[name]=p.read_text()
+          name='AdminDashboard/src/pages/settings.tsx'
+          p=Path(name);assert p.is_file() and not p.is_symlink()
+          baseline=subprocess.check_output(['git','show','0c83571eef9efb00a1289da4e4721bb63a2cdf2f:'+name])
+          assert p.read_bytes()==baseline,'Concurrent identity source change'
+          pending[name]=p.read_text()
+          before="import {Reason} from './records';"
+          assert pending[name].count(before)==1
+          pending[name]=pending[name].replace(before,before+"\nimport {identityFields} from '../identity';")
+          before='<Facts record={evidence}/><button className="button" onClick={()=>setEvidence(null)}>Hide identity evidence</button>'
+          after='<Facts record={evidence} omit={[\'identity\']}/><h2>Submitted identity details</h2><Facts record={identityFields(evidence)}/><button className="button" onClick={()=>setEvidence(null)}>Hide identity evidence</button>'
+          assert pending[name].count(before)==1
+          pending[name]=pending[name].replace(before,after)
+          pending['AdminDashboard/src/identity.ts']="""import type {Row} from './types';
+
+          /** Explicit display projection; unknown API fields must never reveal extra PII. */
+          export function identityFields(envelope: Row): Row {
+            const value = envelope.identity;
+            if (value === null || typeof value !== 'object' || Array.isArray(value)) {
+              throw new Error('Identity response is invalid. No additional evidence will be shown.');
+            }
+            const fields: Row = {};
+            for (const key of ['legal_name', 'date_of_birth', 'address', 'document_type', 'consent', 'version']) {
+              if (Object.hasOwn(value, key) && ['string', 'number', 'boolean'].includes(typeof value[key])) {
+                fields[key] = value[key];
+              }
+            }
+            return fields;
+          }
+          """
+          pending['AdminDashboard/tests/identity.test.ts']="""import {expect, it} from 'vitest';
+          import {identityFields} from '../src/identity';
+          it('projects submitted identity as individual fields without unapproved properties', () => {
+            const raw = {owner_id: 'synthetic', identity: {legal_name: 'Synthetic Legal Customer', date_of_birth: '1990-01-01', address: 'Synthetic address', document_type: 'passport', consent: true, version: 3, secret: 'must-not-display', upload_ids: ['private-reference']}};
+            expect(identityFields(raw)).toEqual({legal_name: 'Synthetic Legal Customer', date_of_birth: '1990-01-01', address: 'Synthetic address', document_type: 'passport', consent: true, version: 3});
+            expect(raw.identity.secret).toBe('must-not-display');
+          });
+          for (const identity of [null, 'invalid', [], 1]) it('fails closed for an invalid identity envelope: ' + JSON.stringify(identity), () => expect(() => identityFields({identity})).toThrow(/invalid/));
+          it('does not recursively display arbitrary nested identity content', () => expect(identityFields({identity: {legal_name: {unexpected: 'secret'}, consent: false}})).toEqual({consent: false}));
+          """
+          for name in ['AdminDashboard/src/identity.ts','AdminDashboard/tests/identity.test.ts']:
+              assert not Path(name).exists(),name
+          pending['AdminDashboard/e2e/admin.review.spec.ts']+="\ntest('identity evidence uses readable fields and a deliberate reveal and hide boundary',async({page})=>{await login(page,'compliance');await route(page,'/identity/kyc_review_01');await expect(page.getByText('Ada Okoro',{exact:true})).toHaveCount(0);await capture(page,'identity-access-gate');await page.getByLabel('Reason / evidence').fill('Legitimate synthetic identity review');await page.getByRole('button',{name:'Record purpose and reveal evidence'}).click();await expect(page.getByRole('heading',{name:'Submitted identity details'})).toBeVisible();await expect(page.getByText('Ada Okoro',{exact:true})).toBeVisible();await expect(page.locator('dt').filter({hasText:'Legal name'})).toBeVisible();await accessible(page);await page.getByRole('button',{name:'Hide identity evidence'}).click();await expect(page.getByText('Ada Okoro',{exact:true})).toHaveCount(0)});\n"
+          for name in ['README.md','AdminDashboard/README.md']:
+              pending[name]+='\nAdmin identity review now renders an explicit allowlist of submitted legal-name, birth-date, address, document-type and consent fields instead of a raw nested JSON block. Reveal/hide remains audited and permissioned. The synthetic normal-browser suite and static container checks passed in run 35961000819; the remaining identity-field integration assertion is addressed in this correction. Final aggregate verification is recorded separately.\n'
+          for name,text in pending.items():Path(name).write_text(text)
+          subprocess.run(['git','add','--',*pending],check=True)
+          subprocess.run(['git','rm','--','.github/workflows/admin-identity-final.yml'],check=True)
+          subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+          subprocess.run(['git','commit','-m','fix(admin): render allowlisted identity fields with explicit reveal and hide'],check=True)
+          subprocess.run(['git','push','origin','HEAD:refs/heads/build/admin-dashboard-v1'],check=True)
+          PY
+# Temporary branch-scoped source transport. No application execution or provider activity.
