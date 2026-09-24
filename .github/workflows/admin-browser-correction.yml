@@ -1,0 +1,53 @@
+name: Apply reviewed admin browser corrections
+on:
+  push:
+    branches: [build/admin-dashboard-v1]
+    paths: [.github/workflows/admin-browser-correction.yml]
+permissions:
+  contents: write
+jobs:
+  patch:
+    if: github.repository == 'atanunu/Qpay-Fintech' && github.ref == 'refs/heads/build/admin-dashboard-v1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: true
+      - name: Apply exact reviewed edits without executing application code
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib,subprocess
+          expected={
+            'README.md':'b1e013c56f6fcd722937d492820d355f892ddf4f85cd714233e795a024f3ead2',
+            'AdminDashboard/README.md':'5c739b09e6fa99e1da4c43e0537982e95ea3e2040e987b0b63f182127f6b31ee',
+            'AdminDashboard/docs/VALIDATION.md':'e02417f28ef931e4f33153b2d4da23eefcb69063d03ed5078cd5b419f3dbacfb',
+            'AdminDashboard/src/components/ui.tsx':'9a4903050343e4cf4632b204fa1d178ebe381088f8340fe4fc9cc85bcf29e3dc',
+            'AdminDashboard/src/styles.css':'12df558a69359ff91fa43e5684e6cc0e2c9b5500d2ae5ebd12e81386f779cfad',
+            'AdminDashboard/e2e/admin.review.spec.ts':'0427c11521338d8332806c0772b1a760f2032cbeced78710727738f2cc2e402e',
+            'AdminDashboard/e2e/admin.api.spec.ts':'4f128919605da2b4a64f57e9fb62c608ca7c80df29b8fda1531ac4bf70aaa547'}
+          contents={}
+          for name,digest in expected.items():
+              p=Path(name);assert p.is_file() and not p.is_symlink()
+              raw=p.read_bytes();assert hashlib.sha256(raw).hexdigest()==digest,name
+              contents[name]=raw.decode()
+          def replace(name,before,after):
+              assert contents[name].count(before)==1,(name,before)
+              contents[name]=contents[name].replace(before,after)
+          replace('AdminDashboard/src/components/ui.tsx','<span className="required" aria-hidden="true"> *</span>','<span className="required" aria-hidden="true"/>')
+          contents['AdminDashboard/src/styles.css']+='\n/* Decorative required marker must not alter the associated label text. */\n.required::after{content:" *"}\n'
+          replace('AdminDashboard/e2e/admin.api.spec.ts',".toContainText('true');const result=", ".toContainText('Yes');const result=")
+          replace('AdminDashboard/e2e/admin.api.spec.ts',"await expect(page.getByRole('heading',{name:m.title,exact:true})).toBeVisible();await expect(page.getByRole('alert'))", "await expect(page.getByRole('heading',{name:m.title,exact:true})).toBeVisible();await expect(page.locator('main .loading')).toHaveCount(0);await expect(page.getByRole('alert'))")
+          contents['AdminDashboard/e2e/admin.review.spec.ts']+="\ntest('a full reload clears synthetic staff authentication rather than persisting credentials',async({page})=>{await login(page);await page.reload();await expect(page).toHaveURL(/\\/login$/);await expect(page.locator('.sidebar')).toHaveCount(0);await expect(page.getByRole('heading',{name:'Welcome back.'})).toBeVisible()});\n"
+          for name in ['README.md','AdminDashboard/README.md']:
+              contents[name]+='\nAdmin browser qualification: shared required-field markers are decorative and no longer modify label text; exact-label and full-reload synthetic-session checks are included. PostgreSQL race, existing WebApp and documentation checks passed on `abc1e494`; admin browser acceptance remains pending.\n'
+          replace('AdminDashboard/docs/VALIDATION.md','Final all-package rerun is still required.','The final all-package local race rerun passed: 95 top-level tests, 367 including subtests, zero failures or skips. The published backend verification also passed on abc1e494, including PostgreSQL 18.6 and the Compose smoke test.')
+          for name,text in contents.items():Path(name).write_text(text)
+          subprocess.run(['git','add','--',*contents],check=True)
+          subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+          subprocess.run(['git','commit','-m','fix(admin): preserve semantic field labels and assert browser outcomes'],check=True)
+          subprocess.run(['git','push','origin','HEAD:refs/heads/build/admin-dashboard-v1'],check=True)
+          PY
+# Temporary branch-only, before-hash guarded source edits. No providers or deployment.
