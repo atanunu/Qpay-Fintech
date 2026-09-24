@@ -1,0 +1,82 @@
+name: Materialise reviewed admin source
+on:
+  push:
+    branches: [build/admin-dashboard-v1]
+    paths: [.github/workflows/admin-source-import.yml]
+permissions:
+  contents: write
+jobs:
+  materialise:
+    if: github.repository == 'atanunu/Qpay-Fintech' && github.ref == 'refs/heads/build/admin-dashboard-v1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Validate and materialise exact reviewed source without executing it
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import base64,hashlib,json,lzma,subprocess
+          root=Path.cwd().resolve()
+          base='a8eaf29bcedb109497d69ca9211b1aeb900b7b82'
+          parts=[Path(f'.build/admin-{i:02d}.b64') for i in range(1,12)]
+          compressed=base64.b64decode(''.join(p.read_text() for p in parts),validate=True)
+          assert len(compressed)==91000
+          assert hashlib.sha256(compressed).hexdigest()=='cda56d5188b52b13510d436633cfab9637f2ceacbcd6d3e3b739d853cf982ee7'
+          decoder=lzma.LZMADecompressor(memlimit=512*1024*1024)
+          raw=decoder.decompress(compressed,max_length=10*1024*1024)
+          assert decoder.eof and not decoder.unused_data and len(raw)==475594
+          manifest=json.loads(raw)
+          assert manifest['version']==1 and manifest['base']==base and len(manifest['files'])==79
+          subprocess.run(['git','fetch','--no-tags','origin',base],check=True)
+          allowed={'AdminDashboard','APIbackend','devdocs'}
+          exact={'README.md','AGENTS.md','CHANGELOG.md','.gitignore','scripts/docs/test_check.py'}
+          forbidden={'.git','.github','node_modules','vendor','.test-fixtures','evidence','dist','local-secrets'}
+          pending=[]
+          digest=lambda b:hashlib.sha256(b).hexdigest()
+          for name,item in manifest['files'].items():
+              rel=PurePosixPath(name)
+              assert not rel.is_absolute() and '..' not in rel.parts and str(rel)==name
+              assert rel.parts[0] in allowed or name in exact
+              assert not any(x in forbidden for x in rel.parts)
+              assert not rel.name.startswith('.env') or name in {'APIbackend/.env.example','AdminDashboard/.env.example','AdminDashboard/.env.review'}
+              target=root.joinpath(*rel.parts)
+              assert target.resolve().is_relative_to(root)
+              assert not any(p.is_symlink() for p in [target,*target.parents] if p.is_relative_to(root))
+              before=target.read_bytes() if target.is_file() else None
+              assert (None if before is None else digest(before))==item['before'],f'Concurrent source change: {name}'
+              source=item['base_path']
+              assert source==name or (name=='AdminDashboard/package-lock.json' and source=='WebApp/package-lock.json')
+              result=subprocess.run(['git','show',f'{base}:{source}'],capture_output=True)
+              baseline=result.stdout if result.returncode==0 else b''
+              assert digest(baseline)==item['base_hash'],f'Pinned baseline differs: {name}'
+              lines=baseline.decode('utf-8').splitlines(keepends=True)
+              text=[]
+              for operation in item['ops']:
+                  if isinstance(operation,str): text.append(operation)
+                  else:
+                      assert isinstance(operation,list) and len(operation)==2
+                      start,end=operation
+                      assert type(start) is int and type(end) is int and 0<=start<=end<=len(lines)
+                      text.extend(lines[start:end])
+              content=''.join(text).encode('utf-8')
+              assert len(content)<2*1024*1024 and digest(content)==item['sha256'],f'Final source differs: {name}'
+              pending.append((name,target,content))
+          for name,target,content in pending:
+              target.parent.mkdir(parents=True,exist_ok=True)
+              target.write_bytes(content)
+              target.chmod(0o644)
+          subprocess.run(['git','add','--',*[name for name,_,_ in pending]],check=True)
+          subprocess.run(['git','rm','--',*[str(p) for p in parts]],check=True)
+          subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+          subprocess.run(['git','commit','-m','feat(admin): implement staff console and audited operational APIs'],check=True)
+          subprocess.run(['git','push','origin','HEAD:refs/heads/build/admin-dashboard-v1'],check=True)
+          print('Materialised 79 hash-verified source files; no application code, provider or deployment executed.')
+          PY
+# Temporary branch-scoped hash-locked source transport. Remove immediately after materialisation.
