@@ -428,6 +428,107 @@
         "summary": "Restore browser CSRF material using the refresh cookie"
       }
     },
+    "/v1/admin/auth/elevate": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_auth_elevate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "mfa_code": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "password"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Reauthenticate staff for ten minutes of sensitive operations"
+      }
+    },
     "/v1/admin/auth/login": {
       "post": {
         "operationId": "post_v1_admin_auth_login",
@@ -1523,6 +1624,1649 @@
         "summary": "Audited observed biller state; never a success guarantee"
       }
     },
+    "/v1/admin/console/actions": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_console_actions",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "action": {
+                    "type": "string"
+                  },
+                  "assigned_to": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "resource": {
+                    "type": "string"
+                  },
+                  "severity": {
+                    "type": "string"
+                  },
+                  "target": {
+                    "type": "string"
+                  },
+                  "title": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "action",
+                  "target",
+                  "resource",
+                  "reason",
+                  "value",
+                  "title",
+                  "assigned_to",
+                  "severity",
+                  "version"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Reasoned and version-checked operational action"
+      }
+    },
+    "/v1/admin/console/biller-observation": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_console_biller_observation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "product_id": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "product_id",
+                  "status",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Audited time-bounded biller observation"
+      }
+    },
+    "/v1/admin/console/bootstrap": {
+      "get": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "get_v1_admin_console_bootstrap",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {},
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Current staff identity, allowed resources, actions and acceptance gates"
+      }
+    },
+    "/v1/admin/console/catalogue": {
+      "get": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "get_v1_admin_console_catalogue",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "amount_minor": {
+                            "description": "Integer NGN minor units; maximum 9000000000000000",
+                            "pattern": "^(0|[1-9][0-9]{0,15})$",
+                            "type": "string"
+                          },
+                          "category": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "variable_amount": {
+                            "type": "boolean"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "category",
+                          "amount_minor",
+                          "variable_amount"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Normalised catalogue from configured adapter; unavailable is not synthetic success"
+      }
+    },
+    "/v1/admin/console/documents/{id}": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_console_documents_id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Audited private evidence download with reason"
+      }
+    },
+    "/v1/admin/console/exports": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_console_exports",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "reason": {
+                    "type": "string"
+                  },
+                  "resource": {
+                    "type": "string"
+                  },
+                  "search": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "resource",
+                  "search",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Audited bounded CSV export; no truncated financial reports"
+      }
+    },
+    "/v1/admin/console/identity/{id}": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_console_identity_id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Reasoned audited identity case access"
+      }
+    },
+    "/v1/admin/console/invitations": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_console_invitations",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "email",
+                  "name",
+                  "role",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Propose invitation; another administrator must approve"
+      }
+    },
+    "/v1/admin/console/invitations/{id}/decision": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_console_invitations_id_decision",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Approve, reject or revoke an invitation; token displayed once"
+      }
+    },
+    "/v1/admin/console/metrics": {
+      "get": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "get_v1_admin_console_metrics",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {},
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Authoritative operational snapshot with separately permissioned ledger totals"
+      }
+    },
+    "/v1/admin/console/payment-control": {
+      "get": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "get_v1_admin_console_payment_control",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {},
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Current emergency containment policy version"
+      }
+    },
+    "/v1/admin/console/payments/{id}/fulfilment": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_console_payments_id_fulfilment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Reasoned access to delivered bill value"
+      }
+    },
+    "/v1/admin/console/payments/{id}/requery": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_console_payments_id_requery",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Reasoned original-reference query recovery"
+      }
+    },
+    "/v1/admin/console/proposals/{id}/decision": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_console_proposals_id_decision",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Independent financial approval with decision evidence"
+      }
+    },
+    "/v1/admin/console/records/{resource}": {
+      "get": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "get_v1_admin_console_records_resource",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Exclusive cursor from the last item id; ordering is descending id.",
+            "in": "query",
+            "name": "before",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Literal substring over the authorised redacted projection",
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "maxLength": 100,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "generated_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "has_more": {
+                          "type": "boolean"
+                        },
+                        "items": {
+                          "items": {
+                            "additionalProperties": {},
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "next_before": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "items",
+                        "next_before",
+                        "has_more",
+                        "generated_at"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Paginated allowlisted and redacted operational records"
+      }
+    },
+    "/v1/admin/console/records/{resource}/{id}": {
+      "get": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "get_v1_admin_console_records_resource_id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {},
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Audited record detail and permissioned related evidence"
+      }
+    },
     "/v1/admin/customers": {
       "get": {
         "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
@@ -1745,6 +3489,102 @@
           }
         ],
         "summary": "Permissioned digital identity evidence"
+      }
+    },
+    "/v1/admin/invitations/accept": {
+      "post": {
+        "operationId": "post_v1_admin_invitations_accept",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "token",
+                  "password"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "summary": "Consume independently approved invitation; MFA enrolment remains mandatory"
       }
     },
     "/v1/admin/kyc/cases": {
@@ -2828,6 +4668,102 @@
           }
         ],
         "summary": "Compare imported records without mutating balances"
+      }
+    },
+    "/v1/admin/recovery/accept": {
+      "post": {
+        "operationId": "post_v1_admin_recovery_accept",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  },
+                  "token": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "token",
+                  "password"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "status": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "status"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "summary": "Consume independently approved staff recovery; mandatory MFA re-enrolment"
       }
     },
     "/v1/admin/staff": {

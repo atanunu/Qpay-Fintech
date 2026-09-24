@@ -138,4 +138,23 @@ export type APIPath =
 "GET /v1/admin/audit" |
 "POST /v1/admin/reconciliations" |
 "GET /v1/admin/reconciliations" |
+"POST /v1/admin/console/biller-observation" |
+"POST /v1/admin/console/payments/{id}/fulfilment" |
+"GET /v1/admin/console/payment-control" |
+"POST /v1/admin/console/identity/{id}" |
+"POST /v1/admin/console/proposals/{id}/decision" |
+"POST /v1/admin/console/payments/{id}/requery" |
+"POST /v1/admin/recovery/accept" |
+"GET /v1/admin/console/bootstrap" |
+"GET /v1/admin/console/metrics" |
+"GET /v1/admin/console/records/{resource}" |
+"GET /v1/admin/console/records/{resource}/{id}" |
+"POST /v1/admin/console/actions" |
+"POST /v1/admin/auth/elevate" |
+"POST /v1/admin/console/invitations" |
+"POST /v1/admin/console/invitations/{id}/decision" |
+"POST /v1/admin/invitations/accept" |
+"POST /v1/admin/console/exports" |
+"GET /v1/admin/console/catalogue" |
+"POST /v1/admin/console/documents/{id}" |
 "POST /internal/notifications/authorise";

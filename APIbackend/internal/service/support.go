@@ -168,7 +168,7 @@ func (s *Service) CaseReply(ctx context.Context, p Principal, id, message, statu
 		if e = s.appendMessage(ctx, tx, id, p.User.ID, message); e != nil {
 			return e
 		}
-		if e = exec(tx, ctx, `UPDATE support_cases SET status=CASE WHEN $2='' THEN status ELSE $2 END,updated_at=$3 WHERE id=$1`, id, status, s.Now()); e != nil {
+		if e = exec(tx, ctx, `UPDATE support_cases SET status=CASE WHEN $2='' THEN status ELSE $2 END,version=version+1,updated_at=$3 WHERE id=$1`, id, status, s.Now()); e != nil {
 			return e
 		}
 		if e = exec(tx, ctx, `INSERT INTO case_events(id,case_id,actor_id,event) VALUES($1,$2,$3,$4)`, stringID("caseevt_"), id, p.User.ID, "reply_"+status); e != nil {

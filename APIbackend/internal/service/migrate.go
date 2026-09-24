@@ -16,6 +16,9 @@ var Schema string
 //go:embed parity_v2.sql
 var ParitySchema string
 
+//go:embed admin_v3.sql
+var AdminSchema string
+
 // Migrate serialises schema changes with an advisory transaction lock and checks drift.
 func Migrate(ctx context.Context, db *sql.DB) error {
 	tx, e := db.BeginTx(ctx, nil)
@@ -29,7 +32,7 @@ func Migrate(ctx context.Context, db *sql.DB) error {
 	if _, e = tx.ExecContext(ctx, `CREATE TABLE IF NOT EXISTS schema_migrations(version integer PRIMARY KEY,checksum text NOT NULL,applied_at timestamptz NOT NULL DEFAULT now())`); e != nil {
 		return e
 	}
-	for index, source := range []string{Schema, ParitySchema} {
+	for index, source := range []string{Schema, ParitySchema, AdminSchema} {
 		version := index + 1
 		hash := sha256.Sum256([]byte(source))
 		checksum := hex.EncodeToString(hash[:])

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "service": "AdminDashboard",
+  "status": "verified_development_candidate",
+  "pull_request": 3,
+  "source_head": "f7e91005d83fcedc56ecec1da4fa6c47c251a52f",
+  "tested_merge_revision": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+  "base_revision": "6977d16a12fa0b8034c407eb172e2a47a7a9aea7",
+  "runs": {
+    "admin": 35961917855,
+    "backend": 35961917926,
+    "webapp": 35961917828,
+    "documentation": 35961917885
+  },
+  "admin_tests": {
+    "unit_contract_passed": 63,
+    "review_passed": 19,
+    "api_passed": 11,
+    "browser_failures": 0,
+    "browser_skipped": 0,
+    "browser_flaky": 0,
+    "automatic_retries": 0,
+    "browser": "Chromium"
+  },
+  "artifacts": {
+    "review": {
+      "id": 10792652458,
+      "sha256": "eaf71e660464aec665b77724222bc6a4b74ab6d446d0e8491bb14efe237c552d"
+    },
+    "api": {
+      "id": 10792717318,
+      "sha256": "48a3287716acb61eff73ea61ff213cb89fe6523d0b71a06db8d5c3a058c893d6"
+    }
+  },
+  "screenshots": {
+    "count": 41,
+    "manifest": "SCREENSHOTS.json",
+    "synthetic": true
+  },
+  "final_merge_receipt": "GitHub PR #3 discussion and merged_at/merge_commit_sha; not the test merge revision",
+  "production_deployed": false,
+  "live_provider_accepted": false,
+  "independent_security_review": false,
+  "in_person_accepted": false,
+  "limits": [
+    "Finite Chromium automated coverage",
+    "Separate synthetic identity reveal/hide spec not present and not counted",
+    "Remaining financial and operational scopes retained in devdocs/AdminDashboard/07-PENDING-WORK.md"
+  ]
+}

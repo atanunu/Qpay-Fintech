@@ -1,0 +1,1577 @@
+[
+  {
+    "key": "identity-verify-email",
+    "audience": "customer-new-contact",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "verification_challenge_active",
+    "subject": "Verify your email address"
+  },
+  {
+    "key": "identity-welcome",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "account_created_and_email_verified",
+    "subject": "Welcome to Qpay-Fintech"
+  },
+  {
+    "key": "identity-onboarding-reminder",
+    "audience": "customer",
+    "scope": "core",
+    "class": "optional",
+    "theme": "core",
+    "guard": "onboarding_incomplete_and_reminder_allowed",
+    "subject": "Continue setting up your account"
+  },
+  {
+    "key": "identity-password-reset",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "password_recovery_challenge_active",
+    "subject": "Your password reset code"
+  },
+  {
+    "key": "identity-password-changed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "password_change_committed",
+    "subject": "Your password was changed"
+  },
+  {
+    "key": "identity-email-change-requested",
+    "audience": "customer-old-contact",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "email_change_pending",
+    "subject": "An email change was requested"
+  },
+  {
+    "key": "identity-email-change-verify",
+    "audience": "customer-new-contact",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "new_email_challenge_active",
+    "subject": "Verify your new email address"
+  },
+  {
+    "key": "identity-email-changed-old",
+    "audience": "customer-old-contact",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "email_change_committed_old_snapshot",
+    "subject": "Your account email was changed"
+  },
+  {
+    "key": "identity-email-changed-new",
+    "audience": "customer-new-contact",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "email_change_committed_new_verified",
+    "subject": "Your new email address is active"
+  },
+  {
+    "key": "identity-phone-changed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "phone_change_committed",
+    "subject": "Your account phone number changed"
+  },
+  {
+    "key": "security-new-device",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "new_device_session_established",
+    "subject": "New device sign-in"
+  },
+  {
+    "key": "security-suspicious-signin",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "customer_safe_security_notice_approved",
+    "subject": "Review your account security"
+  },
+  {
+    "key": "security-session-revoked",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "session_revocation_committed",
+    "subject": "A device session was revoked"
+  },
+  {
+    "key": "security-mfa-enabled",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "mfa_enrolment_committed",
+    "subject": "Multi-factor authentication enabled"
+  },
+  {
+    "key": "security-mfa-disabled",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "mfa_removal_committed",
+    "subject": "Multi-factor authentication changed"
+  },
+  {
+    "key": "security-recovery-started",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "recovery_case_created",
+    "subject": "Account recovery requested"
+  },
+  {
+    "key": "security-recovery-completed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "recovery_completed_and_sessions_reviewed",
+    "subject": "Account recovery completed"
+  },
+  {
+    "key": "security-recovery-cancelled",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "recovery_case_cancelled",
+    "subject": "Account recovery cancelled"
+  },
+  {
+    "key": "security-pin-changed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "transaction_pin_change_committed",
+    "subject": "Your transaction PIN changed"
+  },
+  {
+    "key": "security-pin-reset-started",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "transaction_pin_recovery_started",
+    "subject": "Transaction PIN reset requested"
+  },
+  {
+    "key": "security-account-restricted",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "neutral_restriction_notice_approved",
+    "subject": "Your account needs attention"
+  },
+  {
+    "key": "security-account-restored",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "restrictions_lifted_committed",
+    "subject": "Account access updated"
+  },
+  {
+    "key": "identity-closure-requested",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "closure_request_accepted",
+    "subject": "Account closure request received"
+  },
+  {
+    "key": "identity-closure-cancelled",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "closure_request_cancelled",
+    "subject": "Account closure cancelled"
+  },
+  {
+    "key": "identity-closure-completed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "closure_finalised_contact_retained_lawfully",
+    "subject": "Your account has been closed"
+  },
+  {
+    "key": "kyc-submitted",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "kyc_application_submitted",
+    "subject": "Identity information received"
+  },
+  {
+    "key": "kyc-more-information",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "kyc_action_required_customer_safe",
+    "subject": "More information is needed"
+  },
+  {
+    "key": "kyc-approved",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "kyc_decision_approved_committed",
+    "subject": "Identity review completed"
+  },
+  {
+    "key": "kyc-unsuccessful",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "kyc_customer_safe_decline_approved",
+    "subject": "Update on your identity review"
+  },
+  {
+    "key": "kyc-document-expiring",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "kyc_document_near_expiry_and_current",
+    "subject": "Update your identity document"
+  },
+  {
+    "key": "kyc-document-expired",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "kyc_document_expired_and_current",
+    "subject": "Identity document update required"
+  },
+  {
+    "key": "kyc-tier-changed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "core",
+    "guard": "tier_policy_applied_to_customer",
+    "subject": "Your account limits were updated"
+  },
+  {
+    "key": "funding-account-ready",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "partner_account_provisioned_and_verified",
+    "subject": "Your funding details are ready"
+  },
+  {
+    "key": "funding-account-changed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "partner_funding_details_change_committed",
+    "subject": "Your funding instructions changed"
+  },
+  {
+    "key": "funding-received",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "funding_credit_posted_with_verified_evidence",
+    "subject": "Funds credited to your wallet"
+  },
+  {
+    "key": "funding-pending",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "identified_incoming_funds_unresolved",
+    "subject": "Incoming funds are being checked"
+  },
+  {
+    "key": "funding-information-needed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "funding_case_customer_action_approved",
+    "subject": "Information needed about a payment"
+  },
+  {
+    "key": "funding-return-started",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "funding_return_instruction_accepted",
+    "subject": "A payment return is in progress"
+  },
+  {
+    "key": "funding-return-completed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "funding_return_confirmed_and_posted",
+    "subject": "Payment return completed"
+  },
+  {
+    "key": "funding-credit-corrected",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "receipt",
+    "guard": "approved_compensating_journal_posted",
+    "subject": "A wallet credit was corrected"
+  },
+  {
+    "key": "wallet-hold-placed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "customer_visible_hold_committed",
+    "subject": "An amount is temporarily on hold"
+  },
+  {
+    "key": "wallet-hold-released",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "hold_release_committed",
+    "subject": "A wallet hold was released"
+  },
+  {
+    "key": "wallet-low-balance",
+    "audience": "customer",
+    "scope": "core",
+    "class": "optional",
+    "theme": "core",
+    "guard": "user_threshold_crossed_and_not_repeated",
+    "subject": "Your balance alert"
+  },
+  {
+    "key": "transfer-submitted",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "transfer_accepted_not_terminal",
+    "subject": "Transfer request received"
+  },
+  {
+    "key": "transfer-pending",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "transfer_unresolved_after_notice_threshold",
+    "subject": "Your transfer is still pending"
+  },
+  {
+    "key": "transfer-action-required",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "transfer_customer_action_approved",
+    "subject": "Your transfer needs attention"
+  },
+  {
+    "key": "transfer-completed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "transfer_success_confirmed_and_posted",
+    "subject": "Transfer completed"
+  },
+  {
+    "key": "transfer-failed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "definitive_transfer_failure_and_hold_resolved",
+    "subject": "Transfer could not be completed"
+  },
+  {
+    "key": "transfer-cancelled",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "supported_presubmission_cancellation_committed",
+    "subject": "Transfer cancelled"
+  },
+  {
+    "key": "transfer-return-pending",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "transfer_return_advice_unresolved",
+    "subject": "A transfer return is being checked"
+  },
+  {
+    "key": "transfer-returned",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "returned_funds_verified_and_credit_posted",
+    "subject": "Returned transfer credited"
+  },
+  {
+    "key": "transfer-internal-received",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "internal_transfer_credit_posted",
+    "subject": "You received a wallet transfer"
+  },
+  {
+    "key": "transfer-beneficiary-added",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "beneficiary_saved_committed",
+    "subject": "A beneficiary was added"
+  },
+  {
+    "key": "transfer-beneficiary-changed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "beneficiary_sensitive_change_committed",
+    "subject": "A beneficiary was changed"
+  },
+  {
+    "key": "transfer-receipt-requested",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "receipt_requested_for_existing_final_record",
+    "subject": "Your requested transfer receipt"
+  },
+  {
+    "key": "bills-order-received",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "bill_order_accepted_not_final",
+    "subject": "Bill payment request received"
+  },
+  {
+    "key": "bills-order-pending",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "bill_vend_unresolved_after_threshold",
+    "subject": "Your bill payment is still pending"
+  },
+  {
+    "key": "bills-airtime-completed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "airtime_provider_success_and_posting_confirmed",
+    "subject": "Airtime purchase completed"
+  },
+  {
+    "key": "bills-data-completed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "data_provider_success_and_posting_confirmed",
+    "subject": "Data purchase completed"
+  },
+  {
+    "key": "bills-electricity-prepaid",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "electricity_success_and_token_stored",
+    "subject": "Electricity token is ready"
+  },
+  {
+    "key": "bills-electricity-postpaid",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "postpaid_electricity_payment_confirmed",
+    "subject": "Electricity payment completed"
+  },
+  {
+    "key": "bills-tv-completed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "television_subscription_confirmed",
+    "subject": "Television subscription completed"
+  },
+  {
+    "key": "bills-internet-completed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "internet_subscription_confirmed",
+    "subject": "Internet payment completed"
+  },
+  {
+    "key": "bills-other-completed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "approved_biller_fulfilment_confirmed",
+    "subject": "Bill payment completed"
+  },
+  {
+    "key": "bills-fulfilment-delayed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "payment_confirmed_value_delivery_outstanding",
+    "subject": "Your bill payment value is delayed"
+  },
+  {
+    "key": "bills-fulfilment-recovered",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "original_order_value_recovered_no_revend",
+    "subject": "Your purchased value is available"
+  },
+  {
+    "key": "bills-failed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "definitive_bill_failure_and_funds_resolved",
+    "subject": "Bill payment could not be completed"
+  },
+  {
+    "key": "bills-refund-pending",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "bill_refund_accepted_not_posted",
+    "subject": "Bill refund is being processed"
+  },
+  {
+    "key": "bills-refunded",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "bill_refund_confirmed_and_credit_posted",
+    "subject": "Bill refund credited"
+  },
+  {
+    "key": "bills-reminder",
+    "audience": "customer",
+    "scope": "core",
+    "class": "optional",
+    "theme": "core",
+    "guard": "user_reminder_due_and_bill_not_already_paid",
+    "subject": "Your bill payment reminder"
+  },
+  {
+    "key": "records-statement-ready",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "statement_export_authorised_and_ready",
+    "subject": "Your statement is ready"
+  },
+  {
+    "key": "records-statement-failed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "statement_export_failed_final",
+    "subject": "Statement request needs another attempt"
+  },
+  {
+    "key": "records-monthly-summary",
+    "audience": "customer",
+    "scope": "core",
+    "class": "optional",
+    "theme": "core",
+    "guard": "monthly_summary_ready_and_opted_in",
+    "subject": "Your monthly account summary"
+  },
+  {
+    "key": "records-data-request-received",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "privacy_request_verified_and_recorded",
+    "subject": "Privacy request received"
+  },
+  {
+    "key": "records-data-export-ready",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "privacy_export_ready_and_access_authorised",
+    "subject": "Your requested data is ready"
+  },
+  {
+    "key": "records-data-request-closed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "privacy_request_response_approved",
+    "subject": "Update on your privacy request"
+  },
+  {
+    "key": "support-case-opened",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "support_case_created",
+    "subject": "Support case received"
+  },
+  {
+    "key": "support-reply-received",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "customer_visible_support_reply_published",
+    "subject": "You have a support reply"
+  },
+  {
+    "key": "support-information-needed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "support_customer_action_due",
+    "subject": "Your support case needs information"
+  },
+  {
+    "key": "support-escalated",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "customer_visible_escalation_published",
+    "subject": "Your support case was escalated"
+  },
+  {
+    "key": "support-resolved",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "customer_resolution_published",
+    "subject": "Your support case has an update"
+  },
+  {
+    "key": "support-reopened",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "support_case_reopened",
+    "subject": "Your support case was reopened"
+  },
+  {
+    "key": "dispute-received",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "dispute_case_accepted",
+    "subject": "Dispute received"
+  },
+  {
+    "key": "dispute-evidence-due",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "dispute_evidence_deadline_active",
+    "subject": "Evidence is needed for your dispute"
+  },
+  {
+    "key": "dispute-outcome",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "customer_safe_dispute_decision_approved",
+    "subject": "Your dispute outcome is available"
+  },
+  {
+    "key": "service-maintenance-planned",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "core",
+    "guard": "approved_maintenance_notice_affected_audience",
+    "subject": "Planned service maintenance"
+  },
+  {
+    "key": "service-disruption",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "incident_notice_approved_affected_audience",
+    "subject": "Service availability update"
+  },
+  {
+    "key": "service-restored",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "core",
+    "guard": "service_recovery_verified_notice_approved",
+    "subject": "Service availability restored"
+  },
+  {
+    "key": "service-fees-changing",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "core",
+    "guard": "fee_notice_approved_before_effective_date",
+    "subject": "Upcoming fee changes"
+  },
+  {
+    "key": "service-terms-changing",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "core",
+    "guard": "terms_notice_approved_for_affected_users",
+    "subject": "Terms update"
+  },
+  {
+    "key": "service-privacy-changing",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "core",
+    "guard": "privacy_notice_approved_for_affected_users",
+    "subject": "Privacy notice update"
+  },
+  {
+    "key": "service-consent-recorded",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "core",
+    "guard": "consent_change_committed",
+    "subject": "Your communication choices changed"
+  },
+  {
+    "key": "service-app-update-required",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "minimum_app_version_policy_applies",
+    "subject": "Update your app to continue"
+  },
+  {
+    "key": "staff-invitation",
+    "audience": "staff-admin",
+    "scope": "core",
+    "class": "operational",
+    "theme": "security",
+    "guard": "staff_invite_active_authorised",
+    "subject": "Qpay-Fintech staff invitation"
+  },
+  {
+    "key": "staff-invitation-expiring",
+    "audience": "staff-admin",
+    "scope": "core",
+    "class": "operational",
+    "theme": "security",
+    "guard": "staff_invite_near_expiry_and_unused",
+    "subject": "Staff invitation reminder"
+  },
+  {
+    "key": "staff-role-changed",
+    "audience": "staff-admin",
+    "scope": "core",
+    "class": "operational",
+    "theme": "security",
+    "guard": "staff_role_change_committed",
+    "subject": "Your staff permissions changed"
+  },
+  {
+    "key": "staff-access-revoked",
+    "audience": "staff-admin",
+    "scope": "core",
+    "class": "operational",
+    "theme": "security",
+    "guard": "staff_access_revocation_committed",
+    "subject": "Staff access revoked"
+  },
+  {
+    "key": "staff-new-device",
+    "audience": "staff-admin",
+    "scope": "core",
+    "class": "operational",
+    "theme": "security",
+    "guard": "staff_new_device_session_established",
+    "subject": "New staff device sign-in"
+  },
+  {
+    "key": "staff-mfa-changed",
+    "audience": "staff-admin",
+    "scope": "core",
+    "class": "operational",
+    "theme": "security",
+    "guard": "staff_mfa_change_committed",
+    "subject": "Staff authentication changed"
+  },
+  {
+    "key": "staff-approval-needed",
+    "audience": "staff-admin",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "independent_approval_pending_and_recipient_eligible",
+    "subject": "An approval needs your review"
+  },
+  {
+    "key": "staff-approval-expiring",
+    "audience": "staff-admin",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "approval_pending_near_expiry",
+    "subject": "Approval deadline approaching"
+  },
+  {
+    "key": "staff-approval-result",
+    "audience": "staff-admin",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "approval_decision_committed",
+    "subject": "Approval decision recorded"
+  },
+  {
+    "key": "staff-kyc-queue",
+    "audience": "staff-support",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "kyc_queue_threshold_crossed",
+    "subject": "Identity review queue needs attention"
+  },
+  {
+    "key": "staff-support-assigned",
+    "audience": "staff-support",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "support_assignment_current",
+    "subject": "A support case was assigned"
+  },
+  {
+    "key": "staff-support-sla",
+    "audience": "staff-support",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "support_sla_threshold_crossed",
+    "subject": "Support response target at risk"
+  },
+  {
+    "key": "staff-dispute-deadline",
+    "audience": "staff-support",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "dispute_response_deadline_active",
+    "subject": "Dispute response deadline approaching"
+  },
+  {
+    "key": "finance-low-float",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "provider_float_threshold_crossed",
+    "subject": "Provider float needs attention"
+  },
+  {
+    "key": "finance-float-critical",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "provider_float_critical_threshold_crossed",
+    "subject": "Provider float reached a critical threshold"
+  },
+  {
+    "key": "finance-reconciliation-break",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "reconciliation_break_created_or_escalated",
+    "subject": "Reconciliation exception detected"
+  },
+  {
+    "key": "finance-reconciliation-summary",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "reconciliation_run_completed",
+    "subject": "Reconciliation report ready"
+  },
+  {
+    "key": "finance-aged-pending",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "unresolved_financial_operation_age_threshold",
+    "subject": "Unresolved payment needs investigation"
+  },
+  {
+    "key": "finance-unmatched-funding",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "unmatched_funding_case_created",
+    "subject": "Unmatched incoming payment"
+  },
+  {
+    "key": "finance-settlement-due",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "settlement_expected_by_policy",
+    "subject": "Settlement requires review"
+  },
+  {
+    "key": "finance-settlement-confirmed",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "settlement_verified_and_reconciled",
+    "subject": "Settlement confirmation available"
+  },
+  {
+    "key": "finance-settlement-overdue",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "settlement_overdue_not_resolved",
+    "subject": "Settlement is overdue"
+  },
+  {
+    "key": "finance-refund-approval",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "refund_proposal_awaits_independent_approval",
+    "subject": "Refund proposal needs review"
+  },
+  {
+    "key": "finance-correction-posted",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "approved_correction_posted",
+    "subject": "Approved correction posted"
+  },
+  {
+    "key": "finance-report-ready",
+    "audience": "staff-finance",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "finance_export_ready_authorised",
+    "subject": "Finance report ready"
+  },
+  {
+    "key": "risk-case-created",
+    "audience": "staff-security",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "restricted_risk_case_created",
+    "subject": "Restricted review required"
+  },
+  {
+    "key": "risk-case-escalated",
+    "audience": "staff-security",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "restricted_case_escalation_committed",
+    "subject": "Restricted case escalated"
+  },
+  {
+    "key": "risk-sensitive-action",
+    "audience": "staff-security",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "privileged_action_audit_recorded",
+    "subject": "Privileged action recorded"
+  },
+  {
+    "key": "risk-data-incident",
+    "audience": "staff-security",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "security_incident_opened",
+    "subject": "Security incident requires response"
+  },
+  {
+    "key": "risk-customer-notice",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "incident_customer_notice_legally_approved",
+    "subject": "Important account security notice"
+  },
+  {
+    "key": "platform-notification-backlog",
+    "audience": "staff-platform",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "notification_backlog_threshold_crossed",
+    "subject": "Notification backlog detected"
+  },
+  {
+    "key": "platform-email-provider-failure",
+    "audience": "staff-platform",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "email_provider_failure_threshold_crossed",
+    "subject": "Email provider delivery issue"
+  },
+  {
+    "key": "platform-bounce-spike",
+    "audience": "staff-platform",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "bounce_threshold_crossed",
+    "subject": "Email bounce rate needs attention"
+  },
+  {
+    "key": "platform-complaint-spike",
+    "audience": "staff-platform",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "complaint_threshold_crossed",
+    "subject": "Email complaints need attention"
+  },
+  {
+    "key": "platform-dead-letter",
+    "audience": "staff-platform",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "notification_dead_letter_created_or_escalated",
+    "subject": "Notification requires investigation"
+  },
+  {
+    "key": "platform-bridge-unhealthy",
+    "audience": "staff-platform",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "bridge_health_check_failed",
+    "subject": "Notification bridge health alert"
+  },
+  {
+    "key": "platform-backup-failed",
+    "audience": "staff-platform",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "backup_job_failed",
+    "subject": "Notification backup failed"
+  },
+  {
+    "key": "platform-restore-test",
+    "audience": "staff-platform",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "restore_drill_report_approved",
+    "subject": "Recovery test report available"
+  },
+  {
+    "key": "platform-certificate-expiring",
+    "audience": "staff-platform",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "certificate_expiry_threshold_crossed",
+    "subject": "Notification certificate needs renewal"
+  },
+  {
+    "key": "platform-sync-result",
+    "audience": "staff-platform",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "workflow_sync_result_recorded",
+    "subject": "Notification workflow sync result"
+  },
+  {
+    "key": "platform-drift-detected",
+    "audience": "staff-platform",
+    "scope": "core",
+    "class": "operational",
+    "theme": "operations",
+    "guard": "workflow_release_drift_detected",
+    "subject": "Notification configuration drift detected"
+  },
+  {
+    "key": "recurring-mandate-created",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "essential",
+    "theme": "security",
+    "guard": "approved_mandate_created",
+    "subject": "Recurring payment instruction created"
+  },
+  {
+    "key": "recurring-payment-due",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "active_mandate_payment_due_and_notice_required",
+    "subject": "Scheduled payment reminder"
+  },
+  {
+    "key": "recurring-payment-completed",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "scheduled_payment_success_and_posting_confirmed",
+    "subject": "Scheduled payment completed"
+  },
+  {
+    "key": "recurring-payment-failed",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "transactional",
+    "theme": "support",
+    "guard": "scheduled_payment_definitively_failed",
+    "subject": "Scheduled payment could not complete"
+  },
+  {
+    "key": "recurring-mandate-cancelled",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "essential",
+    "theme": "core",
+    "guard": "mandate_revocation_committed",
+    "subject": "Recurring instruction cancelled"
+  },
+  {
+    "key": "business-invitation",
+    "audience": "business",
+    "scope": "growth",
+    "class": "essential",
+    "theme": "security",
+    "guard": "business_membership_invitation_active",
+    "subject": "Business account invitation"
+  },
+  {
+    "key": "business-kyb-update",
+    "audience": "business",
+    "scope": "growth",
+    "class": "essential",
+    "theme": "support",
+    "guard": "customer_safe_kyb_update_approved",
+    "subject": "Business verification update"
+  },
+  {
+    "key": "business-payout-approval",
+    "audience": "business",
+    "scope": "growth",
+    "class": "essential",
+    "theme": "operations",
+    "guard": "business_payout_awaits_eligible_approver",
+    "subject": "Business payout needs approval"
+  },
+  {
+    "key": "business-bulk-summary",
+    "audience": "business",
+    "scope": "growth",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "bulk_batch_report_ready",
+    "subject": "Bulk payment report ready"
+  },
+  {
+    "key": "business-payroll-summary",
+    "audience": "business",
+    "scope": "growth",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "payroll_batch_report_ready",
+    "subject": "Payroll processing report ready"
+  },
+  {
+    "key": "merchant-payment-received",
+    "audience": "business",
+    "scope": "growth",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "merchant_collection_verified_and_posted",
+    "subject": "Merchant payment confirmed"
+  },
+  {
+    "key": "merchant-settlement-paid",
+    "audience": "business",
+    "scope": "growth",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "merchant_settlement_confirmed",
+    "subject": "Merchant settlement confirmed"
+  },
+  {
+    "key": "merchant-invoice-issued",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "invoice_issued_to_verified_opted_recipient",
+    "subject": "An invoice is ready to review"
+  },
+  {
+    "key": "merchant-invoice-overdue",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "optional",
+    "theme": "support",
+    "guard": "invoice_unpaid_reminder_authorised",
+    "subject": "Invoice reminder"
+  },
+  {
+    "key": "merchant-refund-completed",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "merchant_refund_confirmed",
+    "subject": "Merchant refund confirmed"
+  },
+  {
+    "key": "growth-payment-request",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "optional",
+    "theme": "core",
+    "guard": "payment_request_recipient_permission_confirmed",
+    "subject": "A payment request is available"
+  },
+  {
+    "key": "growth-cashback-posted",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "cashback_earned_and_journal_posted",
+    "subject": "Cashback credited"
+  },
+  {
+    "key": "growth-referral-update",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "optional",
+    "theme": "core",
+    "guard": "referral_status_changed_and_notice_allowed",
+    "subject": "Referral status update"
+  },
+  {
+    "key": "growth-campaign",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "marketing",
+    "theme": "campaign",
+    "guard": "campaign_approved_current_optin_and_eligible",
+    "subject": "An offer for your account"
+  },
+  {
+    "key": "growth-budget-alert",
+    "audience": "customer",
+    "scope": "growth",
+    "class": "optional",
+    "theme": "core",
+    "guard": "customer_budget_threshold_crossed",
+    "subject": "Your budget alert"
+  },
+  {
+    "key": "regulated-card-status",
+    "audience": "customer",
+    "scope": "regulated",
+    "class": "essential",
+    "theme": "security",
+    "guard": "approved_card_product_status_committed",
+    "subject": "Your card status changed"
+  },
+  {
+    "key": "regulated-card-dispute",
+    "audience": "customer",
+    "scope": "regulated",
+    "class": "essential",
+    "theme": "support",
+    "guard": "approved_card_dispute_update",
+    "subject": "Card dispute update"
+  },
+  {
+    "key": "regulated-loan-decision",
+    "audience": "customer",
+    "scope": "regulated",
+    "class": "essential",
+    "theme": "support",
+    "guard": "approved_credit_product_customer_decision",
+    "subject": "Credit application update"
+  },
+  {
+    "key": "regulated-loan-payment-due",
+    "audience": "customer",
+    "scope": "regulated",
+    "class": "essential",
+    "theme": "support",
+    "guard": "approved_credit_due_notice_policy",
+    "subject": "Repayment information available"
+  },
+  {
+    "key": "regulated-savings-statement",
+    "audience": "customer",
+    "scope": "regulated",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "approved_savings_statement_ready",
+    "subject": "Savings statement available"
+  },
+  {
+    "key": "regulated-investment-update",
+    "audience": "customer",
+    "scope": "regulated",
+    "class": "essential",
+    "theme": "support",
+    "guard": "approved_investment_notice_recorded",
+    "subject": "Investment account notice"
+  },
+  {
+    "key": "regulated-fx-remittance",
+    "audience": "customer",
+    "scope": "regulated",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "approved_remittance_customer_status_committed",
+    "subject": "Remittance status update"
+  },
+  {
+    "key": "regulated-insurance-notice",
+    "audience": "customer",
+    "scope": "regulated",
+    "class": "essential",
+    "theme": "support",
+    "guard": "approved_insurance_policy_notice",
+    "subject": "Insurance policy notice"
+  },
+  {
+    "key": "regulated-agent-settlement",
+    "audience": "business",
+    "scope": "regulated",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "approved_agent_settlement_report_ready",
+    "subject": "Agent settlement report available"
+  },
+  {
+    "key": "regulated-escrow-release",
+    "audience": "customer",
+    "scope": "regulated",
+    "class": "essential",
+    "theme": "support",
+    "guard": "approved_escrow_release_state_committed",
+    "subject": "Escrow status update"
+  },
+  {
+    "key": "security-personal-controls-changed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "personal_controls_changed",
+    "subject": "Your security controls changed"
+  },
+  {
+    "key": "security-passkey-added",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "passkey_registered",
+    "subject": "A passkey was added"
+  },
+  {
+    "key": "planner-reminder-due",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "reminder_due",
+    "subject": "Your payment reminder is due"
+  },
+  {
+    "key": "requests-received",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "money_request_open",
+    "subject": "You have a money request"
+  },
+  {
+    "key": "requests-payment-received",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "receipt",
+    "guard": "request_share_credited",
+    "subject": "A money request received a payment"
+  },
+  {
+    "key": "bills-service-restored",
+    "audience": "customer",
+    "scope": "core",
+    "class": "transactional",
+    "theme": "core",
+    "guard": "watched_service_restored",
+    "subject": "A watched bill service is available"
+  },
+  {
+    "key": "identity-contact-old-code",
+    "audience": "customer-old-contact",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "email_change_pending",
+    "subject": "Approve your email change"
+  },
+  {
+    "key": "identity-contact-new-code",
+    "audience": "customer-new-contact",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "email_change_pending",
+    "subject": "Verify your new email"
+  },
+  {
+    "key": "identity-contact-completed",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "email_change_completed",
+    "subject": "Your email address changed"
+  },
+  {
+    "key": "planner-mandate-created",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "security",
+    "guard": "mandate_authorised",
+    "subject": "A scheduled transfer was authorised"
+  },
+  {
+    "key": "planner-mandate-action",
+    "audience": "customer",
+    "scope": "core",
+    "class": "essential",
+    "theme": "support",
+    "guard": "mandate_paused",
+    "subject": "Your scheduled transfer needs attention"
+  }
+]

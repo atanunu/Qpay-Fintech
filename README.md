@@ -1,6 +1,6 @@
 # Qpay-Fintech
 
-**Customer parity review candidate v0.6 — 23 September 2026.** WebApp and APIbackend now implement everyday-money improvements with an additive database migration: private identity/support documents, passkeys, personal limits, exact recipients, household bills, calendar reminders, bounded internal schedules, requests/split shares, monthly insights, dual-mailbox changes and guarded closure. Real transaction providers and specialised products remain gated. Final CI and manual in-person acceptance are distinct from implemented source.
+**Admin operations development delivery v0.7 — 24 September 2026.** WebApp and APIbackend now implement everyday-money improvements with an additive database migration: private identity/support documents, passkeys, personal limits, exact recipients, household bills, calendar reminders, bounded internal schedules, requests/split shares, monthly insights, dual-mailbox changes and guarded closure. Real transaction providers and specialised products remain gated. AdminDashboard adds staff operations with six backend-enforced roles and independent approvals. The recorded Chromium, real Go/PostgreSQL, build and regression checks passed; in-person acceptance and production activation remain separate.
 
 ## Product and operating scope
 Initial product-planning scope: Nigeria, NGN and adult individual customers targeting a partner-backed operating model. This is a planning baseline, not regulatory approval; legal entity, partner agreements and operating permissions still require verification. Bills and transfers must include the ledger, recovery, reconciliation, risk, support and operational controls that make them usable end to end. Growth and separately regulated products require explicit approval.
@@ -34,7 +34,7 @@ tests/acceptance/ Cross-service acceptance workspace
 scripts/docs/     Executable documentation checks and regression tests
 .github/          Read-only CI, ownership and contribution templates
 ```
-WebApp contains runnable customer UI, two explicit transports, tests and in-person review tools. APIbackend contains the persistent core and local test runtime, with its remaining work tracked. MobileApp and AdminDashboard remain planned scaffolds. Novu contains offline content and a partial live integration.
+WebApp contains runnable customer UI, two explicit transports, tests and in-person review tools. APIbackend contains the persistent core and local test runtime, with its remaining work tracked. AdminDashboard now contains the runnable staff console, six-role permissions, 26 management modules and supporting versioned backend operations; see its verification record for acceptance. MobileApp remains a planned scaffold. Novu contains offline content and a partial live integration.
 
 ## Images and visual evidence
 
@@ -51,14 +51,14 @@ The following derived summary counts service task rows. These are not unique end
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | [APIbackend](APIbackend/README.md) | 58 | 10 | 0 | 48 | 0 | 0 | 0 | 0 |
 | [MobileApp](MobileApp/README.md) | 25 | 25 | 0 | 0 | 0 | 0 | 0 | 0 |
-| [AdminDashboard](AdminDashboard/README.md) | 26 | 26 | 0 | 0 | 0 | 0 | 0 | 0 |
+| [AdminDashboard](AdminDashboard/README.md) | 26 | 0 | 0 | 24 | 1 | 0 | 0 | 1 |
 | [WebApp](WebApp/README.md) | 34 | 1 | 0 | 33 | 0 | 0 | 0 | 0 |
 | [Novu](Novu/README.md) | 27 | 19 | 0 | 1 | 6 | 0 | 0 | 1 |
 <!-- PROGRESS:END -->
 
 See [documentation task progress](devdocs/project/DOCUMENTATION-PROGRESS.md) for completed foundation work and remaining specification gates.
 
-Implementation baseline: persistent Go core; responsive React customer journeys and clearly marked API-pending drafts; explicit synthetic scenarios; 71 passing local WebApp unit/contract tests. Normal HTTP browser and real API/PostgreSQL verification are separate CI gates. Novu retains 175 content scenarios and six themes, with live bridge/provider acceptance still pending. See [validation report](devdocs/project/VALIDATION-REPORT.md) for the exact scope of documentation-only checks.
+Implementation baseline: persistent Go core, runnable React customer and staff applications, and explicit synthetic review modes. The admin candidate passed 63 unit/contract tests, 19 synthetic Chromium journeys and 11 Chromium-to-Go/PostgreSQL journeys. Backend, existing WebApp and documentation regressions also passed; [exact source and evidence](devdocs/project/ADMIN-DELIVERY.md). Novu retains 175 content scenarios and six themes, with live bridge/provider acceptance still pending. See [validation report](devdocs/project/VALIDATION-REPORT.md) for the exact scope of documentation-only checks.
 
 ## Documentation and open decisions
 Start with [devdocs/00-INDEX.md](devdocs/00-INDEX.md). The [full document inventory](devdocs/project/17-DOCUMENT-INVENTORY.md) distinguishes drafted planning documents from detailed specifications still to write. Open launch decisions include operating authority/custody, provider contracts, hostnames, production infrastructure, theme counts and release objectives. Stack and E1 integration are accepted in [ADR-0001](devdocs/adrs/0001-APPROVED-ARCHITECTURE.md).
@@ -67,7 +67,7 @@ Start with [devdocs/00-INDEX.md](devdocs/00-INDEX.md). The [full document invent
 [M0–M6 roadmap](devdocs/project/12-ROADMAP.md): decisions, foundations, an end-to-end transfer slice, bill operations, release acceptance, approved growth and separately gated products. The canonical detailed registers are the five service READMEs. Novu adds 27 tracked tasks; content-ready does not mean live-delivery-ready. Derived JSON files must remain in sync. A documentation workflow and issue/PR templates are included. Product issue allocation, Projects boards and branch-protection activation remain tracked setup tasks.
 
 ## Setup and configuration
-The API and WebApp provide local review runtimes; Novu is not deployed. Start with [WebApp setup and test procedure](WebApp/README.md) and [backend operations](APIbackend/docs/OPERATIONS.md). Documentation tooling:
+APIbackend, WebApp and AdminDashboard provide local review runtimes; Novu is not deployed. For staff setup, use the [AdminDashboard README](AdminDashboard/README.md) and its separate staff-origin configuration. Start with [WebApp setup and test procedure](WebApp/README.md) and [backend operations](APIbackend/docs/OPERATIONS.md). Documentation tooling:
 
 ```sh
 python3 scripts/docs/check.py --write
@@ -95,9 +95,10 @@ Use the [acceptance plan](devdocs/project/10-TESTING-AND-ACCEPTANCE.md). Documen
 [Security policy](SECURITY.md) · [Contributing](CONTRIBUTING.md) · [Agent rules](AGENTS.md). Never publish secrets or real customer/KYC/payment data. Staff and customer sessions are independent. Read [security/compliance](devdocs/project/07-SECURITY-AND-COMPLIANCE.md) and [operations](devdocs/project/11-OPERATIONS-AND-DEPLOYMENT.md) before live activation.
 
 ## Limitations and launch blockers
-Launch blockers: legal/custody approval, provider agreements, remaining contract/product coverage, MobileApp/AdminDashboard and remaining API implementation, independent security review, financial reconciliation qualification, off-host recovery, signed app distribution and operating support. No completed QPay features are inherited by copying their names. The 14 WebApp GAP items drive in-person review before upstream activation.
+Launch blockers: legal/custody approval, provider agreements, remaining contract/product coverage, MobileApp and remaining financial/provider API implementation, independent security review, financial reconciliation qualification, off-host recovery, signed app distribution and operating support. No completed QPay features are inherited by copying their names. The 14 WebApp GAP items drive in-person review before upstream activation.
 
 ## Changelog
+- 2026-09-24: AdminDashboard v0.7 implementation with supporting additive backend operations, security tests and complete service specifications. Normal-browser CI and source-bound visual delivery are tracked in [admin validation](AdminDashboard/docs/VALIDATION.md).
 [Project changelog](CHANGELOG.md). 2026-09-23: WebApp and the backend review core brought together with explicit test modes, endpoint gaps and browser acceptance; 2026-09-22: self-hosted Novu accepted, email content/themes and traceable notification plan added;  recommended stack and E1 approved; documentation, ADRs, repository structure and validation workflow established. See the changelog and handover for the exact scope.
 
 ## In-person customer review
@@ -111,3 +112,11 @@ Launch blockers: legal/custody approval, provider agreements, remaining contract
 ![Qpay customer overview — actual synthetic runtime](WebApp/docs/screenshots/overview-desktop.png)
 
 [Delivery verification and CI results](devdocs/project/GITHUB-DELIVERY.md) · [38-screen runtime gallery](WebApp/docs/SCREENSHOTS.md) · [Machine-readable evidence](devdocs/project/DELIVERY-VERIFICATION.json). Source, normal-browser/Go integration, builds and documentation are verified; manual UAT, real provider qualification and production activation remain separate.
+
+## Verified staff operations delivery
+
+![Qpay staff operations overview — actual synthetic runtime](AdminDashboard/docs/images/overview.png)
+
+[AdminDashboard setup and task register](AdminDashboard/README.md) · [41-screen staff gallery](AdminDashboard/docs/SCREENSHOTS.md) · [Admin delivery and CI evidence](devdocs/project/ADMIN-DELIVERY.md) · [Structured verification](AdminDashboard/docs/DELIVERY-VERIFICATION.json).
+
+The source and gallery are a tested development baseline, not a production rollout. The existing [admin engineering and acceptance gaps](devdocs/AdminDashboard/07-PENDING-WORK.md) remain open. ADM-024 now records the executed browser/visual evidence; all other original ADM IDs and their remaining requirements are preserved.

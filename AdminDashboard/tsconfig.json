@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "types": [
+      "vite/client",
+      "node"
+    ],
+    "paths": {
+      "@transport": [
+        "./src/api.ts"
+      ]
+    }
+  },
+  "include": [
+    "src",
+    "tests",
+    "e2e",
+    "vite.config.ts",
+    "playwright.config.ts"
+  ]
+}

@@ -310,6 +310,15 @@ func (s *Service) BillerHealth(ctx context.Context, p Principal) ([]map[string]a
 	return out, rows.Err()
 }
 func (s *Service) ObserveBiller(ctx context.Context, p Principal, product, state string) error {
+	return s.observeBiller(ctx, p, product, state, "")
+}
+func (s *Service) ObserveBillerReasoned(ctx context.Context, p Principal, product, state, reason string) error {
+	if !safeText(reason, 1000) || len(reason) < 8 {
+		return Invalid("explanation required")
+	}
+	return s.observeBiller(ctx, p, product, state, reason)
+}
+func (s *Service) observeBiller(ctx context.Context, p Principal, product, state, reason string) error {
 	if e := requireRole(p, "admin", "platform"); e != nil {
 		return e
 	}
@@ -361,7 +370,7 @@ func (s *Service) ObserveBiller(ctx context.Context, p Principal, product, state
 				}
 			}
 		}
-		return s.audit(ctx, tx, u.ID, "biller.availability_observed", product, map[string]any{"state": state})
+		return s.audit(ctx, tx, u.ID, "biller.availability_observed", product, map[string]any{"state": state, "reason": reason})
 	})
 }
 func (s *Service) TokenArchive(ctx context.Context, p Principal, before string) ([]map[string]any, error) {

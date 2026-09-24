@@ -1,7 +1,663 @@
 {
   "schema_version": 1,
   "service": "AdminDashboard",
-  "status": "not_captured",
-  "reason": "Application is not implemented. Target diagrams are design evidence only.",
-  "captures": []
+  "status": "captured",
+  "captures": [
+    {
+      "path": "images/approval-self-blocked.png",
+      "screen": "approval self blocked",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:31.700006+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1336
+      },
+      "sha256": "30102a136674e198d1173d65869d87e585b3d7ed78fecc3bd9bad540f0267442"
+    },
+    {
+      "path": "images/auth-centred.png",
+      "screen": "auth centred",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:01.272152+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1031
+      },
+      "sha256": "0de491beacbf0256fe2b101ec499be5011bc877a7531d4410cbc34025b98d821"
+    },
+    {
+      "path": "images/auth-minimal.png",
+      "screen": "auth minimal",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:01.690164+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1034
+      },
+      "sha256": "a4963491c9f8769a21b027103ceb539524a9a25ff6ec7a76e6bb687f295f3c8a"
+    },
+    {
+      "path": "images/auth-split.png",
+      "screen": "auth split",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:00.831140+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "dad9194eb1e4ae52ca0a2e73573f860ff7967958992e387f1be21e2386df33eb"
+    },
+    {
+      "path": "images/module-audit.png",
+      "screen": "module audit",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:17.680613+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "a0c0bc2cb83ee338f2cbef6ce161b4cef1b4f4e07b879621659afca2749de43f"
+    },
+    {
+      "path": "images/module-availability.png",
+      "screen": "module availability",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:10.647415+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "64855bb775c3a96ce36c844b93cee4562eb218772165993c7fcde18797b3bb4c"
+    },
+    {
+      "path": "images/module-controls.png",
+      "screen": "module controls",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:17.112597+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "eb92d3acad8d2f7028832e18b39b32821b1c89ad06b24afd94c155629092c449"
+    },
+    {
+      "path": "images/module-customers.png",
+      "screen": "module customers",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:04.665247+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "be1b55e49ffe4dfeadb0285dc212496157455969e2f78bd943195eee2a3a8741"
+    },
+    {
+      "path": "images/module-exceptions.png",
+      "screen": "module exceptions",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:12.981481+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "826cc67d57fc0def6de6b2d28f34d45da8539306c477cadd244a1228cdf429cb"
+    },
+    {
+      "path": "images/module-exports.png",
+      "screen": "module exports",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:18.245628+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "4d82ba675df84ebae2cb2426ab1a89e0253b7a2891790090b85e5a04cce62913"
+    },
+    {
+      "path": "images/module-funding.png",
+      "screen": "module funding",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:05.848280+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "a09ca4b313fb9c37687e561eee960414ca1ab3982362b29fdc1d196c0d4e66ba"
+    },
+    {
+      "path": "images/module-incidents.png",
+      "screen": "module incidents",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:15.964564+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "edb5dacd88a0fc5b47f9cf7e607dae9dfcf646f5e4143ac57d5f8c29a9367774"
+    },
+    {
+      "path": "images/module-investigations.png",
+      "screen": "module investigations",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:13.615498+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "01205c26d127a1fda912d9100145a7cf6f624193ca65c197e8720bc8f4fb8b24"
+    },
+    {
+      "path": "images/module-invitations.png",
+      "screen": "module invitations",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:19.529665+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "592672ec4bd6708f8b355f0348dcdcb7f978f0b7a9251558f863a504f88948ad"
+    },
+    {
+      "path": "images/module-jobs.png",
+      "screen": "module jobs",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:07.681332+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "7743251d9d237721dcfe4ca27e4f212b1d26ff3307dd8c3850b431f74893abf5"
+    },
+    {
+      "path": "images/module-kyc.png",
+      "screen": "module kyc",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:05.263264+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "98b04087c895e14b958c601f0f7d6455ea73147ff89bdba96db547e36fb1e733"
+    },
+    {
+      "path": "images/module-ledger.png",
+      "screen": "module ledger",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:11.213431+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "8c30b4b9ecd915446c498c25640bb9b9cafa297a41ba5032acd02e77b4e8b450"
+    },
+    {
+      "path": "images/module-notifications.png",
+      "screen": "module notifications",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:14.796531+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "800b46e619cb6daa6f419fd1a13b95f36428a74f907e73cd379a302d212ca720"
+    },
+    {
+      "path": "images/module-payments.png",
+      "screen": "module payments",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:07.084315+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "506e83d8f2a17926a3c5b552124d71b361e62ccb1218b0ec668e44ccc1f211b6"
+    },
+    {
+      "path": "images/module-privacy.png",
+      "screen": "module privacy",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:06.431297+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "9243b1fcd1e619d0503e3809493197877784b5295490712b82f0e5761f851355"
+    },
+    {
+      "path": "images/module-products.png",
+      "screen": "module products",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:10.080399+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "bf4d8765de94f97971273abbecb1d5b6a2d5bfd6f50833ae77d35d7b0373e740"
+    },
+    {
+      "path": "images/module-proposals.png",
+      "screen": "module proposals",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:16.563581+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "69cb0e6cab7347b3e3f3a58c593ba7d4aa08cc0f0c40c0d8000a5c1d814bfb03"
+    },
+    {
+      "path": "images/module-reconciliations.png",
+      "screen": "module reconciliations",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:12.414464+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "a39f168516b182a905ec1c78c4500718e34db17671cbdc91118b700fc9f95faf"
+    },
+    {
+      "path": "images/module-reminders.png",
+      "screen": "module reminders",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:09.480382+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "2d42e76e60fe47f80abf514c860306e9c6fc0a2089fe6a3ee68fe86b243436b8"
+    },
+    {
+      "path": "images/module-requests.png",
+      "screen": "module requests",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:08.897366+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "652e08a63045753a2d4c7720884ed4fc9636f414b84e763a382d1bd7167351b1"
+    },
+    {
+      "path": "images/module-risk.png",
+      "screen": "module risk",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:15.363548+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "2f25be133ddeb3523fa2a42bf7a65a1b16a8aa4940966c8f40a2b049f38c36b9"
+    },
+    {
+      "path": "images/module-schedules.png",
+      "screen": "module schedules",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:08.300349+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "e364a6f1427afc987e8d46f21076b38d02e44678e48ba68a2adfcfb110e6bb29"
+    },
+    {
+      "path": "images/module-staff.png",
+      "screen": "module staff",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:18.989649+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1075
+      },
+      "sha256": "3e6ce37484b56d50339381d48f5c309ac736261e2bfd5cd3058da95f78f614d2"
+    },
+    {
+      "path": "images/module-support.png",
+      "screen": "module support",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:14.196515+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "4068e6faf120508e76124cbd8fb604219b3e8d9f24edca7549f4abfb1098b134"
+    },
+    {
+      "path": "images/module-treasury.png",
+      "screen": "module treasury",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:11.835448+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "ad48e56263ca1bc53ac6978c04e1124e84ed14d4aedaedf38e66c22f8b8c10cf"
+    },
+    {
+      "path": "images/overview-alternate.png",
+      "screen": "overview alternate",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:27.802896+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1789
+      },
+      "sha256": "684bef9fee07db48358ef4c393cf217944866a6072aea431e85778748eb5f55b"
+    },
+    {
+      "path": "images/overview-dark.png",
+      "screen": "overview dark",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:26.907871+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1804
+      },
+      "sha256": "724a62537209c209467c3fee528c219688aef0245971e807f22e71b1d4161fd9"
+    },
+    {
+      "path": "images/overview-mobile.png",
+      "screen": "overview mobile",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:28.888927+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 390,
+        "height": 844,
+        "capture_width": 390,
+        "capture_height": 2751
+      },
+      "sha256": "dfa888fd8152d437af0b9179442d70e733015e525921be66677966e26d593de8"
+    },
+    {
+      "path": "images/overview.png",
+      "screen": "overview",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:04.039229+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1804
+      },
+      "sha256": "1e1ef3c381f5875656860a508765a3c7d44908a0ad1bb9984a320e6dbd764664"
+    },
+    {
+      "path": "images/policy.png",
+      "screen": "policy",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:20.064679+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "0d73db50bd11ab9987d3583772053cd23c6c5446bcd03a52e7bbbe21275e4ac1"
+    },
+    {
+      "path": "images/reconciliation-result.png",
+      "screen": "reconciliation result",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:36.656144+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1000
+      },
+      "sha256": "f46a6db467563922e9eae11876ea623905ddee8ad045b7adf063b3a2cb2a2f87"
+    },
+    {
+      "path": "images/reports.png",
+      "screen": "reports",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:20.711698+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1878
+      },
+      "sha256": "e7e7f35a876968c117b32f2f3c274c8774633141eff7a45d0ab1d32cbf4f0de7"
+    },
+    {
+      "path": "images/security.png",
+      "screen": "security",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:25.256825+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1045
+      },
+      "sha256": "8456197e14b1babe086127ba5d7282c1f595373837af47e044e39b3379407a56"
+    },
+    {
+      "path": "images/support-conversation.png",
+      "screen": "support conversation",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:35.054100+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 2147
+      },
+      "sha256": "02ce7fe512145b18d951d0ca5f516912e28755ae5c9e8cb9f0366cbcf128070a"
+    },
+    {
+      "path": "images/system.png",
+      "screen": "system",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:21.287714+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 1524
+      },
+      "sha256": "8debe543861f91a0391c68ddb2790b263261979da166851fe7776b506f0cd738"
+    },
+    {
+      "path": "images/templates.png",
+      "screen": "templates",
+      "source_commit": "79ceb97aa548f06f9eab5f292f07491efae45dac",
+      "captured_at": "2026-09-24T05:54:24.552805+00:00",
+      "environment": "test",
+      "fixture_id": "admin-review-v0.7-public-synthetic",
+      "state": "synthetic runtime",
+      "viewport": {
+        "width": 1440,
+        "height": 1000,
+        "capture_width": 1440,
+        "capture_height": 9761
+      },
+      "sha256": "6315208de2aaec1bdf12d9df7e0656837e9440f72922950e217b075afbff4828"
+    }
+  ]
 }
