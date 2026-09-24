@@ -12,6 +12,8 @@ if os.environ.get('QPF_ENV') != 'local' or os.environ.get('EXECUTION_MODE') != '
     raise SystemExit('Only isolated local synthetic execution is permitted')
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'.test-fixtures'; OUT.mkdir(mode=0o700,exist_ok=True)
+for name in ('recovery-usage.json','recovery-usage.json.lock','recovery-usage.json.tmp'):
+    (OUT/name).unlink(missing_ok=True)
 BASE=os.environ.get('QPF_FIXTURE_API_URL','http://localhost:8080'); ORIGIN='http://localhost:5174'
 class Client:
     def __init__(self, origin=ORIGIN):

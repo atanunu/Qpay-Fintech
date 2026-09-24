@@ -115,3 +115,5 @@ Every source change must update this README, its canonical task register, affect
 - 2026-09-24 — v0.7 runnable admin console and additive backend operations; source, contract, security, workflow and test documentation delivered together. Verification evidence is maintained separately.
 
 Admin browser qualification: shared required-field markers are decorative and no longer modify label text; exact-label and full-reload synthetic-session checks are included. PostgreSQL race, existing WebApp and documentation checks passed on `abc1e494`; admin browser acceptance remains pending.
+
+Admin continuation (24 September 2026): fixed MFA recovery-code acknowledgement, dark-theme inherited text contrast, explicit authentication layout labels, safe typed evidence-download names, and clearing record-specific state on navigation. Added durable one-time proof reservation for restarted browser workers. TypeScript, 57 admin tests, the production build and the complete local Go race suite passed. Final remote browser verification and runtime captures remain pending in [admin validation](docs/VALIDATION.md).

@@ -9,3 +9,11 @@ The first aggregate local race run failed only on an incorrectly shaped new HTTP
 Normal HTTP browser navigation is blocked by the local Chromium environment policy. Browser suites must pass in ordinary GitHub Actions Chromium before acceptance; no policy workaround is used. Local build and API fixture success are not browser evidence. CI run IDs, exact source revisions, zero-failure/skip/retry counts and screenshot provenance will be added after execution.
 
 Still separate: in-person review, live QPay/Novu qualification, production storage/scanner, deployment/security/load and restore acceptance. No production transactions or real customer data were used.
+
+## Continuation qualification, 24 September 2026
+
+The complete local all-package Go race run passed again on recovered source ab6f549a5128da3f3bdd785bb6e13badb396d8bf. The subsequent frontend corrections pass TypeScript, 57 unit/contract tests, API-mode production compilation and the 175-entry canonical notification-content check.
+
+Normal-browser run 35959797293 identified seven synthetic-review failures and five API-suite failures. Fixes address explicit layout labels, a mutable review-user snapshot that could dismiss MFA recovery codes, root text contrast in dark mode, neutral MIME-specific download names, and target-specific state cleanup. Tests now use the existing explicit Open-record links and the documented HTTP 201 reconciliation-import response. A non-secret fixture counter survives Playwright worker replacement, without permitting one-time MFA proof replay. The suite still uses zero automatic retries and retains all security/accessibility assertions.
+
+These corrections require a new normal-browser run; prior failures are not counted as acceptance.
