@@ -1,0 +1,69 @@
+name: Materialise recovered backup source
+on:
+  push:
+    branches: [build/backup-recovery-v1]
+    paths: [.github/workflows/backup-source-materialize.yml]
+permissions:
+  contents: write
+jobs:
+  preserve:
+    if: github.repository == 'atanunu/Qpay-Fintech' && github.ref == 'refs/heads/build/backup-recovery-v1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: true
+      - name: Verify each recovered file against its original before and after digest
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path,PurePosixPath
+          import base64,hashlib,json,lzma,subprocess
+          shas=['54eff877029c3fd65168a16e2370cd89b3203bc3','ed8e61b7be57d80b60082072fb15dba75149eb55','ec3877cc0ebd528526fd111777f6963245b5f2e9','26c678d950fa29a2fe3db335d10e6db10560d3f8','42c5a909610ca6ad492882ecf278f75340b43a37','0f3ce0412ea456cb3739b34c357385fbf53b2ea9']
+          parts=[]
+          for sha in shas:
+              obj=json.loads(subprocess.check_output(['gh','api',f'repos/atanunu/Qpay-Fintech/git/blobs/{sha}']))
+              b=base64.b64decode(obj['content']);assert len(b)==9000
+              assert hashlib.sha1(b'blob '+str(len(b)).encode()+b'\0'+b).hexdigest()==sha
+              parts.append(b)
+          decoder=lzma.LZMADecompressor(memlimit=512*1024*1024)
+          text=decoder.decompress(b''.join(parts),max_length=2*1024*1024).decode('utf-8')
+          assert not decoder.eof and len(text)==344516
+          assert text.startswith('{"version":1,"base":"cbb14589e9271ea2f06fd5304a2082c6c1ae17a9","files":{')
+          pos=text.index('"files":{')+9;d=json.JSONDecoder();pending=[];root=Path.cwd().resolve()
+          digest=lambda b:hashlib.sha256(b).hexdigest()
+          while True:
+              try:
+                  name,end=d.raw_decode(text,pos);assert text[end]==':'
+                  item,last=d.raw_decode(text,end+1)
+              except json.JSONDecodeError:break
+              rel=PurePosixPath(name)
+              assert not rel.is_absolute() and '..' not in rel.parts and str(rel)==name
+              assert name in ('.gitignore','AGENTS.md') or rel.parts[0]=='APIbackend'
+              assert not any(x in ('.git','.github','vendor','node_modules') for x in rel.parts)
+              target=root.joinpath(*rel.parts)
+              assert target.resolve().is_relative_to(root)
+              assert not any(x.is_symlink() for x in [target,*target.parents] if x.is_relative_to(root))
+              before=target.read_bytes() if target.is_file() else None
+              assert (None if before is None else digest(before))==item['before'],name
+              lines=(before or b'').decode('utf-8').splitlines(keepends=True);out=[]
+              for op in item['ops']:
+                  if isinstance(op,str):out.append(op)
+                  else:
+                      assert isinstance(op,list) and len(op)==2 and all(type(n) is int for n in op) and 0<=op[0]<=op[1]<=len(lines)
+                      out.extend(lines[op[0]:op[1]])
+              after=''.join(out).encode('utf-8');assert digest(after)==item['after'],name
+              pending.append((name,target,after));pos=last+1
+          assert len(pending)==39 and text[pos:].startswith('"APIbackend/internal/service/backup_jobs.go":')
+          for name,target,after in pending:
+              target.parent.mkdir(parents=True,exist_ok=True);target.write_bytes(after)
+          subprocess.run(['git','add','--',*[name for name,_,_ in pending]],check=True)
+          subprocess.run(['git','rm','--','.github/workflows/backup-source-materialize.yml','.github/workflows/backup-source-recovery.yml','.github/workflows/backup-workspace.yml'],check=True)
+          subprocess.run(['git','config','user.name','github-actions[bot]'],check=True)
+          subprocess.run(['git','config','user.email','41898282+github-actions[bot]@users.noreply.github.com'],check=True)
+          subprocess.run(['git','commit','-m','feat(backup): preserve 39 original hash-verified engine and control source files','-m','Recovered from six existing source fragments. Remaining transport tail is incomplete and will be reconstructed and freshly verified before merge. This intermediate branch revision is not a release.'],check=True)
+          subprocess.run(['git','push','origin','HEAD:refs/heads/build/backup-recovery-v1'],check=True)
+          PY
+# Exact code recovery only. This intermediate branch is not runnable until tail reconstruction.
