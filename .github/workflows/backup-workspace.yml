@@ -1,0 +1,42 @@
+name: Backup development workspace
+on:
+  push:
+    branches: [build/backup-recovery-v1]
+    paths: [.github/workflows/backup-workspace.yml]
+permissions:
+  contents: read
+jobs:
+  tools:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+      - name: Package exact source and disposable backup tools
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/backup-tools/bin /tmp/backup-tools/lib
+          git archive --format=tar.gz HEAD > /tmp/backup-tools/source.tar.gz
+          git rev-parse HEAD > /tmp/backup-tools/source-commit.txt
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends restic rclone pgbackrest
+          for tool in restic rclone pgbackrest; do
+            exe=$(command -v "$tool")
+            cp "$exe" /tmp/backup-tools/bin/
+            ldd "$exe" 2>/dev/null | awk '/=> \// {print $3} /^\// {print $1}' | while read -r lib; do cp -L "$lib" /tmp/backup-tools/lib/; done || true
+          done
+          restic version > /tmp/backup-tools/versions.txt
+          rclone version >> /tmp/backup-tools/versions.txt
+          pgbackrest version >> /tmp/backup-tools/versions.txt
+          tar -C /tmp/backup-tools -czf /tmp/backup-engine-tools.tar.gz bin lib versions.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: backup-workspace
+          retention-days: 2
+          path: |
+            /tmp/backup-engine-tools.tar.gz
+            /tmp/backup-tools/source.tar.gz
+            /tmp/backup-tools/source-commit.txt
+# Isolated read-only dependency capture. No financial provider calls, live backup accounts or deployment.
