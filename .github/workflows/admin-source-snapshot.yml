@@ -1,0 +1,28 @@
+name: Admin source snapshot
+on:
+  push:
+    branches: [build/admin-dashboard-v1]
+    paths: [.github/workflows/admin-source-snapshot.yml]
+permissions:
+  contents: read
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Archive exact reviewed source and history
+        run: |
+          mkdir -p /tmp/admin-source
+          git archive --format=tar.gz HEAD > /tmp/admin-source/source.tar.gz
+          git bundle create /tmp/admin-source/repository.bundle HEAD refs/remotes/origin/main
+          git rev-parse HEAD > /tmp/admin-source/source-commit.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: admin-source-snapshot
+          retention-days: 2
+          path: /tmp/admin-source/
+# Temporary read-only source recovery; no provider or deployment calls.
