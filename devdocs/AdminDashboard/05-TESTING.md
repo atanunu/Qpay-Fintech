@@ -11,3 +11,7 @@ Normal browser review: all management modules, three authentication layouts, lig
 Real API browser suite: staff cookies/restoration, MFA gate/enrolment, direct CSRF and role denials, private-document access, support assignment/versioning, reconciled import deduplication, invitation/checker acceptance, controlled exports, biller observations, customer restriction and logout. The fixture uses the actual CLI and staff APIs, not test-only authentication.
 
 CI disables authentication traces, videos and automatic failure screenshots to avoid capturing ephemeral cookies, passwords, recovery tokens or document content. A separate review-only capture mode uses intentionally public synthetic fixture records; hashes and exact source revision accompany screenshots. No live financial/provider calls are made. In-person acceptance, penetration testing, production load/recovery and provider qualification are separate recorded release gates.
+
+## Recorded qualification
+
+The development candidate at f7e91005d83fcedc56ecec1da4fa6c47c251a52f passed normal GitHub Actions Chromium: 19 review journeys, 11 real Go/PostgreSQL journeys, 63 unit/contract tests, and container routing/security headers. Forty-one source-bound synthetic captures are committed in [the gallery](../../AdminDashboard/docs/SCREENSHOTS.md). [Exact revisions and scope](../project/ADMIN-DELIVERY.md). This finite Chromium suite is not all-browser, independent security or production acceptance.

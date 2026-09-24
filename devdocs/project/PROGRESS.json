@@ -30,9 +30,9 @@
       "counts": {
         "Blocked": 0,
         "Deferred": 1,
-        "Implemented": 0,
+        "Implemented": 1,
         "In progress": 0,
-        "Partial": 25,
+        "Partial": 24,
         "Planned": 0,
         "Unverified": 0
       }

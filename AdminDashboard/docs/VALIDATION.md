@@ -1,5 +1,35 @@
 # Admin v0.7 verification record
 
+## Current verified development evidence
+
+Application head: `f7e91005d83fcedc56ecec1da4fa6c47c251a52f`. Tested PR merge revision: `79ceb97aa548f06f9eab5f292f07491efae45dac`, based on `6977d16a12fa0b8034c407eb172e2a47a7a9aea7`. GitHub's temporary test-merge SHA is not a completed merge. Final merge/check receipts are maintained in PR #3.
+
+| Verification | Recorded result |
+|---|---|
+| Strict TypeScript | Passed |
+| Admin unit and contract tests | 63 passed |
+| Synthetic Chromium review | 19 passed, 0 failed, skipped or flaky; retries disabled |
+| Chromium to actual Go/PostgreSQL | 11 passed, 0 failed, skipped or flaky; retries disabled |
+| Versioned notification metadata | 175 entries validated |
+| API-connected and isolated review builds | Passed; review credential marker excluded from API release |
+| Non-root static container, routing and security headers | Passed |
+| Backend modules, vet, race/PostgreSQL, builds, contracts and Compose smoke | Passed |
+| Existing WebApp review and real-backend regressions | Passed |
+| Documentation and Novu content verification | Passed |
+| Runtime screenshots | 41 PNGs committed, each with original source, time, viewport and SHA-256 |
+
+Runs: admin `35961917855`, backend `35961917926`, WebApp `35961917828`, documentation/notifications `35961917885`. [Delivery record](../../devdocs/project/ADMIN-DELIVERY.md), [machine-readable evidence](DELIVERY-VERIFICATION.json), [gallery](SCREENSHOTS.md).
+
+These results establish the tested development scope, not universal browser coverage, an independent security review, production performance, or complete feature-group acceptance. The separate proposed synthetic identity reveal/hide test file is not present in this revision and is not counted. Identity projection has six unit tests and private identity access is exercised by the passing real API suite.
+
+## Release boundary
+
+No live QPay or Novu activation, production deployment, real-money payment, real customer evidence, regulatory acceptance or independent approval is represented by this record. In-person review, full refunds/returns and three-way settlement, future-effective pricing, live notification feedback, production storage/scanning and security/load/restore qualification remain in [pending work](../../devdocs/AdminDashboard/07-PENDING-WORK.md).
+
+## Historical attempts (superseded by the passing runs above)
+
+The following records describe earlier intermediate revisions; their pending/failure statements are historical, not the current CI result.
+
 Status: implementation candidate; normal-browser CI and final delivery revision still pending.
 
 Locally executed: TypeScript passed; 45 frontend tests passed. New admin PostgreSQL tests and the existing service race suite passed. The complete HTTP race suite passed after correcting its new fixture to use the actual command contract. API, worker, CLI and migrator compiled. The CLI + HTTP fixture successfully created first/second administrators, independently approved staff invitations, enrolled MFA and submitted synthetic private identity evidence and a real local-ledger transfer.

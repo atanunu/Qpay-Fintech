@@ -237,10 +237,10 @@
       "capability": "Admin E2E and visual evidence",
       "milestone": "M1",
       "priority": "P0",
-      "status": "Partial",
+      "status": "Implemented",
       "specification": "[Specification](../devdocs/AdminDashboard/00-INDEX.md)",
       "acceptance": "Test real permission boundaries and capture synthetic runtime screenshots",
-      "evidence": "Normal browser review and real Go/PostgreSQL suites authored; remote verification pending; [validation](docs/VALIDATION.md)"
+      "evidence": "19 synthetic and 11 real API Chromium journeys passed; 41 source-bound captures committed; [validation](docs/VALIDATION.md); other browsers and production acceptance not claimed"
     },
     {
       "id": "ADM-025",

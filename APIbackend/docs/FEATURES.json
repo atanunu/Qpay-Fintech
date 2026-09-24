@@ -300,7 +300,7 @@
       "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Link cases to scoped operations with escalation and resolution history",
-      "evidence": "owned cases, encrypted replies and staff support operations; private attachments/escalation implemented under API-055; SLA/inbound assignment pending"
+      "evidence": "owned cases, encrypted replies and staff support operations; private attachments/escalation under API-055 and version-checked staff assignment implemented; live inbound email and SLA automation pending"
     },
     {
       "id": "API-031",
@@ -360,7 +360,7 @@
       "status": "Partial",
       "specification": "[Specification](../devdocs/APIbackend/00-INDEX.md)",
       "acceptance": "Execute financial failure suites and meet approved operating objectives",
-      "evidence": "real PostgreSQL/race suite added; final rerun, load and container acceptance outstanding"
+      "evidence": "Go race/PostgreSQL, builds and Compose smoke passed in admin candidate run 35961917926; production load/restore and partner acceptance remain outstanding"
     },
     {
       "id": "API-037",

@@ -1,6 +1,6 @@
 # AdminDashboard · Qpay operations
 
-**Status: runnable v0.7 implementation candidate.** API-connected staff application, synthetic review transport, supporting PostgreSQL operations and tests are implemented. Browser/CI qualification is recorded separately in [Validation](docs/VALIDATION.md). No live provider activation or production deployment is implied.
+**Status: v0.7 development candidate with passing automated verification.** API-connected staff application, synthetic review transport and supporting PostgreSQL operations are implemented. The recorded candidate passed 63 unit/contract tests, 19 synthetic Chromium journeys, 11 Chromium-to-Go/PostgreSQL journeys, builds and container checks. See [Validation](docs/VALIDATION.md) and the [delivery record](../devdocs/project/ADMIN-DELIVERY.md) for exact revisions. No live provider activation, production deployment or completion of every feature group is implied.
 
 [Project](../README.md) · [Specification](../devdocs/AdminDashboard/00-INDEX.md) · [Operations](../devdocs/AdminDashboard/06-OPERATIONS.md) · [API map](../devdocs/AdminDashboard/02-INTERFACES.md) · [Gallery](docs/SCREENSHOTS.md)
 
@@ -12,7 +12,12 @@ A staff-only console for comprehensive administration of the capabilities implem
 ## Architecture and visuals
 ![Staff trust boundary; architecture diagram rather than screenshot](../docs/diagrams/admindashboard.svg)
 
-The [runtime gallery](docs/SCREENSHOTS.md) records actual synthetic browser captures separately from this architecture design. [SCREENSHOTS.json](docs/SCREENSHOTS.json) records source revision, timestamp, viewport and hashes. No mockup is presented as runtime evidence.
+The [41-screen runtime gallery](docs/SCREENSHOTS.md) contains reviewed, hash-verified Chromium captures from successful CI run 35961917855, separately from this architecture design.
+
+![Staff overview — actual synthetic runtime](docs/images/overview.png)
+
+![Separate staff authentication — actual synthetic runtime](docs/images/auth-split.png)
+ [SCREENSHOTS.json](docs/SCREENSHOTS.json) records source revision, timestamp, viewport and hashes. No mockup is presented as runtime evidence.
 
 ```text
 Staff browser → AdminDashboard → /v1/admin/* APIbackend → PostgreSQL
@@ -89,7 +94,7 @@ All original ADM IDs and acceptance requirements are preserved. **Partial does n
 | ADM-021 | Incident and emergency controls | M4 | P0 | Partial | [Specification](../devdocs/AdminDashboard/00-INDEX.md) | Restrict stop or resume controls with clear blast radius and approval | Versioned emergency containment, independent resumption and incident investigations; [validation](docs/VALIDATION.md) |
 | ADM-022 | Finance and management reports | M3 | P0 | Partial | [Specification](../devdocs/AdminDashboard/00-INDEX.md) | Reports reconcile to ledger and separate income fees float and liabilities | Ledger-backed metrics and bounded exports; regulatory and complete settlement reports remain gated; [validation](docs/VALIDATION.md) |
 | ADM-023 | Accessible independent admin UI | M1 | P0 | Partial | [Specification](../devdocs/AdminDashboard/00-INDEX.md) | Auth shell is separate and staff workflows support keyboard navigation | Three isolated auth layouts; responsive themed workspace and keyboard-friendly dialogues; [validation](docs/VALIDATION.md) |
-| ADM-024 | Admin E2E and visual evidence | M1 | P0 | Partial | [Specification](../devdocs/AdminDashboard/00-INDEX.md) | Test real permission boundaries and capture synthetic runtime screenshots | Normal browser review and real Go/PostgreSQL suites authored; remote verification pending; [validation](docs/VALIDATION.md) |
+| ADM-024 | Admin E2E and visual evidence | M1 | P0 | Implemented | [Specification](../devdocs/AdminDashboard/00-INDEX.md) | Test real permission boundaries and capture synthetic runtime screenshots | 19 synthetic and 11 real API Chromium journeys passed; 41 source-bound captures committed; [validation](docs/VALIDATION.md); other browsers and production acceptance not claimed |
 | ADM-025 | Deployment and operator runbooks | M4 | P0 | Partial | [Specification](../devdocs/AdminDashboard/00-INDEX.md) | Verify clean deployment rollback observability and incident procedures | Non-root static image, nginx security headers, setup and rollback runbooks; production drills pending; [validation](docs/VALIDATION.md) |
 | ADM-026 | Approved business and growth controls | M5 | P1 | Deferred | [Specification](../devdocs/AdminDashboard/00-INDEX.md) | Decompose new products with staff finance risk and support ownership | Specialised products visible as unavailable boundaries, not falsely enabled business or growth controls; [validation](docs/VALIDATION.md) |
 <!-- FEATURES:END -->
@@ -98,7 +103,7 @@ All original ADM IDs and acceptance requirements are preserved. **Partial does n
 Runnable staff application and supporting operational APIs are implemented. The [workflow specification](../devdocs/AdminDashboard/03-WORKFLOWS.md) explains which actions persist, require another operator, or only inspect evidence. The [pending-work register](../devdocs/AdminDashboard/07-PENDING-WORK.md) identifies external settlement, refunds, future-effective pricing, growth products, notification activation and production qualification; they are not replaced with invented successful actions.
 
 ## Tests and evidence
-[Validation record](docs/VALIDATION.md) separates local frontend tests, actual PostgreSQL tests, normal browser journeys, API browser journeys, container checks and in-person acceptance. Local browser HTTP navigation is blocked by the environment policy; no policy bypass or mock browser result substitutes for CI. Browser traces/videos are disabled to avoid recording ephemeral staff credentials and evidence. Reviewed screenshots use synthetic records only.
+[Validation record](docs/VALIDATION.md) separates local frontend tests, actual PostgreSQL tests, normal browser journeys, API browser journeys, container checks and in-person acceptance. The earlier local-browser limitation was resolved for qualification by ordinary GitHub Actions Chromium execution, not by bypassing local controls. The committed reports distinguish 19 synthetic journeys from 11 real API journeys, with no failed/skipped/flaky results and no automatic retries. Other browsers and manual assistive-technology acceptance have not been established by these results. Browser traces/videos are disabled to avoid recording ephemeral staff credentials and evidence. Reviewed screenshots use synthetic records only.
 
 ## Security and permissions
 Staff/customer origins and cookies are separate. Access/refresh cookies are HttpOnly and SameSite Strict; Secure + __Host prefix are enforced outside local mode. CSRF and origin are required for staff cookie mutations. A current enrolled MFA session is required for operational reads; mutations need a recent login or replay-protected password/TOTP elevation. Staff invitation, role/status/recovery, product controls and payment resumption require distinct eligible operators. Revoked sessions and stale target versions fail transactionally. Recovery does not restore a suspended account. Audit events never contain passwords, recovery tokens, decrypted documents or electricity tokens.
@@ -113,7 +118,3 @@ Every source change must update this README, its canonical task register, affect
 
 ## Changelog
 - 2026-09-24 — v0.7 runnable admin console and additive backend operations; source, contract, security, workflow and test documentation delivered together. Verification evidence is maintained separately.
-
-Admin browser qualification: shared required-field markers are decorative and no longer modify label text; exact-label and full-reload synthetic-session checks are included. PostgreSQL race, existing WebApp and documentation checks passed on `abc1e494`; admin browser acceptance remains pending.
-
-Admin continuation (24 September 2026): fixed MFA recovery-code acknowledgement, dark-theme inherited text contrast, explicit authentication layout labels, safe typed evidence-download names, and clearing record-specific state on navigation. Added durable one-time proof reservation for restarted browser workers. TypeScript, 57 admin tests, the production build and the complete local Go race suite passed. Final remote browser verification and runtime captures remain pending in [admin validation](docs/VALIDATION.md).
