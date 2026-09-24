@@ -1,6 +1,12 @@
 {
   "components": {
     "securitySchemes": {
+      "backupAgentSignature": {
+        "description": "Signed, short-lived, single-use agent request envelope",
+        "in": "header",
+        "name": "X-Backup-Agent",
+        "type": "apiKey"
+      },
       "customerCookie": {
         "in": "cookie",
         "name": "__Host-qpf_customer_access",
@@ -1520,6 +1526,2051 @@
           }
         ],
         "summary": "Revoke own device session"
+      }
+    },
+    "/v1/admin/backups/bootstrap": {
+      "get": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "get_v1_admin_backups_bootstrap",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {},
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Backup permissions and provisioned non-secret profiles"
+      }
+    },
+    "/v1/admin/backups/jobs": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_backups_jobs",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "copy_id": {
+                    "type": "string"
+                  },
+                  "operation": {
+                    "type": "string"
+                  },
+                  "point_id": {
+                    "type": "string"
+                  },
+                  "preview_digest": {
+                    "type": "string"
+                  },
+                  "preview_run_id": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "recovery_time": {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "resource": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "version"
+                    ],
+                    "type": "object"
+                  },
+                  "target": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "operation",
+                  "resource",
+                  "point_id",
+                  "copy_id",
+                  "target",
+                  "reason",
+                  "preview_run_id",
+                  "preview_digest"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {},
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Queue an immutable backup command; recovery requires independent approval"
+      }
+    },
+    "/v1/admin/backups/jobs/{id}/cancel": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_backups_jobs_id_cancel",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Cancel unclaimed command; leased nondestructive jobs may finish"
+      }
+    },
+    "/v1/admin/backups/jobs/{id}/decision": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_backups_jobs_id_decision",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "digest": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "version",
+                  "digest",
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Independently approve or reject an exact recovery request"
+      }
+    },
+    "/v1/admin/backups/overview": {
+      "get": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "get_v1_admin_backups_overview",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {},
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Protection coverage and actual evidence freshness"
+      }
+    },
+    "/v1/admin/backups/points/{id}/hold": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_backups_points_id_hold",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Pin a recovery point against automated expiry"
+      }
+    },
+    "/v1/admin/backups/points/{id}/inventory": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_backups_points_id_inventory",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "agent_id": {
+                          "type": "string"
+                        },
+                        "command_id": {
+                          "type": "string"
+                        },
+                        "copies": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "bytes": {
+                                "type": "string"
+                              },
+                              "capture_finished": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "capture_started": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "dependencies": {
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "destination": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "version": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "version"
+                                ],
+                                "type": "object"
+                              },
+                              "engine": {
+                                "type": "string"
+                              },
+                              "error_code": {
+                                "type": "string"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "snapshot": {
+                                "type": "string"
+                              },
+                              "source": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "version": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "version"
+                                ],
+                                "type": "object"
+                              },
+                              "state": {
+                                "type": "string"
+                              },
+                              "verified": {
+                                "type": "string"
+                              },
+                              "wal_start": {
+                                "type": "string"
+                              },
+                              "wal_stop": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "source",
+                              "destination",
+                              "engine",
+                              "snapshot",
+                              "state",
+                              "bytes",
+                              "verified",
+                              "capture_started",
+                              "capture_finished"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "error_code": {
+                          "type": "string"
+                        },
+                        "expired_copy_id": {
+                          "type": "string"
+                        },
+                        "files": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "object_version": {
+                                "type": "string"
+                              },
+                              "path": {
+                                "type": "string"
+                              },
+                              "sha256": {
+                                "type": "string"
+                              },
+                              "size": {
+                                "type": "string"
+                              },
+                              "source_id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "path",
+                              "size",
+                              "source_id"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "files_truncated": {
+                          "type": "boolean"
+                        },
+                        "finished_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "materialized_target": {
+                          "type": "string"
+                        },
+                        "occurrence": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "operation": {
+                          "type": "string"
+                        },
+                        "plan": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "version": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "version"
+                          ],
+                          "type": "object"
+                        },
+                        "point_id": {
+                          "type": "string"
+                        },
+                        "policy_digest": {
+                          "type": "string"
+                        },
+                        "retention": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "digest": {
+                              "type": "string"
+                            },
+                            "items": {
+                              "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "captured_at": {
+                                    "format": "date-time",
+                                    "type": "string"
+                                  },
+                                  "eligible": {
+                                    "type": "boolean"
+                                  },
+                                  "point_id": {
+                                    "type": "string"
+                                  },
+                                  "reason": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "point_id",
+                                  "captured_at",
+                                  "eligible",
+                                  "reason"
+                                ],
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "plan": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "version": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "version"
+                              ],
+                              "type": "object"
+                            },
+                            "policy": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "version": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "version"
+                              ],
+                              "type": "object"
+                            }
+                          },
+                          "required": [
+                            "plan",
+                            "policy",
+                            "items",
+                            "digest"
+                          ],
+                          "type": "object"
+                        },
+                        "run_id": {
+                          "type": "string"
+                        },
+                        "schedule": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "version": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "version"
+                          ],
+                          "type": "object"
+                        },
+                        "started_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "version",
+                        "agent_id",
+                        "run_id",
+                        "policy_digest",
+                        "schedule",
+                        "plan",
+                        "occurrence",
+                        "operation",
+                        "state",
+                        "started_at",
+                        "finished_at",
+                        "copies",
+                        "files",
+                        "files_truncated"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Audited access to encrypted recovery-point file and copy metadata"
+      }
+    },
+    "/v1/admin/backups/resources/{id}/pause": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_backups_resources_id_pause",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "digest": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "version",
+                  "digest",
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Pause future backup operations without deleting stored recovery data"
+      }
+    },
+    "/v1/admin/backups/resources/{kind}": {
+      "get": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "get_v1_admin_backups_resources_kind",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "generated_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "has_more": {
+                          "type": "boolean"
+                        },
+                        "items": {
+                          "items": {
+                            "additionalProperties": {},
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "next_before": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "items",
+                        "next_before",
+                        "has_more",
+                        "generated_at"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "List sources destinations plans schedules retention runs and recovery points"
+      },
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_backups_resources_kind",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "agent_id": {
+                    "type": "string"
+                  },
+                  "base_version": {
+                    "type": "integer"
+                  },
+                  "environment": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "spec": {
+                    "description": "Typed JSON object; signed envelopes preserve the original serialized payload bytes",
+                    "type": "object"
+                  },
+                  "submit": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name",
+                  "environment",
+                  "agent_id",
+                  "base_version",
+                  "spec",
+                  "reason",
+                  "submit"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "agent_id": {
+                          "type": "string"
+                        },
+                        "approved_by": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "created_by": {
+                          "type": "string"
+                        },
+                        "decided_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "digest": {
+                          "type": "string"
+                        },
+                        "disabled": {
+                          "type": "boolean"
+                        },
+                        "environment": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "kind": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "spec": {
+                          "description": "Typed JSON object; signed envelopes preserve the original serialized payload bytes",
+                          "type": "object"
+                        },
+                        "state": {
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "kind",
+                        "name",
+                        "environment",
+                        "agent_id",
+                        "version",
+                        "state",
+                        "disabled",
+                        "digest",
+                        "spec",
+                        "created_by",
+                        "approved_by",
+                        "created_at"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Create a draft or submitted immutable backup configuration"
+      }
+    },
+    "/v1/admin/backups/resources/{kind}/{id}": {
+      "get": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "get_v1_admin_backups_resources_kind_id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "additionalProperties": false,
+                        "properties": {
+                          "agent_id": {
+                            "type": "string"
+                          },
+                          "approved_by": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          "created_by": {
+                            "type": "string"
+                          },
+                          "decided_at": {
+                            "format": "date-time",
+                            "type": "string"
+                          },
+                          "digest": {
+                            "type": "string"
+                          },
+                          "disabled": {
+                            "type": "boolean"
+                          },
+                          "environment": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "spec": {
+                            "description": "Typed JSON object; signed envelopes preserve the original serialized payload bytes",
+                            "type": "object"
+                          },
+                          "state": {
+                            "type": "string"
+                          },
+                          "version": {
+                            "type": "integer"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "kind",
+                          "name",
+                          "environment",
+                          "agent_id",
+                          "version",
+                          "state",
+                          "disabled",
+                          "digest",
+                          "spec",
+                          "created_by",
+                          "approved_by",
+                          "created_at"
+                        ],
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Read immutable configuration revision history"
+      }
+    },
+    "/v1/admin/backups/resources/{kind}/{id}/decision": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_backups_resources_kind_id_decision",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "decision": {
+                    "type": "string"
+                  },
+                  "digest": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "version",
+                  "digest",
+                  "decision",
+                  "reason"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "agent_id": {
+                          "type": "string"
+                        },
+                        "approved_by": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "created_by": {
+                          "type": "string"
+                        },
+                        "decided_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "digest": {
+                          "type": "string"
+                        },
+                        "disabled": {
+                          "type": "boolean"
+                        },
+                        "environment": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "kind": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "spec": {
+                          "description": "Typed JSON object; signed envelopes preserve the original serialized payload bytes",
+                          "type": "object"
+                        },
+                        "state": {
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "kind",
+                        "name",
+                        "environment",
+                        "agent_id",
+                        "version",
+                        "state",
+                        "disabled",
+                        "digest",
+                        "spec",
+                        "created_by",
+                        "approved_by",
+                        "created_at"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Submit or independently approve exact tested configuration digest"
+      }
+    },
+    "/v1/admin/backups/resources/{kind}/{id}/revisions": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_backups_resources_kind_id_revisions",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "agent_id": {
+                    "type": "string"
+                  },
+                  "base_version": {
+                    "type": "integer"
+                  },
+                  "environment": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "spec": {
+                    "description": "Typed JSON object; signed envelopes preserve the original serialized payload bytes",
+                    "type": "object"
+                  },
+                  "submit": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name",
+                  "environment",
+                  "agent_id",
+                  "base_version",
+                  "spec",
+                  "reason",
+                  "submit"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "agent_id": {
+                          "type": "string"
+                        },
+                        "approved_by": {
+                          "type": "string"
+                        },
+                        "created_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "created_by": {
+                          "type": "string"
+                        },
+                        "decided_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "digest": {
+                          "type": "string"
+                        },
+                        "disabled": {
+                          "type": "boolean"
+                        },
+                        "environment": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "kind": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "spec": {
+                          "description": "Typed JSON object; signed envelopes preserve the original serialized payload bytes",
+                          "type": "object"
+                        },
+                        "state": {
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "kind",
+                        "name",
+                        "environment",
+                        "agent_id",
+                        "version",
+                        "state",
+                        "disabled",
+                        "digest",
+                        "spec",
+                        "created_by",
+                        "approved_by",
+                        "created_at"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Create a version checked backup configuration revision"
+      }
+    },
+    "/v1/admin/backups/schedule-preview": {
+      "post": {
+        "description": "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions.",
+        "operationId": "post_v1_admin_backups_schedule_preview",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "at": {
+                    "type": "string"
+                  },
+                  "ends_at": {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "frequency": {
+                    "type": "string"
+                  },
+                  "interval_minutes": {
+                    "type": "integer"
+                  },
+                  "missed": {
+                    "type": "string"
+                  },
+                  "month_day": {
+                    "type": "integer"
+                  },
+                  "operation": {
+                    "type": "string"
+                  },
+                  "plan": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "version"
+                    ],
+                    "type": "object"
+                  },
+                  "starts_at": {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "timezone": {
+                    "type": "string"
+                  },
+                  "weekdays": {
+                    "items": {
+                      "type": "integer"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "plan",
+                  "operation",
+                  "timezone",
+                  "frequency",
+                  "at",
+                  "weekdays",
+                  "month_day",
+                  "interval_minutes",
+                  "starts_at",
+                  "missed"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "format": "date-time",
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "staffCookie": []
+          }
+        ],
+        "summary": "Preview next five timezone-aware executions without scheduling work"
       }
     },
     "/v1/admin/bills/availability": {
@@ -6351,8 +8402,8 @@
                 "additionalProperties": false,
                 "properties": {
                   "credential": {
-                    "items": {},
-                    "type": "array"
+                    "description": "Typed JSON object; signed envelopes preserve the original serialized payload bytes",
+                    "type": "object"
                   },
                   "id": {
                     "type": "string"
@@ -7101,6 +9152,861 @@
           }
         ],
         "summary": "Revoke own device session"
+      }
+    },
+    "/v1/backup-agent/commands/{id}/claim": {
+      "post": {
+        "description": "Pinned Ed25519 agent signature binds method, exact path, timestamp, unique nonce and SHA-256 of the request body. Browser Origin, cookies and bearer tokens are rejected.",
+        "operationId": "post_v1_backup_agent_commands_id_claim",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {},
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "backupAgentSignature": []
+          }
+        ],
+        "summary": "Claim current independently approved sensitive recovery command"
+      }
+    },
+    "/v1/backup-agent/commands/{id}/point": {
+      "post": {
+        "description": "Pinned Ed25519 agent signature binds method, exact path, timestamp, unique nonce and SHA-256 of the request body. Browser Origin, cookies and bearer tokens are rejected.",
+        "operationId": "post_v1_backup_agent_commands_id_point",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {},
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "agent_id": {
+                          "type": "string"
+                        },
+                        "command_id": {
+                          "type": "string"
+                        },
+                        "copies": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "bytes": {
+                                "type": "string"
+                              },
+                              "capture_finished": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "capture_started": {
+                                "format": "date-time",
+                                "type": "string"
+                              },
+                              "dependencies": {
+                                "items": {
+                                  "type": "string"
+                                },
+                                "type": "array"
+                              },
+                              "destination": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "version": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "version"
+                                ],
+                                "type": "object"
+                              },
+                              "engine": {
+                                "type": "string"
+                              },
+                              "error_code": {
+                                "type": "string"
+                              },
+                              "id": {
+                                "type": "string"
+                              },
+                              "snapshot": {
+                                "type": "string"
+                              },
+                              "source": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "id": {
+                                    "type": "string"
+                                  },
+                                  "version": {
+                                    "type": "integer"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "version"
+                                ],
+                                "type": "object"
+                              },
+                              "state": {
+                                "type": "string"
+                              },
+                              "verified": {
+                                "type": "string"
+                              },
+                              "wal_start": {
+                                "type": "string"
+                              },
+                              "wal_stop": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "source",
+                              "destination",
+                              "engine",
+                              "snapshot",
+                              "state",
+                              "bytes",
+                              "verified",
+                              "capture_started",
+                              "capture_finished"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "error_code": {
+                          "type": "string"
+                        },
+                        "expired_copy_id": {
+                          "type": "string"
+                        },
+                        "files": {
+                          "items": {
+                            "additionalProperties": false,
+                            "properties": {
+                              "object_version": {
+                                "type": "string"
+                              },
+                              "path": {
+                                "type": "string"
+                              },
+                              "sha256": {
+                                "type": "string"
+                              },
+                              "size": {
+                                "type": "string"
+                              },
+                              "source_id": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "path",
+                              "size",
+                              "source_id"
+                            ],
+                            "type": "object"
+                          },
+                          "type": "array"
+                        },
+                        "files_truncated": {
+                          "type": "boolean"
+                        },
+                        "finished_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "materialized_target": {
+                          "type": "string"
+                        },
+                        "occurrence": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "operation": {
+                          "type": "string"
+                        },
+                        "plan": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "version": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "version"
+                          ],
+                          "type": "object"
+                        },
+                        "point_id": {
+                          "type": "string"
+                        },
+                        "policy_digest": {
+                          "type": "string"
+                        },
+                        "retention": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "digest": {
+                              "type": "string"
+                            },
+                            "items": {
+                              "items": {
+                                "additionalProperties": false,
+                                "properties": {
+                                  "captured_at": {
+                                    "format": "date-time",
+                                    "type": "string"
+                                  },
+                                  "eligible": {
+                                    "type": "boolean"
+                                  },
+                                  "point_id": {
+                                    "type": "string"
+                                  },
+                                  "reason": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "point_id",
+                                  "captured_at",
+                                  "eligible",
+                                  "reason"
+                                ],
+                                "type": "object"
+                              },
+                              "type": "array"
+                            },
+                            "plan": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "version": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "version"
+                              ],
+                              "type": "object"
+                            },
+                            "policy": {
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "type": "string"
+                                },
+                                "version": {
+                                  "type": "integer"
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "version"
+                              ],
+                              "type": "object"
+                            }
+                          },
+                          "required": [
+                            "plan",
+                            "policy",
+                            "items",
+                            "digest"
+                          ],
+                          "type": "object"
+                        },
+                        "run_id": {
+                          "type": "string"
+                        },
+                        "schedule": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "version": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "version"
+                          ],
+                          "type": "object"
+                        },
+                        "started_at": {
+                          "format": "date-time",
+                          "type": "string"
+                        },
+                        "state": {
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "version",
+                        "agent_id",
+                        "run_id",
+                        "policy_digest",
+                        "schedule",
+                        "plan",
+                        "occurrence",
+                        "operation",
+                        "state",
+                        "started_at",
+                        "finished_at",
+                        "copies",
+                        "files",
+                        "files_truncated"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "backupAgentSignature": []
+          }
+        ],
+        "summary": "Read exact historical recovery evidence for a scoped agent command"
+      }
+    },
+    "/v1/backup-agent/heartbeat": {
+      "post": {
+        "description": "Pinned Ed25519 agent signature binds method, exact path, timestamp, unique nonce and SHA-256 of the request body. Browser Origin, cookies and bearer tokens are rejected.",
+        "operationId": "post_v1_backup_agent_heartbeat",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "environment": {
+                    "type": "string"
+                  },
+                  "free_bytes": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "string"
+                  },
+                  "instance_id": {
+                    "type": "string"
+                  },
+                  "observed_at": {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "pending_results": {
+                    "type": "integer"
+                  },
+                  "policy_expires_at": {
+                    "format": "date-time",
+                    "type": "string"
+                  },
+                  "profiles": {
+                    "items": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "account": {
+                          "type": "string"
+                        },
+                        "capabilities": {
+                          "items": {
+                            "type": "string"
+                          },
+                          "type": "array"
+                        },
+                        "failure_domain": {
+                          "type": "string"
+                        },
+                        "id": {
+                          "type": "string"
+                        },
+                        "kind": {
+                          "type": "string"
+                        },
+                        "label": {
+                          "type": "string"
+                        },
+                        "location": {
+                          "type": "string"
+                        },
+                        "off_host": {
+                          "type": "boolean"
+                        },
+                        "provider": {
+                          "type": "string"
+                        },
+                        "region": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "kind",
+                        "type",
+                        "label",
+                        "location",
+                        "account",
+                        "region",
+                        "capabilities",
+                        "provider",
+                        "failure_domain",
+                        "off_host"
+                      ],
+                      "type": "object"
+                    },
+                    "type": "array"
+                  },
+                  "run_id": {
+                    "type": "string"
+                  },
+                  "stage": {
+                    "type": "string"
+                  },
+                  "versions": {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "id",
+                  "environment",
+                  "instance_id",
+                  "observed_at",
+                  "versions",
+                  "profiles",
+                  "policy_expires_at",
+                  "pending_results",
+                  "free_bytes"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "backupAgentSignature": []
+          }
+        ],
+        "summary": "Signed agent heartbeat with provisioned profile identity"
+      }
+    },
+    "/v1/backup-agent/policy": {
+      "get": {
+        "description": "Pinned Ed25519 agent signature binds method, exact path, timestamp, unique nonce and SHA-256 of the request body. Browser Origin, cookies and bearer tokens are rejected.",
+        "operationId": "get_v1_backup_agent_policy",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "payload": {
+                          "description": "Typed JSON object; signed envelopes preserve the original serialized payload bytes",
+                          "type": "object"
+                        },
+                        "signature": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "payload",
+                        "signature"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "backupAgentSignature": []
+          }
+        ],
+        "summary": "Signed short-lived policy for independently enrolled backup agent"
+      }
+    },
+    "/v1/backup-agent/results": {
+      "post": {
+        "description": "Pinned Ed25519 agent signature binds method, exact path, timestamp, unique nonce and SHA-256 of the request body. Browser Origin, cookies and bearer tokens are rejected.",
+        "operationId": "post_v1_backup_agent_results",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "payload": {
+                    "description": "Typed JSON object; signed envelopes preserve the original serialized payload bytes",
+                    "type": "object"
+                  },
+                  "signature": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "payload",
+                  "signature"
+                ],
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "additionalProperties": {
+                        "type": "string"
+                      },
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful response"
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "error": {
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "message": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "message"
+                      ],
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "error",
+                    "request_id"
+                  ],
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Stable error envelope; no financial success is implied"
+          }
+        },
+        "security": [
+          {
+            "backupAgentSignature": []
+          }
+        ],
+        "summary": "Append signed immutable result evidence; identical replay is safe"
       }
     },
     "/v1/banks": {
@@ -11819,8 +14725,8 @@
                 "additionalProperties": false,
                 "properties": {
                   "credential": {
-                    "items": {},
-                    "type": "array"
+                    "description": "Typed JSON object; signed envelopes preserve the original serialized payload bytes",
+                    "type": "object"
                   },
                   "id": {
                     "type": "string"

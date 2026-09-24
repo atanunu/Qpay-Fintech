@@ -19,6 +19,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/atanunu/Qpay-Fintech/APIbackend/internal/backup"
 	"github.com/atanunu/Qpay-Fintech/APIbackend/internal/httpapi"
 	"github.com/atanunu/Qpay-Fintech/APIbackend/internal/privateobjects"
 	"github.com/atanunu/Qpay-Fintech/APIbackend/internal/security"
@@ -57,6 +58,10 @@ func Load(ctx context.Context) (*service.Service, httpapi.Config, error) {
 		return nil, httpapi.Config{}, errors.New("QPF_ENV must be local, staging or production")
 	}
 	c.Environment = environment
+	c.Backups, e = backup.LoadControl(os.Getenv("BACKUP_CONTROL_FILE"))
+	if e != nil {
+		return nil, httpapi.Config{}, fmt.Errorf("backup control configuration: %w", e)
+	}
 	urlText, e := required("DATABASE_URL")
 	if e != nil {
 		return nil, httpapi.Config{}, e

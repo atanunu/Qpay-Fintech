@@ -157,4 +157,23 @@ export type APIPath =
 "POST /v1/admin/console/exports" |
 "GET /v1/admin/console/catalogue" |
 "POST /v1/admin/console/documents/{id}" |
+"GET /v1/admin/backups/bootstrap" |
+"GET /v1/admin/backups/overview" |
+"GET /v1/admin/backups/resources/{kind}" |
+"GET /v1/admin/backups/resources/{kind}/{id}" |
+"POST /v1/admin/backups/resources/{kind}" |
+"POST /v1/admin/backups/resources/{kind}/{id}/revisions" |
+"POST /v1/admin/backups/resources/{kind}/{id}/decision" |
+"POST /v1/admin/backups/resources/{id}/pause" |
+"POST /v1/admin/backups/schedule-preview" |
+"POST /v1/admin/backups/jobs" |
+"POST /v1/admin/backups/jobs/{id}/decision" |
+"POST /v1/admin/backups/jobs/{id}/cancel" |
+"POST /v1/admin/backups/points/{id}/inventory" |
+"POST /v1/admin/backups/points/{id}/hold" |
+"GET /v1/backup-agent/policy" |
+"POST /v1/backup-agent/heartbeat" |
+"POST /v1/backup-agent/results" |
+"POST /v1/backup-agent/commands/{id}/claim" |
+"POST /v1/backup-agent/commands/{id}/point" |
 "POST /internal/notifications/authorise";

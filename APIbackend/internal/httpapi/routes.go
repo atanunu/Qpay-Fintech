@@ -232,6 +232,7 @@ func (h *Handler) register() {
 	h.caseRoutes("/v1/admin/support/cases", "staff")
 	h.adminRoutes()
 	h.consoleRoutes()
+	h.backupRoutes()
 	h.add(Route{Method: "POST", Path: "/internal/notifications/authorise", Summary: "Signed bridge eligibility check", Auth: "internal", Status: 200, Request: PolicyRequest{}, Response: map[string]any{}, Run: func(_ http.ResponseWriter, r *http.Request, _ service.Principal) (any, error) {
 		raw, e := readSigned(r, h.Config.PolicyKey)
 		if e != nil {

@@ -151,6 +151,23 @@ func (h *Handler) session(w http.ResponseWriter, s service.Session, audience, cl
 }
 func (h *Handler) authenticate(r *http.Request, auth string) (service.Principal, error) {
 	var p service.Principal
+	if auth == "backup_agent" {
+		if r.Header.Get("Origin") != "" || r.Header.Get("Cookie") != "" || r.Header.Get("Authorization") != "" {
+			return p, &service.Fault{Status: 403, Code: "agent_transport_denied", Message: "backup agents cannot use browser or customer credentials"}
+		}
+		body, e := io.ReadAll(io.LimitReader(r.Body, (8<<20)+1))
+		if e != nil || len(body) > 8<<20 {
+			return p, service.Invalid("agent body exceeds 8 MiB")
+		}
+		r.Body = io.NopCloser(bytes.NewReader(body))
+		id, e := h.Service.BackupAgentAuthenticate(r.Context(), r.Header.Get("X-Backup-Agent"), r.Method, r.URL.EscapedPath(), body)
+		if e != nil {
+			return p, e
+		}
+		p.User.ID = id
+		p.Audience = "backup_agent"
+		return p, nil
+	}
 	if auth == "public" || auth == "internal" {
 		return p, nil
 	}
@@ -246,11 +263,15 @@ func bind(r *http.Request, target any) error {
 	if e != nil || media != "application/json" {
 		return &service.Fault{Status: 415, Code: "content_type", Message: "application/json required"}
 	}
-	raw, e := io.ReadAll(io.LimitReader(r.Body, (1<<20)+1))
+	limit := 1 << 20
+	if strings.HasPrefix(r.URL.Path, "/v1/backup-agent/") {
+		limit = 8 << 20
+	}
+	raw, e := io.ReadAll(io.LimitReader(r.Body, int64(limit)+1))
 	if e != nil {
 		return service.Invalid("could not read request")
 	}
-	if len(raw) > 1<<20 {
+	if len(raw) > limit {
 		return &service.Fault{Status: 413, Code: "body_too_large", Message: "body exceeds one MiB"}
 	}
 	if e = uniqueJSON(raw); e != nil {
@@ -349,6 +370,9 @@ func schema(t reflect.Type) map[string]any {
 	if t == nil {
 		return map[string]any{}
 	}
+	if t == reflect.TypeOf(json.RawMessage{}) {
+		return map[string]any{"type": "object", "description": "Typed JSON object; signed envelopes preserve the original serialized payload bytes"}
+	}
 	if t == reflect.TypeOf(service.Money(0)) {
 		return map[string]any{"type": "string", "pattern": "^(0|[1-9][0-9]{0,15})$", "description": "Integer NGN minor units; maximum 9000000000000000"}
 	}
@@ -438,8 +462,14 @@ func (h *Handler) OpenAPI() map[string]any {
 			if strings.HasPrefix(r.Auth, "staff") {
 				security = []any{map[string]any{"staffCookie": []string{}}}
 			}
+			if r.Auth == "backup_agent" {
+				security = []any{map[string]any{"backupAgentSignature": []string{}}}
+			}
 			operation["security"] = security
 			operation["description"] = "Cookie writes also require an approved Origin and X-CSRF-Token. Staff operations require MFA and server-side role permissions."
+			if r.Auth == "backup_agent" {
+				operation["description"] = "Pinned Ed25519 agent signature binds method, exact path, timestamp, unique nonce and SHA-256 of the request body. Browser Origin, cookies and bearer tokens are rejected."
+			}
 		}
 		path, _ := paths[r.Path].(map[string]any)
 		if path == nil {
@@ -448,5 +478,5 @@ func (h *Handler) OpenAPI() map[string]any {
 		}
 		path[strings.ToLower(r.Method)] = operation
 	}
-	return enrichOpenAPI(map[string]any{"openapi": "3.1.0", "info": map[string]any{"title": "Qpay-Fintech API", "version": "0.6.0", "description": "Persistent core API. Local execution is synthetic. Provider, regulatory, security and production acceptance remain separate release gates."}, "paths": paths, "components": map[string]any{"securitySchemes": map[string]any{"mobileBearer": map[string]any{"type": "http", "scheme": "bearer", "description": "Opaque mobile session token"}, "customerCookie": map[string]any{"type": "apiKey", "in": "cookie", "name": h.cookieName("customer", "access")}, "staffCookie": map[string]any{"type": "apiKey", "in": "cookie", "name": h.cookieName("staff", "access")}}}})
+	return enrichOpenAPI(map[string]any{"openapi": "3.1.0", "info": map[string]any{"title": "Qpay-Fintech API", "version": "0.6.0", "description": "Persistent core API. Local execution is synthetic. Provider, regulatory, security and production acceptance remain separate release gates."}, "paths": paths, "components": map[string]any{"securitySchemes": map[string]any{"backupAgentSignature": map[string]any{"type": "apiKey", "in": "header", "name": "X-Backup-Agent", "description": "Signed, short-lived, single-use agent request envelope"}, "mobileBearer": map[string]any{"type": "http", "scheme": "bearer", "description": "Opaque mobile session token"}, "customerCookie": map[string]any{"type": "apiKey", "in": "cookie", "name": h.cookieName("customer", "access")}, "staffCookie": map[string]any{"type": "apiKey", "in": "cookie", "name": h.cookieName("staff", "access")}}}})
 }

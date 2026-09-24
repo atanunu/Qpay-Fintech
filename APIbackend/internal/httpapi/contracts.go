@@ -86,11 +86,11 @@ func enrichOpenAPI(spec map[string]any) map[string]any {
 				envelope["required"] = []string{"data", "request_id"}
 				props := envelope["properties"].(map[string]any)
 				model, exists := concrete[strings.ToUpper(method)+" "+p]
-				if !exists && method == "post" && (code == "201") && p != "/v1/quotes" {
+				if !strings.Contains(p,"/backups/") && !strings.HasPrefix(p,"/v1/backup-agent/") && !exists && method == "post" && (code == "201") && p != "/v1/quotes" {
 					model = identity
 					exists = true
 				}
-				if !exists && (method == "post" || method == "patch") && p != "/v1/payments" && p != "/v1/me" && !strings.HasSuffix(p, "/login") && !strings.HasSuffix(p, "/refresh") && !strings.Contains(p, "/mfa/") {
+				if !strings.Contains(p,"/backups/") && !strings.HasPrefix(p,"/v1/backup-agent/") && !exists && (method == "post" || method == "patch") && p != "/v1/payments" && p != "/v1/me" && !strings.HasSuffix(p, "/login") && !strings.HasSuffix(p, "/refresh") && !strings.Contains(p, "/mfa/") {
 					model = status
 					exists = true
 				}

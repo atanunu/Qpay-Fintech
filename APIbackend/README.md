@@ -144,3 +144,7 @@ Full Go race/PostgreSQL checks, vet, builds, seven client-helper tests, Compose 
 ## Admin integration verification
 
 The staff console and supporting Go operations passed the recorded Chromium-to-Go/PostgreSQL suite (11 journeys), full backend race/database/build/Compose verification, and existing WebApp regressions. [Admin delivery and release boundaries](../devdocs/project/ADMIN-DELIVERY.md). The successful tests use disposable synthetic identities and funds; they do not activate providers.
+
+## Backup and recovery — v0.8 candidate
+
+The staff Backup and Recovery Centre and isolated Go backup agent now implement versioned sources/destinations/plans/schedules, exact independent approvals, protected inventory and isolated recovery. See [implementation contracts](../devdocs/Backups/05-IMPLEMENTED-CONTRACTS.md), [operator setup](../devdocs/Backups/06-SETUP-AND-PROVIDERS.md), [recovery runbook](../devdocs/Backups/07-RESTORE-AND-INCIDENT-RUNBOOK.md) and [explicit acceptance gaps](../devdocs/Backups/09-QUALIFICATION-AND-GAPS.md). Source/test support does not activate any production backup/provider. Existing financial and notification gates are unchanged.

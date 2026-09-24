@@ -37,3 +37,12 @@ WebApp/dependency-audit.json
 AdminDashboard/node_modules
 AdminDashboard/evidence/
 AdminDashboard/dependency-audit.json
+
+# Backup runtime data must never be committed.
+Backups/.local/
+Backups/evidence/
+**/.backup-runtime/
+**/backup-journal/
+**/repo-password
+APIbackend/vendor
+WebApp/node_modules
